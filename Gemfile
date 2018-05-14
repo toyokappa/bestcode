@@ -5,6 +5,7 @@ ruby "2.5.1"
 
 # Core
 gem "bootsnap", ">= 1.1.0", require: false
+gem "haml-rails"
 gem "mysql2", ">= 0.4.4", "< 0.6.0"
 gem "puma", "~> 3.11"
 gem "rails", "~> 5.2.0"
