@@ -1,24 +1,31 @@
-# README
+# ReviewHub（仮）について
+ReviewHub（仮）はレビュワーとレビュイーをつなげるマッチングプラットフォームです。一定以上の開発スキルを持っているレビュワーが部屋を作成することができ、その部屋に所属しているレビュイーからのレビューリクエストを受け、レビューを行っていくというサービスフローをイメージしています。
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+レビュワーが自身の部屋に月額費用を設定できるUIを想定しているため、ちょっとしたお小遣い稼ぎにレビューを行うといったことが可能です。レビュイーは月額費用を支払うことで、プロのエンジニアから本格的なレビューを受けることが出来るため、プログラミング言語学習の成果を飛躍的に伸ばせることが期待できます。
 
-Things you may want to cover:
+その他にも、将来的な設計として企業からのスカウト機能の実装も想定しており、レビュワー、レビュイー共にエンジニアとしてのキャリアの幅を広げるチャンスを作り出せることが期待できます。
 
-* Ruby version
+こうしたサービスの開発に着手をしており、サービスの内容や思想に共感頂けるエンジニア、デザイナーがいらっしゃれば、是非ご連絡を頂けますと幸いです。
 
-* System dependencies
+```
+開発者： Yuta Toyokawa
+連絡先： kppg42@gmail.com
+```
 
-* Configuration
+# 開発環境
+言語等については下記のバージョンを使用しています。
+```
+Ruby:  2.5.1
+Rails: 5.2.0
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## 開発環境セットアップ
+下記の手順で開発環境のセットアップを進めてください。
+```bash
+$ git clone git@github.com:toyokappa/reviewhub.git
+$ cd reviewhub/
+$ bundle install --path vendor/bundle
+$ bin/rails db:create
+$ bin/rails db:migrate
+$ bin/rails s -b 0.0.0.0
+```
