@@ -25,11 +25,11 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :tranction
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.celan
   end
 end
