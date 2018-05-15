@@ -4,18 +4,18 @@ class User < ApplicationRecord
 
   class << self
     def create_with_omniauth(auth)
-      contributions = get_contributions(auth.info.nickname)
+      contribution = get_contribution(auth.info.nickname)
       create!(
         provider: auth.provider,
         uid: auth.uid,
         name: auth.info.nickname,
         email: auth.info.email,
-        contributions: contributions,
-        is_reviewer: is_reviewer?(contributions)
+        contribution: contribution,
+        is_reviewer: is_reviewer?(contribution)
       )
     end
 
-    def get_contributions(nickname)
+    def get_contribution(nickname)
       # NOTE: できればこの処理を自鯖に持ちたいので修正する
       url = "https://github-contributions-api.herokuapp.com/#{nickname}/count"
       uri = URI.parse url
@@ -27,14 +27,13 @@ class User < ApplicationRecord
       
       last_year = (Date.today - 1.year).year.to_s
       this_year = Date.today.year.to_s
-
-      last_year_contributions = body["data"][last_year].map{ |key, value| value.values.inject(:+) }.sum
-      this_year_contributions = body["data"][this_year].map{ |key, value| value.values.inject(:+) }.sum
-      total_contributions = last_year_contributions + this_year_contributions
+      last_year_contribution = body["data"][last_year].map{ |key, value| value.values.inject(:+) }.sum
+      this_year_contribution = body["data"][this_year].map{ |key, value| value.values.inject(:+) }.sum
+      total_contribution = last_year_contribution + this_year_contribution
     end
 
-    def is_reviewer?(contributions)
-      contributions >= 1000
+    def is_reviewer?(contribution)
+      contribution >= 1000
     end
   end
 end
