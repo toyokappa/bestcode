@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require "net/http"
 
 Bundler.require(*Rails.groups)
 
