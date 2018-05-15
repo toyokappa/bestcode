@@ -31,3 +31,4 @@
 
 # Ignore Mac system.
 .DS_Store
+.envrc
