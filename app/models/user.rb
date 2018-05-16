@@ -4,14 +4,14 @@ class User < ApplicationRecord
 
   class << self
     def create_with_omniauth(auth)
-      contribution = get_contribution(auth.info.nickname)
+      contribution = total_contribution(auth.info.nickname)
       create!(
         provider: auth.provider,
         uid: auth.uid,
         name: auth.info.nickname,
         email: auth.info.email,
         contribution: contribution,
-        is_reviewer: is_reviewer?(contribution)
+        is_reviewer: reviewer?(contribution),
       )
     end
 
@@ -23,16 +23,21 @@ class User < ApplicationRecord
       response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
         http.request(request)
       end
-      body = JSON.load response.body
-      
-      last_year = (Date.today - 1.year).year.to_s
-      this_year = Date.today.year.to_s
-      last_year_contribution = body["data"][last_year].map{ |key, value| value.values.inject(:+) }.sum
-      this_year_contribution = body["data"][this_year].map{ |key, value| value.values.inject(:+) }.sum
-      total_contribution = last_year_contribution + this_year_contribution
+      body = JSON.parse response.body
+      body["data"]
     end
 
-    def is_reviewer?(contribution)
+    # 昨年〜今年のコントリビューションを取得し合算
+    def total_contribution(nickname)
+      yearly_contributions = get_contribution(nickname)
+      last_year = (Time.zone.today - 1.year).year.to_s
+      this_year = Time.zone.today.year.to_s
+      last_year_contribution = yearly_contributions[last_year]&.map {|_, contributions| contributions.values.inject(:+) }&.sum
+      this_year_contribution = yearly_contributions[this_year].map {|_, contributions| contributions.values.inject(:+) }.sum
+      last_year_contribution + this_year_contribution
+    end
+
+    def reviewer?(contribution)
       contribution >= 1000
     end
   end
