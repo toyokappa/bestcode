@@ -1,4 +1,9 @@
 class User < ApplicationRecord
+  has_many :owned_rooms, class_name: "Room", foreign_key: "reviewer_id", dependent: :destroy
+  has_and_belongs_to_many :participating_rooms, class_name: "Room"
+  has_many :reviewees, through: :owned_rooms
+  has_many :reviewers, through: :participating_rooms
+
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
