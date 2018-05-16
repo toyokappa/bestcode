@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   add_flash_types :success, :danger
 
   private
-    
+
     def authenticate_user
       redirect_to root_path, danger: t(:alert_authentication, scope: :flash) unless user_signed_in?
     end
