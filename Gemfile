@@ -25,8 +25,8 @@ gem "sass-rails", "~> 5.0"
 gem "rails-i18n"
 
 # Authentication
-gem 'omniauth'
-gem 'omniauth-github'
+gem "omniauth"
+gem "omniauth-github"
 
 group :development, :test do
   gem "factory_bot_rails"
