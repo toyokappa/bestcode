@@ -28,6 +28,9 @@ gem "rails-i18n"
 gem "omniauth"
 gem "omniauth-github"
 
+# Views
+gem "simple_form"
+
 group :development, :test do
   gem "factory_bot_rails"
   gem "pry-byebug"
