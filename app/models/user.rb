@@ -7,6 +7,10 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
+  def participatable?(room)
+    self != room.reviewer && !participating_rooms.exists?(room.id) && room.reviewees.size <= room.capacity
+  end
+
   class << self
     def create_with_omniauth(auth)
       contribution = total_contribution(auth.info.nickname)
