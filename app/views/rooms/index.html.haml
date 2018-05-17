@@ -1,0 +1,6 @@
+%h2 ルーム一覧
+- @rooms.each do |room|
+  = link_to room do
+    = room.name
+    = "#{room.reviewees.count} / #{room.capacity}"
+    = room.reviewer.name
