@@ -1,5 +1,7 @@
 class RoomsController < ApplicationController
+  before_action :check_reviewable_user, only: [:new, :create]
   before_action :set_room, only: [:show, :edit, :update, :destroy]
+  before_action :check_editable_user, only: [:edit, :update, :destroy]
 
   def index
     @rooms = Room.all
@@ -45,5 +47,13 @@ class RoomsController < ApplicationController
 
     def set_room
       @room = Room.find(params[:id])
+    end
+
+    def check_reviewable_user
+      redirect_to rooms_path, danger: "ルームを作成する権限がありません" unless current_user.is_reviewer?
+    end
+
+    def check_editable_user
+      redirect_to rooms_path, danger: "ルームを編集する権限がありません" unless current_user == @room.reviewer
     end
 end
