@@ -1,4 +1,7 @@
-- if user_signed_in?
-  = link_to "Sign out", "/signout", method: :delete
-- else
-  = link_to "Sign in with GitHub", "/auth/github"
+.container
+  %h2 ReviewHub
+  - if user_signed_in?
+    = link_to "ログアウト", sign_out_path, method: :delete
+    %p= link_to "ルーム一覧", rooms_path
+  - else
+    = link_to "GitHubアカウントでログイン", "/auth/github"
