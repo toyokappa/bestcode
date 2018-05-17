@@ -1,5 +1,6 @@
-%h2= @room.name
-.room-description= @room.description
-.room-capacity= "#{@room.reviewees.count} / #{@room.capacity}"
-.room-reviewer= @room.reviewer.name
-= link_to "ルーム一覧に戻る", rooms_path
+.container
+  %h2= @room.name
+  .room-description= @room.description
+  .room-capacity= "#{@room.reviewees.count} / #{@room.capacity}"
+  .room-reviewer= @room.reviewer.name
+  = link_to "ルーム一覧に戻る", rooms_path
