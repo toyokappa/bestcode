@@ -11,6 +11,7 @@ class Room < ApplicationRecord
 
     def capacity_greater_than_or_equal_to_participants
       return if capacity.blank?
+
       if capacity < reviewees.size
         errors.add(:capacity, "は参加者数以上の値にしてください")
       end
