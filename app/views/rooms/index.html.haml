@@ -4,7 +4,7 @@
     .room-content
       = link_to room do
         = room.name
-      = "#{room.reviewees.count} / #{room.capacity}"
+      #{room.reviewees.count}/#{room.capacity}
       = room.reviewer.name
       - if room.reviewer == current_user
         = link_to "ルームを編集する", edit_room_path(room)

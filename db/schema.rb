@@ -16,9 +16,10 @@ ActiveRecord::Schema.define(version: 2018_05_16_132521) do
     t.string "name"
     t.text "description"
     t.integer "capacity"
-    t.integer "reviewer_id"
+    t.bigint "reviewer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["reviewer_id"], name: "index_rooms_on_reviewer_id"
   end
 
   create_table "rooms_users", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -39,4 +40,5 @@ ActiveRecord::Schema.define(version: 2018_05_16_132521) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "rooms", "users", column: "reviewer_id"
 end

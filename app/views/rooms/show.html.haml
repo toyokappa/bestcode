@@ -1,7 +1,7 @@
 .container
   %h2= @room.name
   .room-description= @room.description
-  .room-capacity= "#{@room.reviewees.count} / #{@room.capacity}"
+  .room-capacity #{@room.reviewees.count}/#{@room.capacity}
   .room-reviewer= @room.reviewer.name
   - if current_user.participatable?(@room)
     %p= link_to "ルームに参加する", participation_path(@room), method: :put
