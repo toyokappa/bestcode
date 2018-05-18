@@ -1,4 +1,4 @@
-class CreateRoomsAndUsers < ActiveRecord::Migration[5.2]
+class CreateRooms < ActiveRecord::Migration[5.2]
   def change
     create_table :rooms do |t|
       t.string :name
@@ -9,10 +9,5 @@ class CreateRoomsAndUsers < ActiveRecord::Migration[5.2]
       t.timestamps
     end
     add_foreign_key :rooms, :users, column: :reviewer_id
-
-    create_table :rooms_users, id: false do |t|
-      t.belongs_to :room, index: true
-      t.belongs_to :user, index: true
-    end
   end
 end
