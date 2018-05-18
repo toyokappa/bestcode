@@ -17,7 +17,7 @@ class RoomsController < ApplicationController
   def create
     @room = current_user.owned_rooms.build(room_params)
     if @room.save
-      redirect_to @room, success: "ルームを作成しました"
+      redirect_to @room, success: t(".create_success", name: @room.name)
     else
       render "new"
     end
@@ -28,7 +28,7 @@ class RoomsController < ApplicationController
 
   def update
     if @room.update(room_params)
-      redirect_to @room, success: "ルームを更新しました"
+      redirect_to @room, success: t(".update_success", name: @room.name)
     else
       render "edit"
     end
@@ -36,7 +36,7 @@ class RoomsController < ApplicationController
 
   def destroy
     @room.destroy!
-    redirect_to rooms_path, success: "ルームを削除しました"
+    redirect_to rooms_path, success: t(".destroy_success", name: @room.name)
   end
 
   private
@@ -50,6 +50,6 @@ class RoomsController < ApplicationController
     end
 
     def check_reviewable_user
-      redirect_to rooms_path, danger: "ルームを作成する権限がありません" unless current_user.is_reviewer?
+      redirect_to rooms_path, danger: t(".unreviewable_error") unless current_user.is_reviewer?
     end
 end

@@ -4,20 +4,20 @@ class ParticipationsController < ApplicationController
   def update
     case
     when current_user == @room.reviewer
-      redirect_to @room, danger: "ルームの所有者のため参加できません"
+      redirect_to @room, danger: t(".room_owener_error")
     when current_user.participating_rooms.exists?(@room.id)
-      redirect_to @room, danger: "既にルームに所属しています"
+      redirect_to @room, danger: t(".already_participated_error")
     when @room.reviewees.count >= @room.capacity
-      redirect_to @room, danger: "参加上限人数に達しているため参加できません"
+      redirect_to @room, danger: t(".over_capacity_error")
     else
       @room.reviewees << current_user
-      redirect_to @room, success: "ルームに参加しました"
+      redirect_to @room, success: t(".participation_success", name: @room.name)
     end
   end
 
   def destroy
     @room.reviewees.destroy(current_user)
-    redirect_to @room, success: "ルームから退出しました"
+    redirect_to @room, success: t(".leaving_success", name: @room.name)
   end
 
   private
