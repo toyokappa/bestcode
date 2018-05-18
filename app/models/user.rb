@@ -1,6 +1,16 @@
 class User < ApplicationRecord
+  has_many :owned_rooms, class_name: "Room", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
+  has_many :participations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
+  has_many :participating_rooms, class_name: "Room", through: :participations
+  has_many :reviewees, through: :owned_rooms
+  has_many :reviewers, through: :participating_rooms
+
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
+
+  def participatable?(room)
+    self != room.reviewer && !participating_rooms.exists?(room.id) && room.reviewees.size <= room.capacity
+  end
 
   class << self
     def create_with_omniauth(auth)

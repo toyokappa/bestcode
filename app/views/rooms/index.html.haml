@@ -1,0 +1,13 @@
+.container
+  %h2 ルーム一覧
+  - @rooms.each do |room|
+    .room-content
+      = link_to room do
+        = room.name
+      #{room.reviewees.count}/#{room.capacity}
+      = room.reviewer.name
+      - if room.reviewer == current_user
+        = link_to "ルームを編集する", edit_room_path(room)
+        = link_to "ルームを削除する", room, method: :delete, data: { confirm: "#{room.name}を削除してもよろしいですか？" }
+  - if current_user.is_reviewer?
+    %p= link_to "ルームを作成する", new_room_path

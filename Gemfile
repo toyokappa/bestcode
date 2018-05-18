@@ -18,7 +18,7 @@ gem "jquery-rails"
 gem "turbolinks", "~> 5"
 
 # Stylesheet
-gem "bootstrap-sass"
+gem "bootstrap"
 gem "sass-rails", "~> 5.0"
 
 # I18n
@@ -27,6 +27,9 @@ gem "rails-i18n"
 # Authentication
 gem "omniauth"
 gem "omniauth-github"
+
+# Views
+gem "simple_form"
 
 group :development, :test do
   gem "factory_bot_rails"

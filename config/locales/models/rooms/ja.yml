@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      room: ルーム
+    attributes:
+      room:
+        name: ルーム名
+        description: ルーム説明
+        capacity: 参加上限人数
