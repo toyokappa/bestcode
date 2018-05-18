@@ -18,7 +18,7 @@ gem "jquery-rails"
 gem "turbolinks", "~> 5"
 
 # Stylesheet
-gem "bootstrap-sass"
+gem "bootstrap"
 gem "sass-rails", "~> 5.0"
 
 # I18n
