@@ -27,6 +27,7 @@ gem "rails-i18n"
 # Authentication
 gem "omniauth"
 gem "omniauth-github"
+gem "octokit"
 
 # Views
 gem "simple_form"

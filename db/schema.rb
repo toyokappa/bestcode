@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_18_024134) do
+ActiveRecord::Schema.define(version: 2018_05_19_025559) do
 
   create_table "participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "participating_room_id"
@@ -19,6 +19,19 @@ ActiveRecord::Schema.define(version: 2018_05_18_024134) do
     t.datetime "updated_at", null: false
     t.index ["participating_room_id"], name: "index_participations_on_participating_room_id"
     t.index ["reviewee_id"], name: "index_participations_on_reviewee_id"
+  end
+
+  create_table "repositories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "url"
+    t.boolean "is_privarte", default: false, null: false
+    t.boolean "is_visible", default: false, null: false
+    t.bigint "user_id"
+    t.datetime "pushed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_repositories_on_user_id"
   end
 
   create_table "rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -40,7 +53,9 @@ ActiveRecord::Schema.define(version: 2018_05_18_024134) do
     t.boolean "is_reviewer", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "access_token"
   end
 
+  add_foreign_key "repositories", "users"
   add_foreign_key "rooms", "users", column: "reviewer_id"
 end

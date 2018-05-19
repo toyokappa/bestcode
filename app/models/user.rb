@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :participating_rooms, class_name: "Room", through: :participations
   has_many :reviewees, through: :owned_rooms
   has_many :reviewers, through: :participating_rooms
+  has_many :repositories, dependent: :destroy, inverse_of: :user
 
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
@@ -22,6 +23,7 @@ class User < ApplicationRecord
         email: auth.info.email,
         contribution: contribution,
         is_reviewer: reviewer?(contribution),
+        access_token: auth.credentials.token,
       )
     end
 
