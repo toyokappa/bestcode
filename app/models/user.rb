@@ -13,6 +13,20 @@ class User < ApplicationRecord
     self != room.reviewer && !participating_rooms.exists?(room.id) && room.reviewees.size <= room.capacity
   end
 
+  def create_repository!(github_repo)
+    repositories.create!(
+      id: github_repo.id,
+      name: github_repo.full_name,
+      description: github_repo.description,
+      url: github_repo.html_url,
+      is_privarte: github_repo.private,
+      is_visible: !github_repo.private,
+      pushed_at: github_repo.pushed_at,
+      created_at: github_repo.created_at,
+      updated_at: github_repo.updated_at,
+    )
+  end
+
   class << self
     def create_with_omniauth(auth)
       contribution = total_contribution(auth.info.nickname)
