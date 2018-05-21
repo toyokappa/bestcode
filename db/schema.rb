@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_19_025559) do
+ActiveRecord::Schema.define(version: 2018_05_19_144941) do
 
   create_table "participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "participating_room_id"
@@ -19,6 +19,18 @@ ActiveRecord::Schema.define(version: 2018_05_19_025559) do
     t.datetime "updated_at", null: false
     t.index ["participating_room_id"], name: "index_participations_on_participating_room_id"
     t.index ["reviewee_id"], name: "index_participations_on_reviewee_id"
+  end
+
+  create_table "pull_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "url"
+    t.integer "number"
+    t.boolean "is_open", default: false, null: false
+    t.bigint "repository_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
   end
 
   create_table "repositories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -56,6 +68,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_025559) do
     t.string "access_token"
   end
 
+  add_foreign_key "pull_requests", "repositories"
   add_foreign_key "repositories", "users"
   add_foreign_key "rooms", "users", column: "reviewer_id"
 end
