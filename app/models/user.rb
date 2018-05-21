@@ -10,6 +10,8 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
+  after_create :init_repos_and_pulls
+
   def participatable?(room)
     self != room.reviewer && !participating_rooms.exists?(room.id) && room.reviewees.size <= room.capacity
   end
@@ -68,4 +70,10 @@ class User < ApplicationRecord
       contribution >= 1000
     end
   end
+
+  private
+
+    def init_repos_and_pulls
+      SyncRepositoriesAndPullRequestsJob.perform_later(self)
+    end
 end
