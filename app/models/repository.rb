@@ -3,13 +3,13 @@ class Repository < ApplicationRecord
   belongs_to :user, inverse_of: :repositories
 
   # NOTE: ユーザーが後ほど変更できうる値にバリデーションを掛ける
-  validates :name, presence: true, length: { maximum: 200 }
   validates :description, length: { maximum: 10000 }
   validates :is_visible, inclusion: { in: [true, false] }
 
   def sync!(github_repo)
     update!(
-      name: github_repo.full_name,
+      name: github_repo.name,
+      full_name: github_repo.full_name,
       description: github_repo.description,
       url: github_repo.html_url,
       is_privarte: github_repo.private,

@@ -11,7 +11,7 @@ class SyncRepositoriesAndPullRequestsJob < ApplicationJob
         repo = user.create_repository!(github_repo)
       end
 
-      github_user.pulls(repo.name, state: "all").each do |github_pull|
+      github_user.pulls(repo.id, state: "all").each do |github_pull|
         next if github_pull.blank?
         if pull = repo.pull_requests.find_by(id: github_pull.id)
           pull.sync!(github_pull)

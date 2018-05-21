@@ -5,7 +5,7 @@ class SyncPullRequestsJob < ApplicationJob
     github_user = Octokit::Client.new(access_token: user.access_token, per_page: 100)
     github_user.login
 
-    github_user.pulls(repo.name, state: "all").each do |github_pull|
+    github_user.pulls(repo.id, state: "all").each do |github_pull|
       next if github_pull.blank?
       if pull = repo.pull_requests.find_by(id: github_pull.id)
         pull.sync!(github_pull)

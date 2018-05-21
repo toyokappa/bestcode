@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_144941) do
 
   create_table "repositories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
+    t.string "full_name"
     t.text "description"
     t.string "url"
     t.boolean "is_privarte", default: false, null: false

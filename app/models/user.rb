@@ -19,7 +19,8 @@ class User < ApplicationRecord
   def create_repository!(github_repo)
     repositories.create!(
       id: github_repo.id,
-      name: github_repo.full_name,
+      name: github_repo.name,
+      full_name: github_repo.full_name,
       description: github_repo.description,
       url: github_repo.html_url,
       is_privarte: github_repo.private,
