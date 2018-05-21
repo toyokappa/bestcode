@@ -1,5 +1,5 @@
 class PullRequest < ApplicationRecord
-  belongs_to :repository, dependent: :destroy, inverse_of: :pull_requests
+  belongs_to :repository, inverse_of: :pull_requests
 
   # NOTE: ユーザーが後ほど変更できうる値にバリデーションを掛ける
   validates :name, presence: true, length: { maximum: 200 }

@@ -1,5 +1,5 @@
 class Repository < ApplicationRecord
-  has_many :pull_requests, inverse_of: :repository
+  has_many :pull_requests, dependent: :destroy, inverse_of: :repository
   belongs_to :user, inverse_of: :repositories
 
   # NOTE: ユーザーが後ほど変更できうる値にバリデーションを掛ける
