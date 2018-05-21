@@ -29,6 +29,9 @@ gem "omniauth"
 gem "omniauth-github"
 gem "octokit"
 
+# Models
+gem "enumerize"
+
 # Views
 gem "simple_form"
 
