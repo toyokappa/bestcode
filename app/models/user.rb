@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :reviewers, through: :participating_rooms
   has_many :repositories, dependent: :destroy, inverse_of: :user
   has_many :pull_requests, through: :repositories
+  has_many :review_requests, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
+  has_many :review_assigns, class_name: "ReviewRequest", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
 
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
