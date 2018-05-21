@@ -1,0 +1,5 @@
+.container
+  %h2= @pull.name
+  %p= link_to @pull.url, @pull.url, target: "_blank"
+  %p= @pull.description
+  %p= link_to "リポジトリ詳細に戻る", user_repository_path(@user.name, @repo.name)
