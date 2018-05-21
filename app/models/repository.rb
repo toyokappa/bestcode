@@ -1,11 +1,10 @@
 class Repository < ApplicationRecord
+  has_many :pull_requests, inverse_of: :repository
   belongs_to :user, inverse_of: :repositories
 
-  URL_FORMAT = /\A#{URI::regexp(%w(http https))}\z/i
-  validates :name, presence: true, length: { maximum: 100 }
-  validates :description, length: { maximum: 1000 }
-  validates :url, presence: true, format: { with: URL_FORMAT, message: "には「http://」もしくは「https://」から始まるURLを入力してください" }
-  validates :is_privarte, inclusion: { in: [true, false] }
+  # NOTE: ユーザーが後ほど変更できうる値にバリデーションを掛ける
+  validates :name, presence: true, length: { maximum: 200 }
+  validates :description, length: { maximum: 10000 }
   validates :is_visible, inclusion: { in: [true, false] }
 
   def sync!(github_repo)
@@ -15,10 +14,23 @@ class Repository < ApplicationRecord
       url: github_repo.html_url,
       is_privarte: github_repo.private,
       pushed_at: github_repo.pushed_at,
-      updated_at: github_repo.updated_at,
     )
 
     # リポジトリの閲覧範囲が変わった場合のみ、閲覧可否を変更する
     update!(is_visible: !is_privarte) if is_privarte_changed?
+  end
+
+  def create_pull_request!(github_pull)
+    github_pull_state = github_pull.state == "open"
+    pull_requests.create!(
+      id: github_pull.id,
+      name: github_pull.title,
+      description: github_pull.body,
+      url: github_pull.html_url,
+      number: github_pull.number,
+      is_open: github_pull_state,
+      created_at: github_pull.created_at,
+      updated_at: github_pull.updated_at,
+    )
   end
 end

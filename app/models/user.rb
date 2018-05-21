@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :reviewees, through: :owned_rooms
   has_many :reviewers, through: :participating_rooms
   has_many :repositories, dependent: :destroy, inverse_of: :user
+  has_many :pull_requests, through: :repositories
 
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
