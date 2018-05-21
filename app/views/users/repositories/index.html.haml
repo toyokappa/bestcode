@@ -1,0 +1,6 @@
+.container
+  %h2 リポジトリ一覧
+  - @repos.each do |repo|
+    .repo-container
+      .repo-name= link_to repo.name, user_repository_path(user_name: @user.name, repo_name: repo.name)
+      .repo-description= repo.description

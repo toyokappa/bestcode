@@ -1,0 +1,10 @@
+.container
+  %h2= @repo.full_name
+  %p= link_to @repo.url, @repo.url, target: "_blank"
+  %h3 プルリク一覧
+  - @pulls.each do |pull|
+    .pull-countainer
+      .pull-name
+        = pull.number
+        = pull.name
+  %p= link_to "リポジトリ一覧へ戻る", user_repositories_path(@user.name)
