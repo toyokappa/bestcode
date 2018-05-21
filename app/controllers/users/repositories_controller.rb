@@ -6,7 +6,7 @@ class Users::RepositoriesController < ApplicationController
   end
 
   def show
-    @repo = @user.repositories.find_by(name: params[:repo_name])
+    @repo = @user.repositories.find_by(name: params[:name])
     @pulls = @repo.pull_requests
   end
 
