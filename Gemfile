@@ -32,6 +32,10 @@ gem "octokit"
 # Views
 gem "simple_form"
 
+# ActiveJob
+gem "sidekiq"
+gem "redis-namespace"
+
 group :development, :test do
   gem "factory_bot_rails"
   gem "pry-byebug"
