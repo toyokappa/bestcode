@@ -1,5 +1,7 @@
 .container
   %h2 リポジトリ一覧
+  - if current_user == @user
+    %p= link_to "GitHubとリポジトリ情報を同期する", users_sync_repos_path, method: :patch, class: "btn btn-dark"
   - @repos.each do |repo|
     .repo-container
       .repo-name= link_to repo.name, user_repository_path(user_name: @user.name, repo_name: repo.name)

@@ -12,6 +12,7 @@ class Users::RepositoriesController < ApplicationController
 
   def update
     SyncRepositoriesAndPullRequestsJob.perform_later(current_user)
+    redirect_to user_repositories_path(current_user.name), success: "GitHubとの同期を開始しました。少々時間をおいてからリロードしてください"
   end
 
   private
