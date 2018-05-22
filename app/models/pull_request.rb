@@ -16,5 +16,4 @@ class PullRequest < ApplicationRecord
       is_open: github_pull_state,
     )
   end
-
 end
