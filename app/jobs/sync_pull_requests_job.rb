@@ -9,7 +9,8 @@ class SyncPullRequestsJob < ApplicationJob
     github_user.pulls(repo.id, state: "all").each do |github_pull|
       next if github_pull.blank?
 
-      if pull = repo.pull_requests.find_by(id: github_pull.id)
+      pull = repo.pull_requests.find_by(id: github_pull.id)
+      if pull
         pull.sync!(github_pull)
       else
         repo.create_pull_request!(github_pull)
