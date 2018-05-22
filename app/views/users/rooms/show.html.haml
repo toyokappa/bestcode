@@ -8,6 +8,6 @@
   - if current_user.participating_rooms.exists?(@room.id)
     - @review_reqs.each do |review_req|
       %p= review_req.name
-    %p= link_to "レビューリクエストを作成する", new_room_review_request_path(@room)
+    %p= link_to "レビューリクエストを作成する", new_users_room_review_request_path(@room)
     %p= link_to "ルームから退出する", participation_path(@room), method: :delete, data: { confirm: "ルームから退出してよろしいですか？" }
   %p= link_to "ルーム一覧に戻る", users_rooms_path

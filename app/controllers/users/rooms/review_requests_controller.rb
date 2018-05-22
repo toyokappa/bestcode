@@ -1,4 +1,4 @@
-class Rooms::ReviewRequestsController < ApplicationController
+class Users::Rooms::ReviewRequestsController < ApplicationController
   def new
     room = current_user.participating_rooms.find(params[:room_id])
     @reviewer = room.reviewer
