@@ -13,6 +13,7 @@ class SyncRepositoriesAndPullRequestsJob < ApplicationJob
 
       github_user.pulls(repo.id, state: "all").each do |github_pull|
         next if github_pull.blank?
+
         if pull = repo.pull_requests.find_by(id: github_pull.id)
           pull.sync!(github_pull)
         else
