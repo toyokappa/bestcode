@@ -6,5 +6,7 @@
   - if current_user.participatable?(@room)
     %p= link_to "ルームに参加する", participation_path(@room), method: :put
   - if current_user.participating_rooms.exists?(@room.id)
+    - @review_reqs.each do |review_req|
+      %p= review_req.name
     %p= link_to "ルームから退出する", participation_path(@room), method: :delete, data: { confirm: "ルームから退出してよろしいですか？" }
   %p= link_to "ルーム一覧に戻る", rooms_path

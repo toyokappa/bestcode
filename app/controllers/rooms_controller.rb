@@ -8,6 +8,7 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
+    @review_reqs = @room.reviewer.review_assigns
   end
 
   def new
