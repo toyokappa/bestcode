@@ -2,4 +2,5 @@
   %h2= @pull.name
   %p= link_to @pull.url, @pull.url, target: "_blank"
   %p= @pull.description
+  %p= link_to "レビューリクエストを作成する", new_pull_request_review_request_path(@pull)
   %p= link_to "リポジトリ詳細に戻る", user_repository_path(@user.name, @repo.name)

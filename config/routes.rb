@@ -18,4 +18,8 @@ Rails.application.routes.draw do
     patch "/sync_repos", to: "repositories#update"
     patch "/sync_pulls/:id", to: "pull_requests#update", as: "sync_pulls"
   end
+
+  resources :pull_requests, only: [] do
+    resources :review_requests, only: [:new, :create], controller: "users/review_requests"
+  end
 end
