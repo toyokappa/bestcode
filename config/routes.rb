@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions#callback"
   delete "/sign_out", to: "sessions#destroy"
 
-  resources :rooms
+  resources :rooms do
+    resources :review_requests, only: [:new, :create], controller: "rooms/review_requests"
+  end
+
   resources :participations, only: [:update, :destroy]
 
   resources :users, param: :name, path: "/", only: [] do
