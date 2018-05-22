@@ -25,11 +25,19 @@ gem "sass-rails", "~> 5.0"
 gem "rails-i18n"
 
 # Authentication
+gem "octokit"
 gem "omniauth"
 gem "omniauth-github"
 
+# Models
+gem "enumerize"
+
 # Views
 gem "simple_form"
+
+# ActiveJob
+gem "redis-namespace"
+gem "sidekiq"
 
 group :development, :test do
   gem "factory_bot_rails"

@@ -4,12 +4,33 @@ class User < ApplicationRecord
   has_many :participating_rooms, class_name: "Room", through: :participations
   has_many :reviewees, through: :owned_rooms
   has_many :reviewers, through: :participating_rooms
+  has_many :repositories, dependent: :destroy, inverse_of: :user
+  has_many :pull_requests, through: :repositories
+  has_many :review_requests, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
+  has_many :review_assigns, class_name: "ReviewRequest", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
 
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
+  after_create :init_repos_and_pulls
+
   def participatable?(room)
     self != room.reviewer && !participating_rooms.exists?(room.id) && room.reviewees.size <= room.capacity
+  end
+
+  def create_repository!(github_repo)
+    repositories.create!(
+      id: github_repo.id,
+      name: github_repo.name,
+      full_name: github_repo.full_name,
+      description: github_repo.description,
+      url: github_repo.html_url,
+      is_privarte: github_repo.private,
+      is_visible: !github_repo.private,
+      pushed_at: github_repo.pushed_at,
+      created_at: github_repo.created_at,
+      updated_at: github_repo.updated_at,
+    )
   end
 
   class << self
@@ -22,6 +43,7 @@ class User < ApplicationRecord
         email: auth.info.email,
         contribution: contribution,
         is_reviewer: reviewer?(contribution),
+        access_token: auth.credentials.token,
       )
     end
 
@@ -51,4 +73,10 @@ class User < ApplicationRecord
       contribution >= 1000
     end
   end
+
+  private
+
+    def init_repos_and_pulls
+      SyncRepositoriesAndPullRequestsJob.perform_later(self)
+    end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_18_024134) do
+ActiveRecord::Schema.define(version: 2018_05_21_131550) do
 
   create_table "participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "participating_room_id"
@@ -19,6 +19,47 @@ ActiveRecord::Schema.define(version: 2018_05_18_024134) do
     t.datetime "updated_at", null: false
     t.index ["participating_room_id"], name: "index_participations_on_participating_room_id"
     t.index ["reviewee_id"], name: "index_participations_on_reviewee_id"
+  end
+
+  create_table "pull_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "url"
+    t.integer "number"
+    t.boolean "is_open", default: false, null: false
+    t.bigint "repository_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
+  end
+
+  create_table "repositories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.string "full_name"
+    t.text "description"
+    t.string "url"
+    t.boolean "is_privarte", default: false, null: false
+    t.boolean "is_visible", default: false, null: false
+    t.bigint "user_id"
+    t.datetime "pushed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_repositories_on_user_id"
+  end
+
+  create_table "review_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.boolean "is_open", default: true, null: false
+    t.integer "state", default: 0, null: false
+    t.integer "pull_request_id"
+    t.integer "reviewee_id"
+    t.integer "reviewer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pull_request_id"], name: "index_review_requests_on_pull_request_id"
+    t.index ["reviewee_id"], name: "index_review_requests_on_reviewee_id"
+    t.index ["reviewer_id"], name: "index_review_requests_on_reviewer_id"
   end
 
   create_table "rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -40,7 +81,10 @@ ActiveRecord::Schema.define(version: 2018_05_18_024134) do
     t.boolean "is_reviewer", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "access_token"
   end
 
+  add_foreign_key "pull_requests", "repositories"
+  add_foreign_key "repositories", "users"
   add_foreign_key "rooms", "users", column: "reviewer_id"
 end

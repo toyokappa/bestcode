@@ -32,3 +32,6 @@
 # Ignore Mac system.
 .DS_Store
 .envrc
+
+# Ignore Redis data.
+dump.rdb

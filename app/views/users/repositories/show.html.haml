@@ -1,0 +1,12 @@
+.container
+  %h2= @repo.full_name
+  %p= link_to @repo.url, @repo.url, target: "_blank"
+  %p= link_to "このリポジトリをGitHubと同期する", users_sync_pulls_path(@repo.id), method: :patch, class: "btn btn-dark"
+  %h3 プルリク一覧
+  - @pulls.each do |pull|
+    .pull-countainer
+      .pull-name
+        = link_to user_repository_pull_request_path(@user.name, @repo.name, pull.id) do
+          = pull.number
+          = pull.name
+  %p= link_to "リポジトリ一覧へ戻る", user_repositories_path(@user.name)
