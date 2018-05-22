@@ -1,6 +1,6 @@
 class Repository < ApplicationRecord
-  has_many :pull_requests, dependent: :destroy, inverse_of: :repository
   belongs_to :user, inverse_of: :repositories
+  has_many :pull_requests, dependent: :destroy, inverse_of: :repository
 
   # NOTE: ユーザーが後ほど変更できうる値にバリデーションを掛ける
   validates :description, length: { maximum: 10000 }

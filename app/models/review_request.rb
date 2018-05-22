@@ -9,6 +9,9 @@ class ReviewRequest < ApplicationRecord
   validates :description, length: { maximum: 10000 }
   validates :is_open, inclusion: { in: [true, false] }
   validates :state, presence: true
+  validates :pull_request_id, presence: true
+  validates :reviewee_id, presence: true
+  validates :reviwer_id, presence: true
 
   enumerize :state, in: { wait_review: 0, change_request: 1, approved: 2 }
 end
