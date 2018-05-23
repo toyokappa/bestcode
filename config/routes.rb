@@ -3,9 +3,8 @@ Rails.application.routes.draw do
   root "welcome#index"
   get "/auth/:provider/callback", to: "omniauth_callbacks#callback"
 
-  resources :participations, only: [:update, :destroy]
-
   namespace :users do
+    resources :participations, only: [:update, :destroy]
     resources :rooms do
       resources :review_requests, only: [:new, :create], controller: "rooms/review_requests"
     end

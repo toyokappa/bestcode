@@ -1,9 +1,0 @@
-ja:
-  participations:
-    update:
-      room_onwner_error: ルームの所有者のため参加できません
-      already_participated_error: 既にルームに所属しています
-      over_capacity_error: 参加上限人数に達しているため参加できません
-      participation_success: "%{name}に参加しました"
-    destroy:
-      leaving_success: "%{name}から退出しました"
