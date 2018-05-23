@@ -1,8 +1,23 @@
 .container
-  %h2 ReviewHub
   - if user_signed_in?
-    = link_to "ログアウト", users_sign_out_path, method: :delete
-    %p= link_to "ルーム一覧", users_rooms_path
-    %p= link_to "リポジトリ一覧", users_repositories_path(current_user.name)
+    - if current_user.is_reviewer?
+      %h2 あなたはレビュワーとしてご利用頂くことが可能です
+      %h3 レビュワーが出来ること
+      %h4 1. レビュールームの作成
+      %p レビュールームを作成することで、その部屋に参加してくれたレビュイーのコードレビューを行うことができます
+      %p= link_to "早速、レビュールームを作成してみる", new_users_room_path, class: "btn btn-primary"
+
+      %h4 2. レビュールームへ参加
+      %p レビュールームへ参加することで、その部屋を所有するレビュワーからコードレビューを受けることができます
+      %p= link_to "自分にあったレビュールームを探してみる", users_rooms_path, class: "btn btn-primary"
+    - else
+      %h2 あなたはレビュイーとしてご利用頂くことが可能です
+      %h3 レビュイーが出来ること
+      %h4 1. レビュールムへの参加
+      %p レビュールームへ参加することで、その部屋を所有するレビュワーからコードレビューを受けることができます
+      %p= link_to "自分にあったレビュールームを探してみる", users_rooms_path, class: "btn btn-primary"
   - else
-    = link_to "GitHubアカウントでログイン", "/auth/github"
+    %h1.app-title ReviewHub
+    .app-description
+      ReviewHubはレビュワーとレビュイーをつなげるマッチングプラットフォームです。一定以上の開発スキルを持っているレビュワーが部屋を作成することができ、その部屋に所属しているレビュイーからのレビューリクエストを受け、レビューを行っていくというサービスフローをイメージしています。
+    = link_to "GitHubアカウントでログイン", "/auth/github", class: "btn btn-dark btn-lg"
