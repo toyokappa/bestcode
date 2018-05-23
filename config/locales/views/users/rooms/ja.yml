@@ -1,0 +1,12 @@
+ja:
+  users:
+    rooms:
+      new:
+        unreviewable_error: ルームを作成する権限がありません
+      create:
+        create_success: "%{name}を作成しました"
+        unreviewable_error: ルームを作成する権限がありません
+      update:
+        update_success: "%{name}を更新しました"
+      destroy:
+        destroy_success: "%{name}を削除しました"
