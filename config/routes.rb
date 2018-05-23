@@ -5,10 +5,13 @@ Rails.application.routes.draw do
 
   namespace :users do
     resources :participations, only: [:update, :destroy]
-    resources :rooms do
-      resources :review_requests, only: [:new, :create], controller: "rooms/review_requests"
+    resources :rooms
+    namespace :reviewers do
+      resources :review_requests, path: "/:reviewer_id/", only: [:new, :create]
     end
-    resources :review_requests, path: "/pulls/:pull_id/", only: [:new, :create]
+    namespace :pulls do
+      resources :review_requests, path: "/:pull_id/", only: [:new, :create]
+    end
     delete "/sign_out", to: "sessions#destroy"
     get "/:user_name/repositories", to: "repositories#index", as: "repositories"
     get "/:user_name/:repo_name", to: "repositories#show", as: "repository"

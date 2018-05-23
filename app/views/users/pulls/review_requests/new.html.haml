@@ -1,6 +1,6 @@
 .container
   %h2 レビューリクエスト作成
-  = simple_form_for @review_req, url: users_review_requests_path do |f|
+  = simple_form_for @review_req, url: users_pulls_review_requests_path do |f|
     = f.hidden_field :is_open, value: true
     = f.input :name
     = f.input :description

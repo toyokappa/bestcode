@@ -1,7 +1,7 @@
-class Users::ReviewRequestsController < ApplicationController
+class Users::Reviewers::ReviewRequestsController < ApplicationController
   def new
-    @pull = current_user.pull_requests.find(params[:pull_id])
-    @review_req = current_user.review_requests.build(name: @pull.name, description: @pull.description, pull_request_id: @pull.id)
+    @reviewer = current_user.reviewers.find(params[:reviewer_id])
+    @review_req = current_user.review_requests.build(reviewer_id: @reviewer.id)
   end
 
   def create

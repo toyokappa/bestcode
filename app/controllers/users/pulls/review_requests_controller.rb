@@ -1,8 +1,7 @@
-class Users::Rooms::ReviewRequestsController < ApplicationController
+class Users::Pulls::ReviewRequestsController < ApplicationController
   def new
-    room = current_user.participating_rooms.find(params[:room_id])
-    @reviewer = room.reviewer
-    @review_req = current_user.review_requests.build(reviewer_id: @reviewer.id)
+    @pull = current_user.pull_requests.find(params[:pull_id])
+    @review_req = current_user.review_requests.build(name: @pull.name, description: @pull.description, pull_request_id: @pull.id)
   end
 
   def create
