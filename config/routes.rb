@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :rooms do
       resources :review_requests, only: [:new, :create], controller: "rooms/review_requests"
     end
+    resources :review_requests, path: "/pulls/:pull_id/", only: [:new, :create]
     delete "/sign_out", to: "sessions#destroy"
     patch "/sync_repos", to: "repositories#update"
     patch "/sync_pulls/:id", to: "pull_requests#update", as: "sync_pulls"
@@ -20,7 +21,4 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :pull_requests, only: [] do
-    resources :review_requests, only: [:new, :create], controller: "users/review_requests"
-  end
 end
