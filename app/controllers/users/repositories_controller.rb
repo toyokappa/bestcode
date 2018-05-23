@@ -6,14 +6,14 @@ class Users::RepositoriesController < ApplicationController
   end
 
   def show
-    @repo = @user.repositories.find_by(name: params[:name])
+    @repo = @user.repositories.find_by(name: params[:repo_name])
     @pulls = @repo.pull_requests
   end
 
   def update
     SyncRepositoriesAndPullRequestsJob.perform_later(current_user)
     flash[:success] = "GitHubとの同期を開始しました。少々時間をおいてからリロードしてください"
-    redirect_to user_repositories_path(current_user.name)
+    redirect_to users_repositories_path(current_user.name)
   end
 
   private

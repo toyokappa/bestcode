@@ -3,6 +3,6 @@
   - if user_signed_in?
     = link_to "ログアウト", users_sign_out_path, method: :delete
     %p= link_to "ルーム一覧", users_rooms_path
-    %p= link_to "リポジトリ一覧", user_repositories_path(current_user.name)
+    %p= link_to "リポジトリ一覧", users_repositories_path(current_user.name)
   - else
     = link_to "GitHubアカウントでログイン", "/auth/github"

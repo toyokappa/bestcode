@@ -4,5 +4,5 @@
     %p= link_to "GitHubとリポジトリ情報を同期する", users_sync_repos_path, method: :patch, class: "btn btn-dark"
   - @repos.each do |repo|
     .repo-container
-      .repo-name= link_to repo.name, user_repository_path(@user.name, repo.name)
+      .repo-name= link_to repo.name, users_repository_path(@user.name, repo.name)
       .repo-description= repo.description

@@ -10,15 +10,10 @@ Rails.application.routes.draw do
     end
     resources :review_requests, path: "/pulls/:pull_id/", only: [:new, :create]
     delete "/sign_out", to: "sessions#destroy"
+    get "/:user_name/repositories", to: "repositories#index", as: "repositories"
+    get "/:user_name/:repo_name", to: "repositories#show", as: "repository"
+    get "/:user_name/:repo_name/pulls/:pull_id", to: "pull_requests#show", as: "pull_request"
     patch "/sync_repos", to: "repositories#update"
-    patch "/sync_pulls/:id", to: "pull_requests#update", as: "sync_pulls"
+    patch "/sync_pulls/:repo_id", to: "pull_requests#update", as: "sync_pulls"
   end
-
-  resources :users, param: :name, path: "/", only: [] do
-    get "/repositories", to: "users/repositories#index"
-    resources :repositories, param: :name, path: "/", only: [:show], controller: "users/repositories" do
-      resources :pull_requests, only: [:show], controller: "users/pull_requests"
-    end
-  end
-
 end
