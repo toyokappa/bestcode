@@ -1,13 +1,32 @@
 .container
   %h2 ルーム一覧
-  - @rooms.each do |room|
-    .room-content
-      = link_to users_room_path(room) do
-        = room.name
-      #{room.reviewees.count}/#{room.capacity}
-      = room.reviewer.name
-      - if room.reviewer == current_user
-        = link_to "ルームを編集する", edit_users_room_path(room)
-        = link_to "ルームを削除する", users_room_path(room), method: :delete, data: { confirm: "#{room.name}を削除してもよろしいですか？" }
   - if current_user.is_reviewer?
-    %p= link_to "ルームを作成する", new_users_room_path
+    %p= link_to "ルームを作成する", new_users_room_path, class: "btn btn-primary"
+  .table-responsive-md
+    %table.table
+      %thead
+        %tr
+          %th{ scope: "col" } ルーム名
+          %th{ scope: "col" } 参加上限人数
+          %th{ scope: "col" } レビュワー
+          %th{ scope: "col" } ステータス
+          %th{ scope: "col" } メニュー
+      %tbody
+        - if @rooms.present?
+          - @rooms.each do |room|
+            %tr
+              %td= room.name
+              %td #{room.reviewees.count}/#{room.capacity}
+              %td= room.reviewer.name
+              %td= room.status_for(current_user)
+              %td
+                = link_to "詳細を見る", users_room_path(room), class: "btn btn-info btn-sm"
+                - if room.reviewer == current_user
+                  = link_to "編集する", edit_users_room_path(room), class: "btn btn-success btn-sm"
+                  = link_to "削除する", users_room_path(room), method: :delete, data: { confirm: "#{room.name}を削除してもよろしいですか？" }, class: "btn btn-danger btn-sm"
+        - else
+          %tr
+            %td 表示できるルームはありません
+            %td -
+            %td -
+            %td -

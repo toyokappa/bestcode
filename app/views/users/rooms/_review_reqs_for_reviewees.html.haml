@@ -1,0 +1,22 @@
+.review-reqs-container
+  %table.table
+    %thead
+      %tr
+        %th{ scope: "col" } レビューリクエスト名
+        %th{ scope: "col" } ステータス
+        %th{ scope: "col" } プルリクURL
+        %th{ scope: "col" } 依頼者
+    %body
+      %tr
+        - if @review_reqs.present? && (current_user.review_requests & @review_reqs).present?
+          - @review_reqs.each do |review_req|
+            -if current_user.review_requests.include?(review_req)
+              %td= review_req.name
+              %td= review_req.state
+              %td= link_to review_req.pull_request.url, review_req.pull_request.url, target: "_blank"
+              %td= review_req.reviewee.name
+        - else
+          %td 表示できるレビューリクエストはありません
+          %td -
+          %td -
+          %td -

@@ -8,6 +8,19 @@ class Room < ApplicationRecord
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }
   validate :capacity_greater_than_or_equal_to_participants
 
+  def status_for(user)
+    case
+    when reviewer == user
+      "所有者"
+    when reviewees.exists?(user.id)
+      "参加中"
+    when capacity <= reviewees.size
+      "満室"
+    else
+      "参加可能"
+    end
+  end
+
   private
 
     def capacity_greater_than_or_equal_to_participants

@@ -15,7 +15,11 @@ class User < ApplicationRecord
   after_create :init_repos_and_pulls
 
   def participatable?(room)
-    self != room.reviewer && !participating_rooms.exists?(room.id) && room.reviewees.size <= room.capacity
+    self != room.reviewer && !participating_rooms.include?(room) && room.reviewees.size <= room.capacity
+  end
+
+  def is_participating?(room)
+    participating_rooms.include?(room)
   end
 
   def create_repository!(github_repo)
