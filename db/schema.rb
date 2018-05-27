@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_21_131550) do
+ActiveRecord::Schema.define(version: 2018_05_27_075431) do
 
   create_table "participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "participating_room_id"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_131550) do
     t.string "full_name"
     t.text "description"
     t.string "url"
-    t.boolean "is_privarte", default: false, null: false
+    t.boolean "is_private", default: false, null: false
     t.boolean "is_visible", default: false, null: false
     t.bigint "user_id"
     t.datetime "pushed_at"

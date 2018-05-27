@@ -29,7 +29,7 @@ class User < ApplicationRecord
       full_name: github_repo.full_name,
       description: github_repo.description,
       url: github_repo.html_url,
-      is_privarte: github_repo.private,
+      is_private: github_repo.private,
       is_visible: !github_repo.private,
       pushed_at: github_repo.pushed_at,
       created_at: github_repo.created_at,

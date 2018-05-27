@@ -12,12 +12,12 @@ class Repository < ApplicationRecord
       full_name: github_repo.full_name,
       description: github_repo.description,
       url: github_repo.html_url,
-      is_privarte: github_repo.private,
+      is_private: github_repo.private,
       pushed_at: github_repo.pushed_at,
     )
 
     # リポジトリの閲覧範囲が変わった場合のみ、閲覧可否を変更する
-    update!(is_visible: !is_privarte) if is_privarte_changed?
+    update!(is_visible: !is_private) if is_private_changed?
   end
 
   def create_pull_request!(github_pull)
