@@ -2,7 +2,7 @@ class Users::RepositoriesController < ApplicationController
   before_action :set_user, only: [:index, :show]
 
   def index
-    @repos = @user.repositories
+    @repos = @user.repositories.order(created_at: :desc)
   end
 
   def show

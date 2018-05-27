@@ -6,6 +6,10 @@ class Repository < ApplicationRecord
   validates :description, length: { maximum: 10000 }
   validates :is_visible, inclusion: { in: [true, false] }
 
+  def public_state
+    is_private ? "Private" : "Public"
+  end
+
   def sync!(github_repo)
     update!(
       name: github_repo.name,

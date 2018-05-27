@@ -1,8 +1,19 @@
 .container
-  %h2 リポジトリ一覧
+  %h2 #{@user.name}のリポジトリ
   - if current_user == @user
     %p= link_to "GitHubとリポジトリ情報を同期する", users_sync_repos_path, method: :patch, class: "btn btn-dark"
-  - @repos.each do |repo|
-    .repo-container
-      .repo-name= link_to repo.name, users_repository_path(@user.name, repo.name)
-      .repo-description= repo.description
+  %table.table
+    %thead
+      %tr
+        %th{ scope: "col" } リポジトリ名
+        %th{ scope: "col" } 公開ステータス
+    %tbody
+      - if @repos.present?
+        - @repos.each do |repo|
+          %tr
+            %td= link_to repo.name, users_repository_path(@user.name, repo.name)
+            %td= repo.public_state
+      - else
+        %tr
+          %td 表示できるリポジトリはありません
+          %td -
