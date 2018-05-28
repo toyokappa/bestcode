@@ -3,10 +3,19 @@
   %p= link_to @repo.url, @repo.url, target: "_blank"
   %p= link_to "このリポジトリをGitHubと同期する", users_sync_pulls_path(@repo.id), method: :patch, class: "btn btn-dark"
   %h3 プルリク一覧
-  - @pulls.each do |pull|
-    .pull-countainer
-      .pull-name
-        = link_to users_pull_request_path(@user.name, @repo.name, pull.id) do
-          = pull.number
-          = pull.name
+  %table.table
+    %thead
+      %tr
+        %th{ scope: "col" } #
+        %th{ scope: "col" } プルリク名
+    %tbody
+      - if @pulls.present?
+        - @pulls.each do |pull|
+          %tr
+            %td= pull.number
+            %td= link_to pull.name, users_pull_request_path(@user.name, @repo.name, pull.id)
+      - else
+        %tr
+          %td -
+          %td 表示できるプルリクはありません
   %p= link_to "リポジトリ一覧へ戻る", users_repositories_path(@user.name)
