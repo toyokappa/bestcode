@@ -1,19 +1,19 @@
-class Users::RepositoriesController < ApplicationController
+class Users::ReposController < ApplicationController
   before_action :set_user, only: [:index, :show]
 
   def index
-    @repos = @user.repositories.order(pushed_at: :desc)
+    @repos = @user.repos.order(pushed_at: :desc)
   end
 
   def show
-    @repo = @user.repositories.find_by(name: params[:repo_name])
+    @repo = @user.repos.find_by(name: params[:repo_name])
     @pulls = @repo.pull_requests.order(created_at: :desc)
   end
 
   def update
-    SyncRepositoriesAndPullRequestsJob.perform_later(current_user)
+    SyncReposAndPullRequestsJob.perform_later(current_user)
     flash[:success] = "GitHubとの同期を開始しました。少々時間をおいてからリロードしてください"
-    redirect_to users_repositories_path(current_user.name)
+    redirect_to users_repos_path(current_user.name)
   end
 
   private
