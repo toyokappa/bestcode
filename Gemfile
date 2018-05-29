@@ -33,9 +33,9 @@ gem "omniauth-github"
 gem "enumerize"
 
 # Views
-gem "simple_form"
-gem "redcarpet"
 gem "coderay"
+gem "redcarpet"
+gem "simple_form"
 
 # ActiveJob
 gem "redis-namespace"
