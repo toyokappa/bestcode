@@ -10,17 +10,16 @@
           %th{ scope: "col" } 参加上限人数
           %th{ scope: "col" } レビュワー
           %th{ scope: "col" } ステータス
-          %th{ scope: "col" } メニュー
+          %th{ scope: "col" }
       %tbody
         - if @rooms.present?
           - @rooms.each do |room|
             %tr
-              %td= room.name
+              %td= link_to room.name, users_room_path(room)
               %td #{room.reviewees.count}/#{room.capacity}
               %td= room.reviewer.name
               %td= room.status_for(current_user)
               %td
-                = link_to "詳細を見る", users_room_path(room), class: "btn btn-info btn-sm"
                 - if room.reviewer == current_user
                   = link_to "編集する", edit_users_room_path(room), class: "btn btn-success btn-sm"
                   = link_to "削除する", users_room_path(room), method: :delete, data: { confirm: "#{room.name}を削除してもよろしいですか？" }, class: "btn btn-danger btn-sm"
