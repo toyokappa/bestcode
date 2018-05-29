@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   namespace :users do
     resources :participations, only: [:update, :destroy]
     resources :rooms
-    namespace :reviewers do
-      resources :review_requests, path: "/:reviewer_id/", only: [:new, :create]
+    namespace :rooms do
+      resources :review_requests, path: "/:room_id/review_requests", only: [:new, :create]
     end
     namespace :pulls do
       resources :review_requests, path: "/:pull_id/review_requests", only: [:new, :create]

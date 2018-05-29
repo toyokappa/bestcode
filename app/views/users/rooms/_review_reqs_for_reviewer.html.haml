@@ -4,17 +4,18 @@
       %tr
         %th{ scope: "col" } レビューリクエスト名
         %th{ scope: "col" } ステータス
-        %th{ scope: "col" } プルリクURL
         %th{ scope: "col" } 依頼者
+        %th{ scope: "col" } メニュー
     %body
-      %tr
-        - if @review_reqs.present?
-          - @review_reqs.each do |review_req|
+      - if @review_reqs.present?
+        - @review_reqs.each do |review_req|
+          %tr
             %td= review_req.name
             %td= review_req.state
-            %td= link_to review_req.pull_request.url, review_req.pull_request.url, target: "_blank"
             %td= review_req.reviewee.name
-        - else
+            %td= link_to "GitHubへ移動", review_req.pull_request.url, target: "_blank", class: "btn btn-dark btn-sm"
+      - else
+        %tr
           %td 表示できるレビューリクエストはありません
           %td -
           %td -

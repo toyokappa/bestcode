@@ -14,7 +14,7 @@
         .room-participation= link_to "ルームに参加する", users_participation_path(@room), method: :put, class: "btn btn-primary btn-block"
       - if current_user.is_participating?(@room)
         .room-participation= link_to "ルームから退出する", users_participation_path(@room), method: :delete, data: { confirm: "ルームから退出してよろしいですか？" }, class: "btn btn-danger btn-block"
-        .create-review-request= link_to "レビューリクエストを作成する", new_users_reviewers_review_request_path(@room.reviewer), class: "btn btn-primary btn-block"
+        .create-review-request= link_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), class: "btn btn-primary btn-block"
   - if current_user == @room.reviewer
     = render "review_reqs_for_reviewer"
   - elsif current_user.is_participating?(@room)
