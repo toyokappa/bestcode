@@ -2,12 +2,12 @@ class Users::RepositoriesController < ApplicationController
   before_action :set_user, only: [:index, :show]
 
   def index
-    @repos = @user.repositories
+    @repos = @user.repositories.order(pushed_at: :desc)
   end
 
   def show
     @repo = @user.repositories.find_by(name: params[:repo_name])
-    @pulls = @repo.pull_requests
+    @pulls = @repo.pull_requests.order(created_at: :desc)
   end
 
   def update

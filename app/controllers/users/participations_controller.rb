@@ -21,9 +21,9 @@ class Users::ParticipationsController < ApplicationController
       case
       when current_user == room.reviewer
         flash[:danger] = t(".room_owener_error")
-      when current_user.participating_rooms.exists?(room.id)
+      when current_user.participating?(room)
         flash[:danger] = t(".already_participated_error")
-      when room.reviewees.count >= room.capacity
+      when room.reviewees.size >= room.capacity
         flash[:danger] = t(".over_capacity_error")
       else
         room.reviewees << current_user

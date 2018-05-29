@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :repositories, dependent: :destroy, inverse_of: :user
   has_many :pull_requests, through: :repositories
   has_many :review_requests, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
-  has_many :review_assigns, class_name: "ReviewRequest", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
+  has_many :review_assigns, class_name: "ReviewRequest", through: :owned_rooms
 
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
@@ -15,7 +15,11 @@ class User < ApplicationRecord
   after_create :init_repos_and_pulls
 
   def participatable?(room)
-    self != room.reviewer && !participating_rooms.exists?(room.id) && room.reviewees.size <= room.capacity
+    self != room.reviewer && !participating_rooms.include?(room) && room.reviewees.size <= room.capacity
+  end
+
+  def participating?(room)
+    participating_rooms.include?(room)
   end
 
   def create_repository!(github_repo)
@@ -25,7 +29,7 @@ class User < ApplicationRecord
       full_name: github_repo.full_name,
       description: github_repo.description,
       url: github_repo.html_url,
-      is_privarte: github_repo.private,
+      is_private: github_repo.private,
       is_visible: !github_repo.private,
       pushed_at: github_repo.pushed_at,
       created_at: github_repo.created_at,

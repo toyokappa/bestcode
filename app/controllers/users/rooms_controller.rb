@@ -8,7 +8,7 @@ class Users::RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
-    @review_reqs = @room.reviewer.review_assigns
+    @review_reqs = @room.review_assigns
   end
 
   def new

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_21_131550) do
+ActiveRecord::Schema.define(version: 2018_05_29_015446) do
 
   create_table "participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "participating_room_id"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_131550) do
     t.string "full_name"
     t.text "description"
     t.string "url"
-    t.boolean "is_privarte", default: false, null: false
+    t.boolean "is_private", default: false, null: false
     t.boolean "is_visible", default: false, null: false
     t.bigint "user_id"
     t.datetime "pushed_at"
@@ -54,12 +54,12 @@ ActiveRecord::Schema.define(version: 2018_05_21_131550) do
     t.integer "state", default: 0, null: false
     t.integer "pull_request_id"
     t.integer "reviewee_id"
-    t.integer "reviewer_id"
+    t.integer "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pull_request_id"], name: "index_review_requests_on_pull_request_id"
     t.index ["reviewee_id"], name: "index_review_requests_on_reviewee_id"
-    t.index ["reviewer_id"], name: "index_review_requests_on_reviewer_id"
+    t.index ["room_id"], name: "index_review_requests_on_room_id"
   end
 
   create_table "rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

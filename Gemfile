@@ -33,6 +33,8 @@ gem "omniauth-github"
 gem "enumerize"
 
 # Views
+gem "coderay"
+gem "redcarpet"
 gem "simple_form"
 
 # ActiveJob
