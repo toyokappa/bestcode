@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :review_requests, path: "/:reviewer_id/", only: [:new, :create]
     end
     namespace :pulls do
-      resources :review_requests, path: "/:pull_id/", only: [:new, :create]
+      resources :review_requests, path: "/:pull_id/review_requests", only: [:new, :create]
     end
     delete "/sign_out", to: "sessions#destroy"
     get "/:user_name/repositories", to: "repositories#index", as: "repositories"
