@@ -10,7 +10,7 @@ module MarkdownHelper
     unless @markdown
       options = {
         filter_html: true,
-        hard_wrap: true
+        hard_wrap: true,
       }
       extensions = {
         no_intra_emphasis: true,
@@ -25,7 +25,7 @@ module MarkdownHelper
         underline: false,
         highlight: false,
         quote: false,
-        footnotes: false
+        footnotes: false,
       }
       renderer = HTMLwithCoderay.new(options)
       @markdown = Redcarpet::Markdown.new(renderer, extensions)
