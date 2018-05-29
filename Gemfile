@@ -34,6 +34,8 @@ gem "enumerize"
 
 # Views
 gem "simple_form"
+gem "redcarpet"
+gem "coderay"
 
 # ActiveJob
 gem "redis-namespace"
