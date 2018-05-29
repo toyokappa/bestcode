@@ -12,7 +12,7 @@ module MarkdownHelper
         filter_html: true,
         hard_wrap: true
       }
-      extentions = {
+      extensions = {
         no_intra_emphasis: true,
         tables: true,
         fenced_code_blocks: true,
@@ -28,7 +28,7 @@ module MarkdownHelper
         footnotes: false
       }
       renderer = HTMLwithCoderay.new(options)
-      @markdown = Redcarpet::Markdown.new(renderer, extentions)
+      @markdown = Redcarpet::Markdown.new(renderer, extensions)
     end
 
     @markdown.render(text).html_safe
