@@ -1,5 +1,5 @@
 class PullRequest < ApplicationRecord
-  belongs_to :repository, inverse_of: :pull_requests
+  belongs_to :repo, inverse_of: :pull_requests
   has_many :review_requests, dependent: :destroy, inverse_of: :pull_request
 
   # NOTE: ユーザーが後ほど変更できうる値にバリデーションを掛ける
