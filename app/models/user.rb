@@ -18,7 +18,7 @@ class User < ApplicationRecord
     self != room.reviewer && !participating_rooms.include?(room) && room.reviewees.size <= room.capacity
   end
 
-  def is_participating?(room)
+  def participating?(room)
     participating_rooms.include?(room)
   end
 

@@ -17,20 +17,14 @@ module MarkdownHelper
         tables: true,
         fenced_code_blocks: true,
         autolink: true,
-        disable_indented_code_blocks: false,
         strikethrough: true,
         lax_spacing: true,
         space_after_headers: true,
-        superscript: false,
-        underline: false,
-        highlight: false,
-        quote: false,
-        footnotes: false,
       }
       renderer = HTMLwithCoderay.new(options)
       @markdown = Redcarpet::Markdown.new(renderer, extensions)
     end
 
-    @markdown.render(text).html_safe
+    @markdown.render(text).html_safe # rubocop:disable Rails/OutputSafety
   end
 end

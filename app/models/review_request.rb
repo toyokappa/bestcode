@@ -3,7 +3,7 @@ class ReviewRequest < ApplicationRecord
 
   belongs_to :pull_request, inverse_of: :review_requests
   belongs_to :reviewee, class_name: "User", inverse_of: :review_requests
-  belongs_to :room
+  belongs_to :room, inverse_of: :review_assigns
 
   validates :name, presence: true, length: { maximum: 1000 }
   validates :description, length: { maximum: 10000 }
