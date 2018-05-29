@@ -1,7 +1,7 @@
 module MarkdownHelper
   class HTMLwithCoderay < Redcarpet::Render::HTML
     def block_code(code, language)
-      lang = language.blank? ? "md" : language
+      lang = language.presence || "md"
       CodeRay.scan(code, lang).div
     end
   end
