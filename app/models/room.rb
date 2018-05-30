@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: rooms
+#
+#  id          :bigint(8)        not null, primary key
+#  name        :string(255)
+#  description :text(65535)
+#  capacity    :integer
+#  reviewer_id :bigint(8)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
 class Room < ApplicationRecord
   belongs_to :reviewer, class_name: "User", inverse_of: :owned_rooms
   has_many :participations, foreign_key: "participating_room_id", dependent: :destroy, inverse_of: :participating_room
