@@ -1,4 +1,4 @@
-class SyncPullRequestsJob < ApplicationJob
+class SyncPullsJob < ApplicationJob
   queue_as :default
 
   def perform(user, repo)
@@ -9,11 +9,11 @@ class SyncPullRequestsJob < ApplicationJob
     github_user.pulls(repo.id, state: "all").each do |github_pull|
       next if github_pull.blank?
 
-      pull = repo.pull_requests.find_by(id: github_pull.id)
+      pull = repo.pulls.find_by(id: github_pull.id)
       if pull
         pull.sync!(github_pull)
       else
-        repo.create_pull_request!(github_pull)
+        repo.create_pull!(github_pull)
       end
     end
   end

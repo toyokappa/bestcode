@@ -1,7 +1,7 @@
 class Users::Pulls::ReviewRequestsController < ApplicationController
   def new
-    @pull = current_user.pull_requests.find(params[:pull_id])
-    @review_req = current_user.review_requests.build(name: @pull.name, description: @pull.description, pull_request_id: @pull.id)
+    @pull = current_user.pulls.find(params[:pull_id])
+    @review_req = current_user.review_requests.build(name: @pull.name, description: @pull.description, pull_id: @pull.id)
   end
 
   def create
@@ -16,6 +16,6 @@ class Users::Pulls::ReviewRequestsController < ApplicationController
   private
 
     def review_req_params
-      params.require(:review_request).permit(:name, :description, :is_open, :pull_request_id, :room_id)
+      params.require(:review_request).permit(:name, :description, :is_open, :pull_id, :room_id)
     end
 end

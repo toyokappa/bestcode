@@ -13,9 +13,9 @@
         - @pulls.each do |pull|
           %tr
             %td= pull.number
-            %td= link_to pull.name, users_pull_request_path(@user.name, @repo.name, pull.id)
+            %td= link_to pull.name, users_pull_path(@user.name, @repo.name, pull.id)
       - else
         %tr
           %td -
           %td 表示できるプルリクはありません
-  %p= link_to "リポジトリ一覧へ戻る", users_repositories_path(@user.name)
+  %p= link_to "リポジトリ一覧へ戻る", users_repos_path(@user.name)

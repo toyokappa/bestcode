@@ -17,7 +17,7 @@
             %ul.navbar-nav.ml-md-auto
               - if user_signed_in?
                 .nav-item= link_to "ルーム一覧", users_rooms_path, class: "nav-link"
-                .nav-item= link_to "Myリポジトリ", users_repositories_path(current_user.name), class: "nav-link"
+                .nav-item= link_to "Myリポジトリ", users_repos_path(current_user.name), class: "nav-link"
                 .nav-item= link_to "ログアウト", users_sign_out_path, method: :delete, class: "nav-link"
               - else
                 .nav-item= link_to "GitHubアカウントでログイン", "/auth/github", class: "btn btn-outline-light"

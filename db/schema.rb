@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_29_015446) do
+ActiveRecord::Schema.define(version: 2018_05_30_001613) do
 
   create_table "participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "participating_room_id"
@@ -21,19 +21,19 @@ ActiveRecord::Schema.define(version: 2018_05_29_015446) do
     t.index ["reviewee_id"], name: "index_participations_on_reviewee_id"
   end
 
-  create_table "pull_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "pulls", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "url"
     t.integer "number"
     t.boolean "is_open", default: false, null: false
-    t.bigint "repository_id"
+    t.bigint "repo_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["repository_id"], name: "index_pull_requests_on_repository_id"
+    t.index ["repo_id"], name: "index_pulls_on_repo_id"
   end
 
-  create_table "repositories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "repos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "full_name"
     t.text "description"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2018_05_29_015446) do
     t.datetime "pushed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_repositories_on_user_id"
+    t.index ["user_id"], name: "index_repos_on_user_id"
   end
 
   create_table "review_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -52,12 +52,12 @@ ActiveRecord::Schema.define(version: 2018_05_29_015446) do
     t.text "description"
     t.boolean "is_open", default: true, null: false
     t.integer "state", default: 0, null: false
-    t.integer "pull_request_id"
+    t.integer "pull_id"
     t.integer "reviewee_id"
     t.integer "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["pull_request_id"], name: "index_review_requests_on_pull_request_id"
+    t.index ["pull_id"], name: "index_review_requests_on_pull_id"
     t.index ["reviewee_id"], name: "index_review_requests_on_reviewee_id"
     t.index ["room_id"], name: "index_review_requests_on_room_id"
   end
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2018_05_29_015446) do
     t.string "access_token"
   end
 
-  add_foreign_key "pull_requests", "repositories"
-  add_foreign_key "repositories", "users"
+  add_foreign_key "pulls", "repos"
+  add_foreign_key "repos", "users"
   add_foreign_key "rooms", "users", column: "reviewer_id"
 end

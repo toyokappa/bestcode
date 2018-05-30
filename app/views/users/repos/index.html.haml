@@ -11,7 +11,7 @@
       - if @repos.present?
         - @repos.each do |repo|
           %tr
-            %td= link_to repo.name, users_repository_path(@user.name, repo.name)
+            %td= link_to repo.name, users_repo_path(@user.name, repo.name)
             %td= repo.public_state
       - else
         %tr

@@ -4,8 +4,8 @@ class User < ApplicationRecord
   has_many :participating_rooms, class_name: "Room", through: :participations
   has_many :reviewees, through: :owned_rooms
   has_many :reviewers, through: :participating_rooms
-  has_many :repositories, dependent: :destroy, inverse_of: :user
-  has_many :pull_requests, through: :repositories
+  has_many :repos, dependent: :destroy, inverse_of: :user
+  has_many :pulls, through: :repos
   has_many :review_requests, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
   has_many :review_assigns, class_name: "ReviewRequest", through: :owned_rooms
 
@@ -22,8 +22,8 @@ class User < ApplicationRecord
     participating_rooms.include?(room)
   end
 
-  def create_repository!(github_repo)
-    repositories.create!(
+  def create_repo!(github_repo)
+    repos.create!(
       id: github_repo.id,
       name: github_repo.name,
       full_name: github_repo.full_name,
@@ -81,6 +81,6 @@ class User < ApplicationRecord
   private
 
     def init_repos_and_pulls
-      SyncRepositoriesAndPullRequestsJob.perform_later(self)
+      SyncReposAndPullsJob.perform_later(self)
     end
 end

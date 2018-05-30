@@ -13,7 +13,7 @@
             %td= review_req.name
             %td= review_req.state
             %td= review_req.reviewee.name
-            %td= link_to "GitHubへ移動", review_req.pull_request.url, target: "_blank", class: "btn btn-dark btn-sm"
+            %td= link_to "GitHubへ移動", review_req.pull.url, target: "_blank", class: "btn btn-dark btn-sm"
       - else
         %tr
           %td 表示できるレビューリクエストはありません

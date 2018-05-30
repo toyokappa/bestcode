@@ -1,6 +1,6 @@
-class Repository < ApplicationRecord
-  belongs_to :user, inverse_of: :repositories
-  has_many :pull_requests, dependent: :destroy, inverse_of: :repository
+class Repo < ApplicationRecord
+  belongs_to :user, inverse_of: :repos
+  has_many :pulls, dependent: :destroy, inverse_of: :repo
 
   # NOTE: ユーザーが後ほど変更できうる値にバリデーションを掛ける
   validates :description, length: { maximum: 10000 }
@@ -24,9 +24,9 @@ class Repository < ApplicationRecord
     update!(is_visible: !is_private) if is_private_changed?
   end
 
-  def create_pull_request!(github_pull)
+  def create_pull!(github_pull)
     github_pull_state = github_pull.state == "open"
-    pull_requests.create!(
+    pulls.create!(
       id: github_pull.id,
       name: github_pull.title,
       description: github_pull.body,
