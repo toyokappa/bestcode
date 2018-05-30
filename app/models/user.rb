@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id           :bigint(8)        not null, primary key
+#  provider     :string(255)
+#  uid          :string(255)
+#  name         :string(255)
+#  email        :string(255)
+#  contribution :integer          default(0), not null
+#  is_reviewer  :boolean          default(FALSE), not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  access_token :string(255)
+#
+
 class User < ApplicationRecord
   has_many :owned_rooms, class_name: "Room", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
   has_many :participations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee

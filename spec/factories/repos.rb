@@ -1,21 +1,25 @@
 # == Schema Information
 #
-# Table name: rooms
+# Table name: repos
 #
 #  id          :bigint(8)        not null, primary key
 #  name        :string(255)
+#  full_name   :string(255)
 #  description :text(65535)
-#  capacity    :integer
-#  reviewer_id :bigint(8)
+#  url         :string(255)
+#  is_private  :boolean          default(FALSE), not null
+#  is_visible  :boolean          default(FALSE), not null
+#  user_id     :bigint(8)
+#  pushed_at   :datetime
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 FactoryBot.define do
-  factory :room do
+  factory :repo do
     name "MyString"
     description "MyText"
-    capacity 1
-    reviewer_id 1
+    url "MyString"
+    user nil
   end
 end
