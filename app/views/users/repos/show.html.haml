@@ -13,7 +13,7 @@
         - @pulls.each do |pull|
           %tr
             %td= pull.number
-            %td= link_to pull.name, users_pull_request_path(@user.name, @repo.name, pull.id)
+            %td= link_to pull.name, users_pull_path(@user.name, @repo.name, pull.id)
       - else
         %tr
           %td -

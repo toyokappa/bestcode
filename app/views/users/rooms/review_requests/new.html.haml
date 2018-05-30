@@ -4,8 +4,8 @@
     = f.hidden_field :is_open, value: true
     = f.input :name
     = f.input :description
-    - pulls_collection = current_user.pull_requests.map { |pull| [pull.name, pull.id] }
-    = f.input :pull_request_id, collection: pulls_collection
+    - pulls_collection = current_user.pulls.map { |pull| [pull.name, pull.id] }
+    = f.input :pull_id, collection: pulls_collection
     - rooms_collection = current_user.participating_rooms.map { |room| [room.name, room.id] }
     = f.input :room_id, collection: rooms_collection
     = f.button :submit, class: "btn-primary"
