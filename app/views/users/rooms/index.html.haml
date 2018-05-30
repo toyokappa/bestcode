@@ -16,11 +16,11 @@
           - @rooms.each do |room|
             %tr
               %td= link_to room.name, users_room_path(room)
-              %td #{room.reviewees.count}/#{room.capacity}
+              %td #{room.reviewees.size}/#{room.capacity}
               %td= room.reviewer.name
               %td= room.status_for(current_user)
               %td
-                - if room.reviewer == current_user
+                - if current_user.own?(room)
                   = link_to "編集する", edit_users_room_path(room), class: "btn btn-success btn-sm"
                   = link_to "削除する", users_room_path(room), method: :delete, data: { confirm: "#{room.name}を削除してもよろしいですか？" }, class: "btn btn-danger btn-sm"
         - else

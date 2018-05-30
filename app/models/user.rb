@@ -31,7 +31,7 @@ class User < ApplicationRecord
   after_create :init_repos_and_pulls
 
   def participatable?(room)
-    self != room.reviewer && !participating_rooms.include?(room) && room.reviewees.size <= room.capacity
+    !own?(room) && !participating?(room) && !room.over_capacity?
   end
 
   def participating?(room)
@@ -51,6 +51,14 @@ class User < ApplicationRecord
       created_at: github_repo.created_at,
       updated_at: github_repo.updated_at,
     )
+  end
+
+  def own?(room)
+    self == room.reviewer
+  end
+
+  def get_visible_review_reqs_from(review_reqs)
+    self.review_requests & review_reqs
   end
 
   class << self

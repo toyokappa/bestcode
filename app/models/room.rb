@@ -24,7 +24,7 @@ class Room < ApplicationRecord
 
   def status_for(user)
     case
-    when user == reviewer
+    when user.own?(self)
       "所有者"
     when user.participating?(self)
       "参加中"
