@@ -1,6 +1,6 @@
-class PullRequest < ApplicationRecord
-  belongs_to :repo, inverse_of: :pull_requests
-  has_many :review_requests, dependent: :destroy, inverse_of: :pull_request
+class Pull < ApplicationRecord
+  belongs_to :repo, inverse_of: :pulls
+  has_many :review_requests, dependent: :destroy, inverse_of: :pull
 
   # NOTE: ユーザーが後ほど変更できうる値にバリデーションを掛ける
   validates :name, presence: true, length: { maximum: 200 }
