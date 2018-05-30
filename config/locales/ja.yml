@@ -1,5 +1,6 @@
 ja:
   flash:
     alert_authentication: ログインしてください
+    success_sign_up: ユーザー登録しました
     success_sign_in: ログインしました
     success_sign_out: ログアウトしました

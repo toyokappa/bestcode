@@ -62,34 +62,30 @@ class User < ApplicationRecord
         name: auth.info.nickname,
         email: auth.info.email,
         contribution: contribution,
-        is_reviewer: reviewer?(contribution),
+        is_reviewer: reviewable_with?(contribution),
         access_token: auth.credentials.token,
       )
     end
 
     def get_contribution(nickname)
       # NOTE: できればこの処理を自鯖に持ちたいので修正する
-      url = "https://github-contributions-api.herokuapp.com/#{nickname}/count"
+      url = "https://github-contributions-api.now.sh/v1/#{nickname}"
       uri = URI.parse url
       request = Net::HTTP::Get.new(uri.request_uri)
       response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
         http.request(request)
       end
       body = JSON.parse response.body
-      body["data"]
+      body["years"]
     end
 
     # 昨年〜今年のコントリビューションを取得し合算
     def total_contribution(nickname)
       yearly_contributions = get_contribution(nickname)
-      last_year = (Time.zone.today - 1.year).year.to_s
-      this_year = Time.zone.today.year.to_s
-      last_year_contribution = yearly_contributions[last_year]&.map {|_, contributions| contributions.values.inject(:+) }&.sum
-      this_year_contribution = yearly_contributions[this_year].map {|_, contributions| contributions.values.inject(:+) }.sum
-      last_year_contribution + this_year_contribution
+      yearly_contributions[0]["total"]
     end
 
-    def reviewer?(contribution)
+    def reviewable_with?(contribution)
       contribution >= 1000
     end
   end
