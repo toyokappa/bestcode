@@ -7,7 +7,7 @@ class Users::ReposController < ApplicationController
 
   def show
     @repo = @user.repos.find_by(name: params[:repo_name])
-    @pulls = @repo.pull_requests.order(created_at: :desc)
+    @pulls = @repo.pulls.order(created_at: :desc)
   end
 
   def update

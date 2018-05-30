@@ -1,8 +1,8 @@
-class Users::PullRequestsController < ApplicationController
+class Users::PullsController < ApplicationController
   def show
     @user = User.find_by!(name: params[:user_name])
     @repo = @user.repos.find_by!(name: params[:repo_name])
-    @pull = @repo.pull_requests.find(params[:pull_id])
+    @pull = @repo.pulls.find(params[:pull_id])
   end
 
   def update

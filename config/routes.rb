@@ -15,8 +15,8 @@ Rails.application.routes.draw do
     delete "/sign_out", to: "sessions#destroy"
     get "/:user_name/repos", to: "repos#index", as: "repos"
     get "/:user_name/:repo_name", to: "repos#show", as: "repo"
-    get "/:user_name/:repo_name/pulls/:pull_id", to: "pull_requests#show", as: "pull_request"
+    get "/:user_name/:repo_name/pulls/:pull_id", to: "pulls#show", as: "pull"
     patch "/sync_repos", to: "repos#update"
-    patch "/sync_pulls/:repo_id", to: "pull_requests#update", as: "sync_pulls"
+    patch "/sync_pulls/:repo_id", to: "pulls#update", as: "sync_pulls"
   end
 end
