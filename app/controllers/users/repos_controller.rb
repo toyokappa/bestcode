@@ -11,7 +11,7 @@ class Users::ReposController < ApplicationController
   end
 
   def update
-    SyncReposAndPullRequestsJob.perform_later(current_user)
+    SyncReposAndPullsJob.perform_later(current_user)
     flash[:success] = "GitHubとの同期を開始しました。少々時間をおいてからリロードしてください"
     redirect_to users_repos_path(current_user.name)
   end

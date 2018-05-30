@@ -81,6 +81,6 @@ class User < ApplicationRecord
   private
 
     def init_repos_and_pulls
-      SyncReposAndPullRequestsJob.perform_later(self)
+      SyncReposAndPullsJob.perform_later(self)
     end
 end

@@ -7,7 +7,7 @@ class Users::PullsController < ApplicationController
 
   def update
     repo = current_user.repos.find(params[:repo_id])
-    SyncPullRequestsJob.perform_later(current_user, repo)
+    SyncPullsJob.perform_later(current_user, repo)
     flash[:success] = "GitHubとの同期を開始しました。少々時間をおいてからリロードしてください"
     redirect_to users_repo_path(current_user.name, repo.name)
   end
