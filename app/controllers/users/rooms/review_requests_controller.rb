@@ -2,6 +2,10 @@ class Users::Rooms::ReviewRequestsController < ApplicationController
   def new
     @room = current_user.participating_rooms.find(params[:room_id])
     @review_req = current_user.review_requests.build(room_id: @room.id)
+
+    # pullとroomの選択肢
+    @pull_collection = current_user.pulls.where(is_open: true).order(created_at: :desc).map {|pull| [pull.name, pull.id] }
+    @room_collection = current_user.participating_rooms.map {|room| [room.name, room.id] }
   end
 
   def create
