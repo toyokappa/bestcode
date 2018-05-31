@@ -1,0 +1,64 @@
+version: "2"
+
+volumes:
+  db_data:
+    driver: local
+  gem_data:
+    driver: local
+  redis_data:
+    driver: local
+
+services:
+  rails:
+    build:
+      context: .
+    volumes:
+      - .:/usr/src/app:cached
+      - gem_data:/usr/src/app/vendor/bundle
+    environment:
+      RAILS_ENV: development
+      RAILS_DB_HOST: db
+      RAILS_DB_USER: root
+      RAILS_DB_PASS:
+      REDIS_HOSTNAME: redis
+      REDIS_PORT: 6379
+      GITHUB_KEY: $GITHUB_KEY
+      GITHUB_SECRET: $GITHUB_SECRET
+      MANUAL: $MANUAL
+
+  web:
+    extends:
+      service: rails
+    ports:
+      - "3000:3000"
+    command: bin/start_dev_server.sh
+    depends_on:
+      - db
+      - redis
+
+  sidekiq:
+    extends:
+      service: rails
+    command: bin/start_sidekiq.sh
+    depends_on:
+      - db
+      - redis
+
+  db:
+    build:
+      context: ./containers/db
+    ports:
+      - "3307:3306"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: reviewhub_development
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
