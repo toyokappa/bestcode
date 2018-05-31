@@ -1,5 +1,25 @@
 {
   "name": "reviewhub",
   "private": true,
-  "dependencies": {}
+  "scripts": {
+    "build": "webpack --config frontend/webpack.config.js",
+    "start": "webpack-dev-server --config frontend/webpack.config.js"
+  },
+  "dependencies": {
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "jquery": "^3.3.1",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack-manifest-plugin": "^2.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.10.2",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4"
+  }
 }
