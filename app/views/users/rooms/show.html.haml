@@ -6,11 +6,11 @@
     .col-md-4
       .room-capacity
         .content-header 参加上限人数
-        %h3.content-body #{@room.reviewees.count}/#{@room.capacity}
+        %h3.content-body #{@room.reviewees.size}/#{@room.capacity}
       .room-reviewer
         .content-header レビュワー
         %h3.content-body= @room.reviewer.name
-      - if current_user == @room.reviewer
+      - if current_user.own?(@room)
         .room-edit= link_to "ルームを編集する", edit_users_room_path(@room), class: "btn btn-success btn-block"
         .room-delete= link_to "ルームを削除する", users_room_path(@room), method: :delete, class: "btn btn-danger btn-block"
       - if current_user.participatable?(@room)
@@ -18,8 +18,8 @@
       - if current_user.participating?(@room)
         .create-review-request= link_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), class: "btn btn-primary btn-block"
         .room-participation= link_to "ルームから退出する", users_participation_path(@room), method: :delete, data: { confirm: "ルームから退出してよろしいですか？" }, class: "btn btn-danger btn-block"
-  - if current_user == @room.reviewer
-    = render "review_reqs_for_reviewer"
+  - if current_user.own?(@room)
+    = render "review_reqs", review_reqs: @review_assigns
   - elsif current_user.participating?(@room)
-    = render "review_reqs_for_reviewees"
+    = render "review_reqs", review_reqs: @review_reqs
   %p= link_to "ルーム一覧に戻る", users_rooms_path

@@ -7,8 +7,8 @@
         %th{ scope: "col" } 依頼者
         %th{ scope: "col" } メニュー
     %body
-      - if @review_reqs.present?
-        - @review_reqs.each do |review_req|
+      - if review_reqs.present?
+        - review_reqs.each do |review_req|
           %tr
             %td= review_req.name
             %td= review_req.state

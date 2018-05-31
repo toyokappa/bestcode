@@ -1,0 +1,9 @@
+.container
+  %h2 レビューリクエスト作成
+  = simple_form_for review_req, url: url do |f|
+    = f.hidden_field :is_open, value: true
+    = f.input :name
+    = f.input :description
+    = f.input :pull_id, collection: pull_collection
+    = f.input :room_id, collection: room_collection
+    = f.button :submit, class: "btn-primary"

@@ -24,15 +24,19 @@ class Room < ApplicationRecord
 
   def status_for(user)
     case
-    when reviewer == user
+    when user.own?(self)
       "所有者"
-    when reviewees.exists?(user.id)
+    when user.participating?(self)
       "参加中"
-    when capacity <= reviewees.size
+    when over_capacity?
       "満室"
     else
       "参加可能"
     end
+  end
+
+  def over_capacity?
+    capacity <= reviewees.size
   end
 
   private
