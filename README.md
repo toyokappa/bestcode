@@ -17,10 +17,29 @@ ReviewHub（仮）はレビュワーとレビュイーをつなげるマッチ�
 ```
 Ruby:  2.5.1
 Rails: 5.2.0
+MySQL: 5.7
 ```
 
-## 開発環境セットアップ
+## 事前準備
+GitHub developer settingsにてReviewHubの開発環境用のOAuth Appsを作成しておく必要があります。
+ReviewHubのOAuth Appsの作成が完了したら下記の通りに環境変数を自身のPC等に設定してください。
+
+```bash
+export GITHUB_KEY="今回取得したaccess_key"
+export GITHUB_SECRET="今回取得したsecret_key"
+```
+
+## 開発環境セットアップ(Local環境)
 下記の手順で開発環境のセットアップを進めてください。
+
+### 依存ライブラリ
+下記のライブラリを使用していますので、事前にインストールするようにしてください。
+```
+Redis: Sidekiqのqueueを一時的に保管するのに使用
+```
+
+### セットアップコマンド
+下記のコマンドで開発環境のセットアップが可能です。
 ```bash
 $ git clone git@github.com:toyokappa/reviewhub.git
 $ cd reviewhub/
@@ -28,4 +47,22 @@ $ bundle install --path vendor/bundle
 $ bin/rails db:create
 $ bin/rails db:migrate
 $ bin/rails s -b 0.0.0.0
+```
+
+## 開発環境セットアップ(Docker環境)
+Docker環境も用意しています。Dockerでの環境構築を希望の場合は下記でセットアップしてください。
+```bash
+$ git clone git@github.com:toyokappa/reviewhub.git
+$ cd reviewhub/
+$ docker-compose build
+$ docker-compose up
+```
+
+### pryを使ったデバッグを行う場合
+pryを使ったデバッグを行う場合は下記の方法で立ち上げるようにしてください。
+```bash
+$ MANUAL=1 docker-compose up
+
+# docker-composeが立ち上がったらターミナルの別のタブで下記コマンドを実行
+$ docker-compose exec web rails s -b 0.0.0.0
 ```
