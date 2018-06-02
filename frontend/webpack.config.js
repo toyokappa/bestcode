@@ -11,11 +11,10 @@ const configs = [
   {
     mode: "development",
     entry: path.join(__root, "/frontend/javascripts/application.js"),
-    devtool: "source-map",
     output: {
       path: buildPath,
       filename: "[name].js",
-      publicPath: "/",
+      publicPath: "http://localhost:3333/",
     },
     module: {
       rules: [
@@ -31,16 +30,7 @@ const configs = [
         },
         {
           test: /\.sass?$/,
-          use: ExtractTextPlugin.extract({
-            fallback: "style-loader",
-            use: [
-              {
-                loader: "css-loader",
-                options: { minimize: true, sourceMap: true },
-              },
-              "sass-loader?sourceMap",
-            ]
-          }),
+          loaders: ["style-loader", "css-loader", "sass-loader"],
         },
         {
           test: /\.(gif|png|jpg|eot|wof|woff|woff2|ttf|svg)$/,
@@ -49,15 +39,17 @@ const configs = [
       ],
     },
     devServer: {
-      contentBase: path.join(__root, "public"),
+      contentBase: "public",
       hot: true,
       inline: true,
       port: 3333,
       host: "localhost",
+      stats: "errors-only",
+      headers: { "Access-Control-Allow-Origin": "*" },
+      disableHostCheck: true,
     },
     optimization: {
       noEmitOnErrors: true,
-      minimize: true,
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
