@@ -52,7 +52,6 @@ const configs = [
       contentBase: path.join(__root, "public"),
       hot: true,
       inline: true,
-      color: true,
       port: 3333,
       host: "localhost",
     },

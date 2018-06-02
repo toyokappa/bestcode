@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --config frontend/webpack.config.js",
-    "start": "webpack-dev-server --config frontend/webpack.config.js"
+    "start": "webpack-dev-server --config frontend/webpack.config.js --colors --progress"
   },
   "dependencies": {
     "activestorage": "^5.2.0",
