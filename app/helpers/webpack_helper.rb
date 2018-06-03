@@ -1,6 +1,6 @@
 module WebpackHelper
   def webpack_assets_path(path)
-    return "http://localhost:3333/#{path}" if Rails.env.development?
+    return "http://0.0.0.0:3333/#{path}" if Rails.env.development?
 
     host = Rails.application.config.action_controller.asset_host
     manifest = Rails.application.config.assets.webpack_manifest

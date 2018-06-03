@@ -4,12 +4,9 @@ ENV APP_ROOT=/usr/src/app
 RUN mkdir -p $APP_ROOT
 WORKDIR $APP_ROOT
 
-RUN apt-get update && \
-    apt-get install -y mysql-client \
-                       nodejs \
-                       vim \
-                    --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN apt-get install -y build-essential mysql-client nodejs --no-install-recommends
+RUN rm -rf /var/lib/apt/lists/*
 
 ADD Gemfile $APP_ROOT
 ADD Gemfile.lock $APP_ROOT

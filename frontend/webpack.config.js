@@ -14,7 +14,7 @@ const configs = [
     output: {
       path: buildPath,
       filename: "[name].js",
-      publicPath: "http://localhost:3333/",
+      publicPath: "http://0.0.0.0:3333/",
     },
     module: {
       rules: [
@@ -43,7 +43,7 @@ const configs = [
       hot: true,
       inline: true,
       port: 3333,
-      host: "localhost",
+      host: "0.0.0.0",
       stats: "errors-only",
       headers: { "Access-Control-Allow-Origin": "*" },
       disableHostCheck: true,
