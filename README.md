@@ -15,10 +15,14 @@ ReviewHub（仮）はレビュワーとレビュイーをつなげるマッチ�
 # 開発環境
 言語等については下記のバージョンを使用しています。
 ```
-Ruby:  2.5.1
-Rails: 5.2.0
-MySQL: 5.7
+Ruby:    2.5.1
+Rails:   5.2.0
+MySQL:   5.7
+Node.js: v10.0.0
+Webpack: 4.10
 ```
+
+サーバサイドはRails、フロントエンドはWebpackを使用しています。下記にも記載をしますが、JSのパッケージ管理はYarnで行いますのでLocalで環境構築をする場合は事前にインストールをしていただくようにお願いします。(Dockerの場合は不要)
 
 ## 事前準備
 GitHub developer settingsにてReviewHubの開発環境用のOAuth Appsを作成しておく必要があります。
@@ -36,6 +40,7 @@ export GITHUB_SECRET="今回取得したsecret_key"
 下記のライブラリを使用していますので、事前にインストールするようにしてください。
 ```
 Redis: Sidekiqのqueueを一時的に保管するのに使用
+Yarn:  JSライブラリの管理に仕様
 ```
 
 ### セットアップコマンド
@@ -49,11 +54,18 @@ $ bin/rails db:migrate
 $ bin/rails s -b 0.0.0.0
 ```
 
+フロントはwebpack-dev-serverでコンパイルしているため、下記のコマンドでフロントのサーバーを立ち上げてください。
+```bash
+$ yarn run start
+```
+
 ## 開発環境セットアップ(Docker環境)
 Docker環境も用意しています。Dockerでの環境構築を希望の場合は下記でセットアップしてください。
 ```bash
 $ git clone git@github.com:toyokappa/reviewhub.git
 $ cd reviewhub/
+
+# 初回のみ実行。5〜10分程度かかります。
 $ docker-compose build
 $ docker-compose up
 ```
