@@ -1,7 +1,6 @@
 .container
-  %h2 #{@user.name}のリポジトリ
-  - if current_user == @user
-    %p= link_to "GitHubとリポジトリ情報を同期する", users_sync_repos_path, method: :patch, class: "btn btn-dark"
+  %h2 Myリポジトリ
+  %p= link_to "GitHubとリポジトリ情報を同期する", users_sync_repos_path, method: :patch, class: "btn btn-dark"
   %table.table
     %thead
       %tr
@@ -11,7 +10,7 @@
       - if @repos.present?
         - @repos.each do |repo|
           %tr
-            %td= link_to repo.name, users_repo_path(@user.name, repo.name)
+            %td= link_to repo.name, users_repo_path(repo)
             %td= repo.public_state
       - else
         %tr

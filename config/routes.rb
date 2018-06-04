@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   namespace :users do
     resources :participations, only: [:update, :destroy]
     resources :rooms
+    resources :repos, only: [:index, :show] do
+      resources :pulls, only: [:show]
+    end
     namespace :rooms do
       resources :review_requests, path: "/:room_id/review_requests", only: [:new, :create]
     end
@@ -13,9 +16,6 @@ Rails.application.routes.draw do
       resources :review_requests, path: "/:pull_id/review_requests", only: [:new, :create]
     end
     delete "/sign_out", to: "sessions#destroy"
-    get "/:user_name/repos", to: "repos#index", as: "repos"
-    get "/:user_name/:repo_name", to: "repos#show", as: "repo"
-    get "/:user_name/:repo_name/pulls/:pull_id", to: "pulls#show", as: "pull"
     patch "/sync_repos", to: "repos#update"
     patch "/sync_pulls/:repo_id", to: "pulls#update", as: "sync_pulls"
   end
