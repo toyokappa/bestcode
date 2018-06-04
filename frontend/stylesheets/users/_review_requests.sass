@@ -1,0 +1,32 @@
+/*    Show    */
+.review-comment-container
+  .comment-content
+    margin-bottom: 25px
+    .comment-header
+      font-size: 14px
+      margin-bottom: 7px
+      .comment-user
+        display: inline-block
+        vertical-align: middle
+        font-weight: bold
+      .comment-state
+        display: inline-block
+        vertical-align: middle
+        color: white
+        padding: 0 7px
+        border-radius: 5px
+        &.comment
+          background-color: gray
+        &.change_request
+          background-color: gold
+        &.rereview
+          background-color: dodgerblue
+        &.approved
+          background-color: limegreen
+        &.resolve
+          background-color: blueviolet
+        &.close
+          background-color: crimson
+      .comment-created-at
+        display: inline-block
+        vertical-align: middle
