@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     end
     namespace :rooms do
       resources :review_requests, path: "/:room_id/review_requests", only: [:show, :new, :create]
+      resources :review_comments, only: [:create]
     end
     namespace :pulls do
       resources :review_requests, path: "/:pull_id/review_requests", only: [:new, :create]

@@ -3,6 +3,8 @@ class Users::Rooms::ReviewRequestsController < ApplicationController
     @room = Room.find(params[:room_id])
     # TODO: review_requestsのnumを追加し、numで検索したい
     @review_req = @room.review_assigns.find(params[:id])
+    @review_comments = @review_req.review_comments
+    @review_comment = current_user.review_comments.build(review_request_id: @review_req)
   end
 
   def new
