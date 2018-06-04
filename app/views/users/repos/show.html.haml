@@ -1,7 +1,7 @@
 .container
   %h2= @repo.full_name
   %p= link_to @repo.url, @repo.url, target: "_blank"
-  %p= link_to "このリポジトリをGitHubと同期する", users_sync_pulls_path(@repo.id), method: :patch, class: "btn btn-dark"
+  %p= link_to "このリポジトリをGitHubと同期する", users_sync_pulls_path(@repo), method: :patch, class: "btn btn-dark"
   %h3 プルリク一覧
   %table.table
     %thead
@@ -13,9 +13,9 @@
         - @pulls.each do |pull|
           %tr
             %td= pull.number
-            %td= link_to pull.name, users_pull_path(@user.name, @repo.name, pull.id)
+            %td= link_to pull.name, users_repo_pull_path(@repo, pull)
       - else
         %tr
           %td -
           %td 表示できるプルリクはありません
-  %p= link_to "リポジトリ一覧へ戻る", users_repos_path(@user.name)
+  %p= link_to "リポジトリ一覧へ戻る", users_repos_path
