@@ -10,7 +10,7 @@
       - if review_reqs.present?
         - review_reqs.each do |review_req|
           %tr
-            %td= review_req.name
+            %td= link_to review_req.name, users_rooms_review_request_path(room, review_req)
             %td= review_req.state
             %td= review_req.reviewee.name
             %td= link_to "GitHubへ移動", review_req.pull.url, target: "_blank", class: "btn btn-dark btn-sm"

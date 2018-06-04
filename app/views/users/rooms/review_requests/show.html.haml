@@ -1,0 +1,5 @@
+.container
+  %h2= @review_req.name
+  %p= @review_req.reviewee.name
+  .markdown-body= markdown @review_req.description
+  %p= link_to "#{@room.name}に戻る", users_room_path(@room)
