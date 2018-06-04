@@ -44,6 +44,16 @@ services:
       - db
       - redis
 
+  webpack:
+    build:
+      context: ./containers/node
+    ports:
+      - "3333:3333"
+    command: bin/start_webpack_server.sh
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+
   db:
     build:
       context: ./containers/db
