@@ -6,13 +6,16 @@
       %tr
         %th{ scope: "col" } リポジトリ名
         %th{ scope: "col" } 公開ステータス
+        %th{ scope: "col" } 公開中のプルリク数
     %tbody
       - if @repos.present?
         - @repos.each do |repo|
           %tr
             %td= link_to repo.name, users_repo_path(repo)
             %td= repo.public_state
+            %td= repo.pulls.where(is_open: true).size
       - else
         %tr
           %td 表示できるリポジトリはありません
+          %td -
           %td -
