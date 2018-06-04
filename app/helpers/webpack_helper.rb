@@ -9,7 +9,7 @@ module WebpackHelper
   end
 
   def webpack_css_tag(filename)
-    if !Rails.env.development?
+    unless Rails.env.development?
       stylesheet_link_tag webpack_assets_path("#{filename}.css", request)
     end
   end
