@@ -5,7 +5,7 @@ class Users::ReposController < ApplicationController
 
   def show
     @repo = current_user.repos.find(params[:id])
-    @pulls = @repo.pulls.order(created_at: :desc)
+    @pulls = @repo.pulls.where(is_open: true).order(created_at: :desc)
   end
 
   def update
