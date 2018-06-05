@@ -1,5 +1,22 @@
 .container
-  %h2= @review_req.name
-  %p= @review_req.reviewee.name
-  .markdown-body= markdown @review_req.description
+  .review-req-container
+    %h2= @review_req.name
+    %p= @review_req.reviewee.name
+    .markdown-body= markdown @review_req.description
+  .review-comment-container
+    .comment-display-area
+      %h3 コメント
+      - @review_comments.each do |comment|
+        .comment-content
+          .comment-header
+            .comment-user= comment.user.name
+            .comment-state{ class: "#{comment.state}" }= comment.state
+            .comment-created-at= comment.created_at.strftime("%Y-%m-%d %H:%M")
+          .comment-body.markdown-body= markdown comment.body
+    .comment-form-area
+      = simple_form_for @review_comment, url: users_rooms_review_comments_path do |f|
+        = f.hidden_field :review_request_id, value: @review_req.id
+        = f.input :body
+        = f.input :state, collection: ReviewComment.state.values
+        = f.button :submit, class: "btn-primary"
   %p= link_to "#{@room.name}に戻る", users_room_path(@room)
