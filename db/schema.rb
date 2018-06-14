@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2018_06_04_142617) do
 
   create_table "review_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.text "body"
-    t.integer "state", default: 0, null: false
+    t.string "state", default: "commented", null: false
     t.integer "user_id"
     t.integer "review_request_id"
     t.datetime "created_at", null: false
