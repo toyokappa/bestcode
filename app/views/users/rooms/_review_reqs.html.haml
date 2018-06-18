@@ -2,16 +2,16 @@
   %table.table
     %thead
       %tr
-        %th{ scope: "col" } レビューリクエスト名
-        %th{ scope: "col" } ステータス
-        %th{ scope: "col" } 依頼者
+        %th{ scope: "col" }= ReviewRequest.human_attribute_name :name
+        %th{ scope: "col" }= ReviewRequest.human_attribute_name :state
+        %th{ scope: "col" }= ReviewRequest.human_attribute_name :reviewee_id
         %th{ scope: "col" } メニュー
     %body
       - if review_reqs.present?
         - review_reqs.each do |review_req|
           %tr
-            %td= review_req.name
-            %td= review_req.state
+            %td= link_to review_req.name, users_rooms_review_request_path(room, review_req)
+            %td= review_req.state_text
             %td= review_req.reviewee.name
             %td= link_to "GitHubへ移動", review_req.pull.url, target: "_blank", class: "btn btn-dark btn-sm"
       - else
