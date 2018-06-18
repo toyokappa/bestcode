@@ -1,0 +1,15 @@
+ja:
+  activerecord:
+    attributes:
+      review_request:
+        name: レビューリクエスト名
+        description: 説明
+        state: ステータス
+        reviewee_id: 依頼者
+  enumerize:
+    review_request:
+      state:
+        wait_review: レビュー待ち
+        change_request: 修正依頼中
+        approved: 承認済み
+        resolved: 解決済み

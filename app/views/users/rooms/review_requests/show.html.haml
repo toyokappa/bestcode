@@ -1,7 +1,7 @@
 .container
   .review-req-container
     %h2= @review_req.name
-    %p= @review_req.state
+    %p= @review_req.state_text
     %p= @review_req.reviewee.name
     .markdown-body= markdown @review_req.description
   .review-comment-container
