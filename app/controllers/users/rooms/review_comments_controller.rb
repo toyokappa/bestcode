@@ -14,7 +14,7 @@ class Users::Rooms::ReviewCommentsController < ApplicationController
   end
 
   private
-  
+
     def review_comment_params
       params.require(:review_comment).permit(:body, :state, :review_request_id)
     end
