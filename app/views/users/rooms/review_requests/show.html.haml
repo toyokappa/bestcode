@@ -18,6 +18,6 @@
       = simple_form_for @review_comment, url: users_rooms_review_comments_path do |f|
         = f.hidden_field :review_request_id, value: @review_req.id
         = f.input :body
-        = f.input :state, collection: ReviewComment.state.values
+        = f.input :state, collection: ReviewComment.selectable_state(current_user, @room, @review_req), include_blank: false
         = f.button :submit, class: "btn-primary"
   %p= link_to "#{@room.name}に戻る", users_room_path(@room)
