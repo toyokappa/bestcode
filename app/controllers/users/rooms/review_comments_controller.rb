@@ -5,6 +5,7 @@ class Users::Rooms::ReviewCommentsController < ApplicationController
     @review_comments = @review_req.review_comments
     @room = @review_req.room
     if @review_comment.save
+      @review_req.change_state(@review_comment.state)
       flash[:success] = "コメントしました"
       redirect_to users_rooms_review_request_path(@room, @review_req)
     else

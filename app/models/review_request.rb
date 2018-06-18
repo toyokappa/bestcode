@@ -30,5 +30,22 @@ class ReviewRequest < ApplicationRecord
   validates :reviewee_id, presence: true
   validates :room_id, presence: true
 
-  enumerize :state, in: { wait_review: 0, change_request: 1, approved: 2 }
+  enumerize :state, in: { wait_review: 0, change_request: 1, approved: 2, resolved: 3 }
+
+  def change_state(comment_state)
+    case comment_state.to_sym
+    when :change_request
+      update!(state: :change_request)
+    when :rereview_request
+      update!(state: :wait_review)
+    when :approved
+      update!(state: :approved)
+    when :resolved
+      update!(state: :resolved, is_open: false)
+    when :closed
+      update!(is_open: false)
+    when :reopen
+      update!(is_open: true)
+    end
+  end
 end
