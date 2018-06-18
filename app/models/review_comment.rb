@@ -12,26 +12,26 @@ class ReviewComment < ApplicationRecord
 
   class << self
     def selectable_state(user, room, review_req)
+      states = I18n.t("enumerize.review_comment.state").to_h
       if user == room.reviewer
-        if review_req.state == :wait_review
-          [:commented, :change_request, :approved]
-        else
-          [:commented]
-        end
+        target_keys = review_req.wait_review? ? [:commented, :change_request, :approved] : [:commented]
       else
-        return [:commented, :reopen] if !review_req.is_open && !review_req.resolved?
+        target_keys =
+          case review_req.state.to_sym
+          when :change_request
+            [:commented, :rereview_request, :closed]
+          when :approved
+            [:commented, :resolved]
+          when :resolved
+            [:commented]
+          else
+            [:commented, :closed]
+          end
 
-        case review_req.state.to_sym
-        when :change_request
-          [:commented, :rereview_request, :closed]
-        when :approved
-          [:commented, :resolved]
-        when :resolved
-          [:commented]
-        else
-          [:commented, :closed]
-        end
+        target_keys = [:commented, :reopen] if !review_req.is_open && !review_req.resolved?
       end
+
+      states.select {|key, _| target_keys.include?(key) }.invert
     end
   end
 end

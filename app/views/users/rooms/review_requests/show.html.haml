@@ -10,7 +10,7 @@
         .comment-content
           .comment-header
             .comment-user= comment.user.name
-            .comment-state{ class: "#{comment.state}" }= comment.state
+            .comment-state{ class: "#{comment.state}" }= comment.state_text
             .comment-created-at= comment.created_at.strftime("%Y-%m-%d %H:%M")
           - if comment.body.present?
             .comment-body.markdown-body= markdown comment.body

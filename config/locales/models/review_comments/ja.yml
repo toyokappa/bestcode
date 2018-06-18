@@ -1,0 +1,16 @@
+ja:
+  activerecord:
+    attributes:
+      review_comment:
+        body: コメント内容
+        state: ステータス
+  enumerize:
+    review_comment:
+      state:
+        commented: コメント
+        change_request: 修正依頼
+        rereview_request: 再レビュー依頼
+        approved: 承認
+        resolved: 解決
+        closed: クローズ
+        reopen: 再オープン
