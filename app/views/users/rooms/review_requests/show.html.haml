@@ -1,16 +1,21 @@
 .container
   .review-req-container
     %h2= @review_req.name
-    %p= @review_req.state_text
-    %p= @review_req.reviewee.name
+    .review-req-header
+      .open-state{ class: @review_req.is_open ? "open-req" : "close-req" }
+        %i.fa{ class: @review_req.is_open ? "fa-square-o" : "fa-check-square-o" }
+        = @review_req.is_open ? "オープン" : "クローズ"
+      .review-state{ class: @review_req.state }= @review_req.state_text
+      .review-req-user= @review_req.reviewee.name
+      .review-req-created-at= @review_req.created_at.strftime("%Y-%m-%d %H:%M")
     .markdown-body= markdown @review_req.description
   .review-comment-container
     .comment-display-area
       - @review_comments.each do |comment|
         .comment-content
           .comment-header
+            .comment-state{ class: comment.state }= comment.state_text
             .comment-user= comment.user.name
-            .comment-state{ class: "#{comment.state}" }= comment.state_text
             .comment-created-at= comment.created_at.strftime("%Y-%m-%d %H:%M")
           - if comment.body.present?
             .comment-body.markdown-body= markdown comment.body

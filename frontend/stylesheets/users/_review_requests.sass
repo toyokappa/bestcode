@@ -1,4 +1,39 @@
 /*    Show    */
+.review-req-container
+  .review-req-header
+    font-size: 14px
+    margin-bottom: 10px;
+    .open-state
+      display: inline-block
+      color: white
+      font-weight: bold
+      padding: 3px 8px
+      border-radius: 3px
+      &.open-req
+        background-color: forestgreen
+      &.close-req
+        background-color: crimson
+    .review-state
+      display: inline-block
+      color: white
+      font-weight: bold
+      padding: 3px 8px
+      border-radius: 3px
+      margin-right: 5px
+      &.wait_review
+        background-color: dodgerblue
+      &.change_request
+        background-color: gold
+      &.approved
+        background-color: limegreen
+      &.resolved
+        background-color: blueviolet
+    .review-req-user
+      display: inline-block
+      font-weight: bold
+    .review-req-created-at
+      display: inline-block
+
 .review-comment-container
   .comment-content
     margin-bottom: 25px
@@ -14,7 +49,8 @@
         vertical-align: middle
         color: white
         padding: 0 7px
-        border-radius: 5px
+        border-radius: 3px
+        margin-right: 3px
         &.commented
           background-color: gray
         &.change_request
@@ -28,7 +64,7 @@
         &.closed
           background-color: crimson
         &.reopen
-          background-color: green
+          background-color: forestgreen
       .comment-created-at
         display: inline-block
         vertical-align: middle
