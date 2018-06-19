@@ -34,6 +34,10 @@ gem "simple_form"
 gem "redis-namespace"
 gem "sidekiq"
 
+# Uploaders
+gem "carrierwave"
+gem "mini_magick"
+
 group :development, :test do
   gem "factory_bot_rails"
   gem "pry-byebug"
