@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_04_142617) do
+ActiveRecord::Schema.define(version: 2018_06_19_055706) do
 
   create_table "participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "participating_room_id"
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2018_06_04_142617) do
     t.string "name"
     t.text "description"
     t.boolean "is_open", default: true, null: false
-    t.integer "state", default: 0, null: false
+    t.string "state", default: "wait_review", null: false
     t.integer "pull_id"
     t.integer "reviewee_id"
     t.integer "room_id"

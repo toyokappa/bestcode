@@ -2,7 +2,7 @@
   .row.room-container
     .col-md-8
       %h2.room-name= @room.name
-      .room-description= @room.description
+      .room-description.markdown-body.no-border= markdown @room.description
     .col-md-4
       .room-capacity
         .content-header 参加上限人数
