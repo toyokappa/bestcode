@@ -1,5 +1,5 @@
 .review-reqs-container
-  %table.table
+  %table.table.review-req-list
     %thead
       %tr
         %th{ scope: "col" }= ReviewRequest.human_attribute_name :name
@@ -10,7 +10,9 @@
       - if review_reqs.present?
         - review_reqs.each do |review_req|
           %tr
-            %td= link_to review_req.name, users_rooms_review_request_path(room, review_req)
+            %td
+              %i.fa{ class: review_req.is_open ? "fa-square-o open-req" : "fa-check-square-o close-req" }
+              .review-req-name= link_to review_req.name, users_rooms_review_request_path(room, review_req)
             %td= review_req.state_text
             %td= review_req.reviewee.name
             %td= link_to "GitHubへ移動", review_req.pull.url, target: "_blank", class: "btn btn-dark btn-sm"
