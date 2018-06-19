@@ -26,6 +26,8 @@ class User < ApplicationRecord
   has_many :review_assigns, class_name: "ReviewRequest", through: :owned_rooms
   has_many :review_comments, dependent: :destroy, inverse_of: :user
 
+  mount_uploader :image, ImageUploader
+
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
@@ -70,6 +72,7 @@ class User < ApplicationRecord
         uid: auth.uid,
         name: auth.info.nickname,
         email: auth.info.email,
+        remote_image_url: auth.info.image,
         contribution: contribution,
         is_reviewer: reviewable_with?(contribution),
         access_token: auth.credentials.token,
