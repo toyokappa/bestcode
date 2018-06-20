@@ -66,7 +66,7 @@ class User < ApplicationRecord
 
   def check_and_return_image(type = nil)
     if image.present?
-      type == :thumb ? image.thumb.url : image.url
+      (type == :thumb) ? image.thumb.url : image.url
     else
       "/images/no_user.png"
     end
