@@ -26,6 +26,8 @@ class User < ApplicationRecord
   has_many :review_assigns, class_name: "ReviewRequest", through: :owned_rooms
   has_many :review_comments, dependent: :destroy, inverse_of: :user
 
+  mount_uploader :image, ImageUploader
+
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
@@ -62,6 +64,14 @@ class User < ApplicationRecord
     self.review_requests & review_reqs
   end
 
+  def check_and_return_image(type = nil)
+    if image.present?
+      (type == :thumb) ? image.thumb.url : image.url
+    else
+      "/images/no_user.png"
+    end
+  end
+
   class << self
     def create_with_omniauth(auth)
       contribution = total_contribution(auth.info.nickname)
@@ -70,6 +80,7 @@ class User < ApplicationRecord
         uid: auth.uid,
         name: auth.info.nickname,
         email: auth.info.email,
+        remote_image_url: auth.info.image,
         contribution: contribution,
         is_reviewer: reviewable_with?(contribution),
         access_token: auth.credentials.token,

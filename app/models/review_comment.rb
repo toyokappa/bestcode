@@ -13,7 +13,7 @@ class ReviewComment < ApplicationRecord
   class << self
     def selectable_state(user, room, review_req)
       states = I18n.t("enumerize.review_comment.state")
-      if user == room.reviewer
+      if user.own?(room)
         target_keys = review_req.wait_review? ? [:commented, :change_request, :approved] : [:commented]
       else
         target_keys =

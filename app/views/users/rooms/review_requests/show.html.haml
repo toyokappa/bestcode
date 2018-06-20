@@ -8,10 +8,14 @@
       .review-state{ class: @review_req.state }= @review_req.state_text
       .review-req-user= @review_req.reviewee.name
       .review-req-created-at= @review_req.created_at.strftime("%Y-%m-%d %H:%M")
-    .markdown-body= markdown @review_req.description
+    .review-req-body
+      .reviewee-image= image_tag @review_req.reviewee.check_and_return_image(:thumb)
+      .review-req-description
+        .markdown-body= markdown @review_req.description
   .review-comment-container
     .comment-display-area
       - @review_comments.each do |comment|
+        .comment-user-image= image_tag comment.user.check_and_return_image(:thumb)
         .comment-content
           .comment-header
             .comment-state{ class: comment.state }= comment.state_text
@@ -20,9 +24,11 @@
           - if comment.body.present?
             .comment-body.markdown-body= markdown comment.body
     .comment-form-area
-      = simple_form_for @review_comment, url: users_rooms_review_comments_path do |f|
-        = f.hidden_field :review_request_id, value: @review_req.id
-        = f.input :body
-        = f.input :state, collection: ReviewComment.selectable_state(current_user, @room, @review_req), include_blank: false
-        = f.button :submit, class: "btn-primary"
+      .comment-user-image= image_tag current_user.check_and_return_image(:thumb)
+      .comment-form
+        = simple_form_for @review_comment, url: users_rooms_review_comments_path do |f|
+          = f.hidden_field :review_request_id, value: @review_req.id
+          = f.input :body
+          = f.input :state, collection: ReviewComment.selectable_state(current_user, @room, @review_req), include_blank: false
+          = f.button :submit, class: "btn-primary"
   %p= link_to "#{@room.name}に戻る", users_room_path(@room)
