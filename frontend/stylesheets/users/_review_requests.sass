@@ -33,38 +33,66 @@
       font-weight: bold
     .review-req-created-at
       display: inline-block
+  .review-req-body
+    padding-left: 60px
+    .reviewee-image
+      float: left
+      margin-left: -60px
+      img
+        width: 50px
+        height: auto
 
 .review-comment-container
-  .comment-content
-    margin-bottom: 25px
-    .comment-header
-      font-size: 14px
-      margin-bottom: 7px
-      .comment-user
-        display: inline-block
-        vertical-align: middle
-        font-weight: bold
-      .comment-state
-        display: inline-block
-        vertical-align: middle
-        color: white
-        padding: 0 7px
-        border-radius: 3px
-        margin-right: 3px
-        &.commented
-          background-color: gray
-        &.change_request
-          background-color: gold
-        &.rereview_request
-          background-color: dodgerblue
-        &.approved
-          background-color: limegreen
-        &.resolved
-          background-color: blueviolet
-        &.closed
-          background-color: crimson
-        &.reopen
-          background-color: forestgreen
-      .comment-created-at
-        display: inline-block
-        vertical-align: middle
+  .comment-display-area
+    padding-left: 60px
+    .comment-user-image
+      float: left
+      margin-left: -60px
+      img
+        width: 50px
+        height: auto
+    .comment-content
+      min-height: 50px
+      margin-bottom: 25px
+      .comment-header
+        font-size: 14px
+        margin-bottom: 7px
+        .comment-user
+          display: inline-block
+          vertical-align: middle
+          font-weight: bold
+        .comment-state
+          display: inline-block
+          vertical-align: middle
+          color: white
+          padding: 0 7px
+          border-radius: 3px
+          margin-right: 3px
+          &.commented
+            background-color: gray
+          &.change_request
+            background-color: gold
+          &.rereview_request
+            background-color: dodgerblue
+          &.approved
+            background-color: limegreen
+          &.resolved
+            background-color: blueviolet
+          &.closed
+            background-color: crimson
+          &.reopen
+            background-color: forestgreen
+        .comment-created-at
+          display: inline-block
+          vertical-align: middle
+  .comment-form-area
+    padding-left: 60px
+    .comment-user-image
+      float: left
+      margin-left: -60px
+      img
+        width: 50px
+        height: auto
+    .comment-form
+      padding: 20px
+      border: 1px solid lightgray
