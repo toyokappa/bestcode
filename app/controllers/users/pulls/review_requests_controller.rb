@@ -11,7 +11,7 @@ class Users::Pulls::ReviewRequestsController < ApplicationController
   def create
     @review_req = current_user.review_requests.build(review_req_params)
     if @review_req.save
-      redirect_to users_room_path(@review_req.room), success: "レビューリクエストの作成に成功しました"
+      redirect_to users_rooms_review_request_path(@review_req.room, @review_req), success: "レビューリクエストの作成に成功しました"
     else
       render "new"
     end
