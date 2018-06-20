@@ -9,13 +9,13 @@
       .review-req-user= @review_req.reviewee.name
       .review-req-created-at= @review_req.created_at.strftime("%Y-%m-%d %H:%M")
     .review-req-body
-      .reviewee-image= image_tag @review_req.reviewee.image.thumb.url
+      .reviewee-image= image_tag @review_req.reviewee.check_and_return_image(:thumb)
       .review-req-description
         .markdown-body= markdown @review_req.description
   .review-comment-container
     .comment-display-area
       - @review_comments.each do |comment|
-        .comment-user-image= image_tag comment.user.image.thumb.url
+        .comment-user-image= image_tag comment.user.check_and_return_image(:thumb)
         .comment-content
           .comment-header
             .comment-state{ class: comment.state }= comment.state_text
@@ -24,7 +24,7 @@
           - if comment.body.present?
             .comment-body.markdown-body= markdown comment.body
     .comment-form-area
-      .comment-user-image= image_tag current_user.image.thumb.url
+      .comment-user-image= image_tag current_user.check_and_return_image(:thumb)
       .comment-form
         = simple_form_for @review_comment, url: users_rooms_review_comments_path do |f|
           = f.hidden_field :review_request_id, value: @review_req.id

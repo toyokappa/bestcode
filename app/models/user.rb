@@ -64,6 +64,14 @@ class User < ApplicationRecord
     self.review_requests & review_reqs
   end
 
+  def check_and_return_image(type = nil)
+    if image.present?
+      type == :thumb ? image.thumb.url : image.url
+    else
+      "/images/no_user.png"
+    end
+  end
+
   class << self
     def create_with_omniauth(auth)
       contribution = total_contribution(auth.info.nickname)
