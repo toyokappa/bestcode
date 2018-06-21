@@ -23,8 +23,8 @@ gem "omniauth"
 gem "omniauth-github"
 
 # Models
-gem "active_hash"
 gem "enumerize"
+gem "seed-fu"
 
 # Views
 gem "coderay"
