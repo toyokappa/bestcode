@@ -23,6 +23,7 @@ gem "omniauth"
 gem "omniauth-github"
 
 # Models
+gem "active_hash"
 gem "enumerize"
 
 # Views
