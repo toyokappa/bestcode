@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_19_091100) do
+ActiveRecord::Schema.define(version: 2018_06_21_142843) do
 
   create_table "participations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "participating_room_id"
@@ -81,6 +81,15 @@ ActiveRecord::Schema.define(version: 2018_06_19_091100) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["reviewer_id"], name: "index_rooms_on_reviewer_id"
+  end
+
+  create_table "skills", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "language_id"
+    t.string "languageable_type"
+    t.bigint "languageable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["languageable_type", "languageable_id"], name: "index_skills_on_languageable_type_and_languageable_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
