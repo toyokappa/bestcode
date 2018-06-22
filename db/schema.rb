@@ -91,11 +91,12 @@ ActiveRecord::Schema.define(version: 2018_06_21_145815) do
   end
 
   create_table "skills", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.integer "language_id"
+    t.bigint "language_id"
     t.string "languageable_type"
     t.bigint "languageable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["language_id"], name: "index_skills_on_language_id"
     t.index ["languageable_type", "languageable_id"], name: "index_skills_on_languageable_type_and_languageable_id"
   end
 
