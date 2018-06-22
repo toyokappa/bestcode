@@ -1,6 +1,7 @@
 class Users::RoomsController < ApplicationController
   before_action :check_reviewable_user, only: [:new, :create]
   before_action :set_room, only: [:edit, :update, :destroy]
+  before_action :set_lang_ids, only: [:create, :update]
 
   def index
     @rooms = Room.all
@@ -18,7 +19,7 @@ class Users::RoomsController < ApplicationController
 
   def create
     @room = current_user.owned_rooms.build(room_params)
-    if @room.save
+    if @room.save && @room.change_skills_by(@lang_ids)
       redirect_to users_room_path(@room), success: t(".create_success", name: @room.name)
     else
       render "new"
@@ -26,10 +27,11 @@ class Users::RoomsController < ApplicationController
   end
 
   def edit
+    @lang_ids = @room.language_ids
   end
 
   def update
-    if @room.update(room_params)
+    if @room.update(room_params) && @room.change_skills_by(@lang_ids)
       redirect_to users_room_path(@room), success: t(".update_success", name: @room.name)
     else
       render "edit"
@@ -47,8 +49,16 @@ class Users::RoomsController < ApplicationController
       params.require(:room).permit(:name, :description, :capacity)
     end
 
+    def skill_params
+      params.require(:skill).permit(language: [])
+    end
+
     def set_room
       @room = current_user.owned_rooms.find(params[:id])
+    end
+
+    def set_lang_ids
+      @lang_ids = skill_params["language"].reject(&:blank?)
     end
 
     def check_reviewable_user

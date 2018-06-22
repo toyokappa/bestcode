@@ -16,6 +16,8 @@ class Room < ApplicationRecord
   has_many :participations, foreign_key: "participating_room_id", dependent: :destroy, inverse_of: :participating_room
   has_many :reviewees, class_name: "User", through: :participations
   has_many :review_assigns, class_name: "ReviewRequest", dependent: :destroy, inverse_of: :room
+  has_many :skills, as: :languageable, dependent: :destroy
+  has_many :languages, through: :skills
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 1000 }
@@ -37,6 +39,17 @@ class Room < ApplicationRecord
 
   def over_capacity?
     capacity <= reviewees.size
+  end
+
+  def change_skills_by(lang_ids = [])
+    unselect_ids = language_ids - lang_ids
+    skills.where(language_id: unselect_ids).destroy_all
+
+    lang_ids.each do |lang_id|
+      next if skills.find_by(language_id: lang_id)
+
+      skills.create!(language_id: lang_id)
+    end
   end
 
   private

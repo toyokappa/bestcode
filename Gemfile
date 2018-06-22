@@ -24,6 +24,7 @@ gem "omniauth-github"
 
 # Models
 gem "enumerize"
+gem "seed-fu"
 
 # Views
 gem "coderay"
