@@ -2,4 +2,7 @@
   = f.input :name
   = f.input :description
   = f.input :capacity
+  .form-group
+    = label :skill, "レビュー可能言語"
+    = select :skill, :language, Language.all.map {|lang| [lang.name, lang.id] }, { selected: lang_ids }, class: "select2 form-control", multiple: true
   = f.button :submit, class: "btn-primary"

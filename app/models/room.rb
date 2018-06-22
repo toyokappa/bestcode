@@ -41,6 +41,17 @@ class Room < ApplicationRecord
     capacity <= reviewees.size
   end
 
+  def change_skills_by(lang_ids = [])
+    unselect_ids = language_ids - lang_ids
+    skills.where(language_id: unselect_ids).destroy_all
+
+    lang_ids.each do |lang_id|
+      next if skills.find_by(language_id: lang_id)
+
+      skills.create!(language_id: lang_id)
+    end
+  end
+
   private
 
     def capacity_greater_than_or_equal_to_participants

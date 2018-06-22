@@ -2,6 +2,9 @@
   .row.room-container
     .col-md-8
       %h2.room-name= @room.name
+      .room-languages
+        - @room.languages.each do |language|
+          .language= language.name
       .room-description.markdown-body.no-border= markdown @room.description
     .col-md-4
       .room-capacity
