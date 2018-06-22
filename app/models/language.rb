@@ -4,4 +4,8 @@ class Language < ApplicationRecord
   # 参考: https://qiita.com/ryonext/items/1a813639ab2a2a00058e
   self.inheritance_column = :_type_disabled
   has_many :skills, dependent: :destroy
+
+  def self.options
+    all.map {|lang| [lang.name, lang.id] }
+  end
 end
