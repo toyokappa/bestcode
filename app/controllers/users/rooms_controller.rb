@@ -9,8 +9,10 @@ class Users::RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
-    @review_assigns = @room.review_assigns
-    @review_reqs = current_user.get_visible_review_reqs_from(@review_assigns)
+    @review_assigns = get_review_reqs_with(params[:open_state])
+
+    # get_visible_review_reqs_fromの戻り値がArrayとなるためorderではなくsort_byで順序を変更
+    @review_reqs = current_user.get_visible_review_reqs_from(@review_assigns).sort_by(&:created_at).reverse
   end
 
   def new
@@ -63,5 +65,16 @@ class Users::RoomsController < ApplicationController
 
     def check_reviewable_user
       redirect_to users_rooms_path, danger: t(".unreviewable_error") unless current_user.is_reviewer?
+    end
+
+    def get_review_reqs_with(open_state)
+      case open_state
+      when "closed"
+        @room.review_assigns.where(is_open: false).order(created_at: :desc)
+      when "all"
+        @room.review_assigns.order(created_at: :desc)
+      else
+        @room.review_assigns.where(is_open: true).order(created_at: :desc)
+      end
     end
 end

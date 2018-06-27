@@ -37,8 +37,16 @@ class User < ApplicationRecord
     !own?(room) && !participating?(room) && !room.over_capacity?
   end
 
+  def own?(room)
+    self == room.reviewer
+  end
+
   def participating?(room)
     participating_rooms.include?(room)
+  end
+
+  def belonging_to?(room)
+    own?(room) || participating?(room)
   end
 
   def create_repo!(github_repo)
@@ -54,10 +62,6 @@ class User < ApplicationRecord
       created_at: github_repo.created_at,
       updated_at: github_repo.updated_at,
     )
-  end
-
-  def own?(room)
-    self == room.reviewer
   end
 
   def get_visible_review_reqs_from(review_reqs)
