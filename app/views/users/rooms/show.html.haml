@@ -21,8 +21,14 @@
       - if current_user.participating?(@room)
         .create-review-request= link_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), class: "btn btn-primary btn-block"
         .room-participation= link_to "ルームから退出する", users_participation_path(@room), method: :delete, data: { confirm: "ルームから退出してよろしいですか？" }, class: "btn btn-danger btn-block"
-  - if current_user.own?(@room)
-    = render "review_reqs", review_reqs: @review_assigns, room: @room
-  - elsif current_user.participating?(@room)
-    = render "review_reqs", review_reqs: @review_reqs, room: @room
+  - if current_user.belonging_to?(@room)
+    .review-reqs-container
+      %ul.status-menu
+        %li= link_to "オープン中", users_room_path(@room, open_state: :open), class: "#{'active' unless params[:open_state].in? %w[closed all]}"
+        %li= link_to "クローズ済み", users_room_path(@room, open_state: :closed), class: "#{'active' if params[:open_state] == "closed"}"
+        %li= link_to "すべて", users_room_path(@room, open_state: :all), class: "#{'active' if params[:open_state] == "all"}"
+      - if current_user.own?(@room)
+        = render "review_reqs", review_reqs: @review_assigns, room: @room
+      - elsif current_user.participating?(@room)
+        = render "review_reqs", review_reqs: @review_reqs, room: @room
   %p= link_to "ルーム一覧に戻る", users_rooms_path
