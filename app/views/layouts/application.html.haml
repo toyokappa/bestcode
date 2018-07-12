@@ -4,7 +4,7 @@
     %title Reviewhub
     = csrf_meta_tags
     = csp_meta_tag
-    = webpack_assets_path("main")
+    = webpack_css_tag("main")
     = javascript_include_tag webpack_assets_path("main.js")
   %body
     %header
