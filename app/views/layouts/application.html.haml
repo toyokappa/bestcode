@@ -6,25 +6,61 @@
     = csp_meta_tag
     = webpack_css_tag("main")
     = javascript_include_tag webpack_assets_path("main.js")
-  %body
-    %header
-      %nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
-        .container
-          = link_to "ReviewHub", root_path, class: "navbar-brand"
-          %button.navbar-toggler{ type: "button", data: { toggle: "collapse", target: "#navbarSupportedContent" }, aria: { controls: "navbarSupportedContent", expanded: "false", label: "Toggle Navigation" } }
-            = content_tag :span, "",class: "navbar-toggler-icon"
-          .collapse.navbar-collapse#navbarSupportedContent
-            %ul.navbar-nav.ml-md-auto
-              - if user_signed_in?
-                .nav-item= link_to "ルーム一覧", users_rooms_path, class: "nav-link"
-                .nav-item= link_to "Myリポジトリ", users_repos_path, class: "nav-link"
-                .nav-item= link_to "ログアウト", users_sign_out_path, method: :delete, class: "nav-link"
-              - else
-                .nav-item= link_to "GitHubアカウントでログイン", "/auth/github", class: "btn btn-outline-light"
-    .container
-      - flash.each do |message_type, message|
-        = content_tag :div, class: "alert alert-#{message_type} alert-dismissible", role: "alert" do
-          = message
-          %button.close{ type: "button", data: { dismiss: "alert" }, aria: { label: "Close" } }
-            %span{ aria: { hidden: true } } &times;
-    = yield
+  %body.fixed-aside.fixed-content
+    #app.app
+      #aside.app-aside.box-shadow-x.nav-expand{ aria: { hidden: true } }
+        .sidenav.dk.dark
+          .navbar.lt
+            = link_to root_path, class: "navbar-brand" do
+              %svg{ height: "28", viewbox: ("0 0 24 24"), width: "28", xmlns: "http://www.w3.org/2000/svg" }
+                %path{ d: ("M0 0h24v24H0z"), fill: "none" }
+                %path.fill-theme{ d: ("M19.51 3.08L3.08 19.51c.09.34.27.65.51.9.25.24.56.42.9.51L20.93 4.49c-.19-.69-.73-1.23-1.42-1.41zM11.88 3L3 11.88v2.83L14.71 3h-2.83zM5 3c-1.1 0-2 .9-2 2v2l4-4H5zm14 18c.55 0 1.05-.22 1.41-.59.37-.36.59-.86.59-1.41v-2l-4 4h2zm-9.71 0h2.83L21 12.12V9.29L9.29 21z"), fill:"#fff" }
+              %span.hidden-folded.d-inline ReviewHub
+          .flex.hide-scroll
+            .scroll
+              .nav-border.b-primary{ data: { nav: true } }
+                %ul.nav
+                  %li.nav-header.hidden-folded.mt-2
+                    %span.text-xs.hidden-folded
+                  %li
+                    = link_to users_rooms_path do
+                      %span.nav-icon
+                        %i.fa.fa-home
+                      %span.nav-text
+                        ルーム一覧
+          .no-shrink.lt
+            .nav-fold
+              .hidden-folded.flex.p-2-3.bg
+                .d-flex.p-1
+                  = link_to users_sign_out_path, method: :delete do
+                    %i.fa.fa-power-off.text-muted.mr-1
+                    %span ログアウト
+      #content.app-content.box-shadow-0{ role: :main }
+        #content-header.content-header.white.box-shadow-0
+          .navbar.navbar-expand-lg
+            %a.d-lg-none.mx-2{ data: { target: "#aside" }, data: { toggle: "modal" } }
+              %svg{ height: 24, viewbox: ("0 0 512 512"), width: 24, xmlns: "http://www.w3.org/2000/svg" }
+                %path{ d: ("M80 304h352v16H80zM80 248h352v16H80zM80 192h352v16H80z") }
+            #pageTitle.navbar-text.nav-title.flex= @title || "ダッシュボード"
+            %ul.nav.flex-row.order-lg-2
+              %li.dropdown.d-flex.align-items-center
+                = link_to '#', class: 'd-flex align-items-center', data: { toggle: 'dropdown' } do
+                  %span.avatar.w-32
+                    = image_tag current_user.image.url, alt: '...'
+                .dropdown-menu.dropdown-menu-right.w.pt-2.mt-2.animate.fadeIn
+                  %span.dropdown-item
+                    %b= current_user.name
+                  .dropdown-divider
+                  = link_to '', class: 'dropdown-item' do
+                    %span プロフィール設定
+                  = link_to users_repos_path, class: 'dropdown-item' do
+                    %span Myリポジトリ
+                  .dropdown-divider
+                  = link_to 'ログアウト', users_sign_out_path, method: :delete, class: 'dropdown-item'
+        #content-main.content-main
+          - flash.each do |message_type, message|
+            = content_tag :div, class: "alert alert-#{message_type} alert-dismissible", role: "alert" do
+              = message
+              %button.close{ type: "button", data: { dismiss: "alert" }, aria: { label: "Close" } }
+                %span{ aria: { hidden: true } } &times;
+          = yield
