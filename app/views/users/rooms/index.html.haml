@@ -1,8 +1,11 @@
-.container
-  %h2 ルーム一覧
-  - if current_user.is_reviewer?
-    %p= link_to "ルームを作成する", new_users_room_path, class: "btn btn-primary"
-  .table-responsive-md
+.padding
+  .box
+    .box-header.navbar
+      %h2.flex
+        %span.align-middle ルーム一覧
+      - if current_user.is_reviewer?
+        = link_to new_users_room_path, class: "btn btn-icon btn-rounded primary text-white flex-row order-lg-2" do
+          %i.fa.fa-plus
     %table.table
       %thead
         %tr
@@ -10,7 +13,6 @@
           %th{ scope: "col" } 参加上限人数
           %th{ scope: "col" } レビュワー
           %th{ scope: "col" } ステータス
-          %th{ scope: "col" }
       %tbody
         - if @rooms.present?
           - @rooms.each do |room|
@@ -19,10 +21,6 @@
               %td #{room.reviewees.size}/#{room.capacity}
               %td= room.reviewer.name
               %td= room.status_for(current_user)
-              %td
-                - if current_user.own?(room)
-                  = link_to "編集する", edit_users_room_path(room), class: "btn btn-success btn-sm"
-                  = link_to "削除する", users_room_path(room), method: :delete, data: { confirm: "#{room.name}を削除してもよろしいですか？" }, class: "btn btn-danger btn-sm"
         - else
           %tr
             %td 表示できるルームはありません
