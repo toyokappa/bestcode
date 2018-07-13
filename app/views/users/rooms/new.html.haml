@@ -1,3 +1,10 @@
-.container
-  %h2 ルーム作成
-  = render "form", resource: @room, url: users_rooms_path, lang_ids: @lang_ids
+.padding
+  .box
+    .box-header
+      %h2
+        = link_to users_rooms_path, class: 'mr-2 align-middle text-primary' do
+          %i.fa.fa-chevron-left
+        %span.align-middle ルーム作成
+    .box-divider.m-0
+    .box-body
+      = render "form", resource: @room, url: users_rooms_path, lang_ids: @lang_ids, btn_txex: "作成"
