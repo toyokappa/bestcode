@@ -1,5 +1,6 @@
 = render "shared/new_review_req_form",
-  review_req: @review_req,
+  resource: @review_req,
+  back_path: users_room_path(@room),
   url: users_rooms_review_requests_path,
   pull_collection: @pull_collection,
   room_collection: @room_collection
