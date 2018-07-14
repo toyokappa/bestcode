@@ -34,4 +34,23 @@ class ReviewComment < ApplicationRecord
       states.select {|key, _| target_keys.include?(key) }.invert
     end
   end
+
+  def state_color
+    case state.to_sym
+    when :commented
+      "grey"
+    when :change_request
+      "warning"
+    when :rereview_request
+      "info"
+    when :approved
+      "success"
+    when :resolved
+      "accent"
+    when :closed
+      "danger"
+    when :reopen
+      "green"
+    end
+  end
 end
