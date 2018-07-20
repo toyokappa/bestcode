@@ -46,7 +46,7 @@
               %li.dropdown.d-flex.align-items-center
                 = link_to '#', class: 'd-flex align-items-center', data: { toggle: 'dropdown' } do
                   %span.avatar.w-32
-                    = image_tag current_user.image.url, alt: '...'
+                    = image_tag current_user.check_and_return_image(:thumb), alt: '...'
                 .dropdown-menu.dropdown-menu-right.w.pt-2.mt-2.animate.fadeIn
                   %span.dropdown-item
                     %b= current_user.name

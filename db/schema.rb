@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_21_145815) do
+ActiveRecord::Schema.define(version: 2018_06_28_103213) do
 
   create_table "languages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2018_06_21_145815) do
     t.integer "review_request_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_delete", default: false, null: false
     t.index ["review_request_id"], name: "index_review_comments_on_review_request_id"
     t.index ["user_id"], name: "index_review_comments_on_user_id"
   end
