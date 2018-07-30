@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_28_103213) do
+ActiveRecord::Schema.define(version: 2018_07_30_151825) do
 
   create_table "languages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 2018_06_28_103213) do
     t.bigint "reviewer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_open", default: true, null: false
     t.index ["reviewer_id"], name: "index_rooms_on_reviewer_id"
   end
 
