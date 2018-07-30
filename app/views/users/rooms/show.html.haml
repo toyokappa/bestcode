@@ -34,7 +34,7 @@
             = button_to "ルームに参加する", users_participation_path(@room), method: :put, class: "btn primary btn-block", disabled: !@room.is_open
             .text-muted= "ルームがクローズしているため参加できません" unless @room.is_open
           - if current_user.participating?(@room)
-            = button_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), class: "btn primary btn-block", disabled: !@room.is_open
+            = button_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), method: :get, class: "btn primary btn-block", disabled: !@room.is_open
             .text-muted= "ルームがクローズしているためレビューリクエストを作成できません" unless @room.is_open
   - if current_user.belonging_to?(@room)
     .box
