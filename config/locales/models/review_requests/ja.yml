@@ -6,6 +6,8 @@ ja:
         description: 説明
         state: ステータス
         reviewee_id: 依頼者
+        pull_id: プルリクエスト
+        room_id: ルーム
   enumerize:
     review_request:
       state:

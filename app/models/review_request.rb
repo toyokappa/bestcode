@@ -48,4 +48,17 @@ class ReviewRequest < ApplicationRecord
       update!(is_open: true)
     end
   end
+
+  def state_color
+    case state.to_sym
+    when :wait_review
+      "info"
+    when :change_request
+      "warning"
+    when :approved
+      "success"
+    when :resolved
+      "accent"
+    end
+  end
 end

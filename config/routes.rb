@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "omniauth_callbacks#callback"
 
   namespace :users do
+    root "top#index"
     resources :participations, only: [:update, :destroy]
     resources :rooms
     resources :repos, only: [:index, :show] do

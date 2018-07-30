@@ -20,5 +20,9 @@ module Reviewhub
     config.active_record.default_timezone = :local
     config.time_zone = "Tokyo"
     config.active_job.queue_adapter = :sidekiq
+
+    # フォームのバリデーションでレイアウトが崩れる問題の対処
+    # 参考: https://qiita.com/shunhikita/items/6ddc2cbdae698b514525
+    config.action_view.field_error_proc = proc {|html_tag, _instance| html_tag.to_s }
   end
 end

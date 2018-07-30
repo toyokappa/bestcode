@@ -1,21 +1,31 @@
-.container
-  %h2 Myリポジトリ
-  %p= link_to "GitHubとリポジトリ情報を同期する", users_sync_repos_path, method: :patch, class: "btn btn-dark"
-  %table.table
-    %thead
-      %tr
-        %th{ scope: "col" } リポジトリ名
-        %th{ scope: "col" } 公開ステータス
-        %th{ scope: "col" } 公開中のプルリク数
-    %tbody
-      - if @repos.present?
-        - @repos.each do |repo|
-          %tr
-            %td= link_to repo.name, users_repo_path(repo)
-            %td= repo.public_state
-            %td= repo.pulls.where(is_open: true).size
-      - else
+.padding
+  .box
+    .box-header.navbar
+      %h2.flex Myリポジトリ
+      = link_to users_sync_repos_path, method: :patch, class: "btn btn-dark order-lg-1" do
+        %i.fa.fa-github
+        %span GitHubとリポジトリを同期する
+    %table.table
+      %thead
         %tr
-          %td 表示できるリポジトリはありません
-          %td -
-          %td -
+          %th{ style: "width:100px;" } 公開設定
+          %th リポジトリ名
+          %th{ style: "width:50px;" }
+      %tbody
+        - if @repos.present?
+          - @repos.each do |repo|
+            %tr
+              %td.algin-middle
+                .badge.badge-pill.text-sm{ class: repo.is_private ? "warning": "grey" }
+                  = repo.public_state
+              %td.algin-middle
+                = link_to repo.name, users_repo_path(repo)
+              %td.algin-middle
+                - pull_count = repo.pulls.where(is_open: true).count
+                .badge.badge-pill.text-sm{ class: pull_count.zero? ? "light" : "danger" }
+                  = pull_count
+        - else
+          %tr
+            %td 表示できるリポジトリはありません
+            %td -
+            %td -

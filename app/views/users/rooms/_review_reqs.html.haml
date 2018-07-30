@@ -1,24 +1,23 @@
-%table.table.review-req-list
+%table.table
   %thead
     %tr
       %th{ scope: "col" }= ReviewRequest.human_attribute_name :name
       %th{ scope: "col" }= ReviewRequest.human_attribute_name :state
       %th{ scope: "col" }= ReviewRequest.human_attribute_name :reviewee_id
-      %th{ scope: "col" } メニュー
+      %th{ scope: "col" }
   %body
     - if review_reqs.present?
       - review_reqs.each do |review_req|
         %tr
-          %td
-            %i.fa{ class: review_req.is_open ? "fa-square-o open-req" : "fa-check-square-o close-req" }
-            .review-req-name= link_to review_req.name, users_rooms_review_request_path(room, review_req)
-          %td
-            .review-req-state{ class: review_req.state }= review_req.state_text
-          %td= review_req.reviewee.name
-          %td= link_to "GitHubへ移動", review_req.pull.url, target: "_blank", class: "btn btn-dark btn-sm"
+          %td.align-middle
+            %i.fa{ class: review_req.is_open ? "fa-square-o text-success" : "fa-check-square-o text-danger" }
+            %span= link_to review_req.name, users_rooms_review_request_path(room, review_req)
+          %td.align-middle
+            .badge.text-sm.text-white{ class: review_req.state_color }= review_req.state_text
+          %td.align-middle= review_req.reviewee.name
+          %td.align-middle= link_to "GitHubへ移動", review_req.pull.url, target: "_blank", class: "btn btn-dark btn-sm"
     - else
       %tr
         %td 表示できるレビューリクエストはありません
-        %td -
         %td -
         %td -

@@ -1,7 +1,11 @@
-.container
-  %h2= @pull.name
-  %p= link_to @pull.url, @pull.url, target: "_blank"
+.padding
+  .box
+    .box-header.navbar
+      .flex
+        %h2= @pull.name
+        %small= link_to @pull.url, @pull.url, target: "_blank"
+      = link_to "レビューリクエストを作成する", new_users_pulls_review_request_path(@pull), class: "btn primary order-lg-1"
   -if @pull.description.present?
-    .markdown-body= markdown @pull.description
-  %p= link_to "レビューリクエストを作成する", new_users_pulls_review_request_path(@pull), class: "btn btn-primary"
-  %p= link_to "リポジトリ詳細に戻る", users_repo_path(@repo)
+    .box-body
+      .markdown-body.no-border= markdown @pull.description
+  %u= link_to "リポジトリ詳細に戻る", users_repo_path(@repo), class: "text-muted"

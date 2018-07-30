@@ -1,3 +1,10 @@
-.container
-  %h2 ルーム編集
-  = render "form", resource: @room, url: users_room_path, lang_ids: @lang_ids
+.padding
+  .box
+    .box-header
+      %h2
+        = link_to users_rooms_path, class: 'mr-2 align-middle text-primary' do
+          %i.fa.fa-chevron-left
+        %span.align-middle ルーム編集
+    .box-divider.m-0
+    .box-body
+      = render "form", resource: @room, url: users_room_path, lang_ids: @lang_ids

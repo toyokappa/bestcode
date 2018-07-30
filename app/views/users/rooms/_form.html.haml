@@ -1,8 +1,27 @@
-= simple_form_for resource, url: url do |f|
-  = f.input :name
-  = f.input :description
-  = f.input :capacity
-  .form-group
-    = label :skill, "レビュー可能言語"
-    = select :skill, :language, Language.options, { selected: lang_ids }, class: "select2 form-control", multiple: true
-  = f.button :submit, class: "btn-primary"
+.row.mt-4
+  .col-sm-8.offset-sm-2
+    = form_for resource, url: url do |f|
+      .form-group.row.mb-4
+        = f.label :name, class: "col-sm-3 col-form-label"
+        .col-sm-9
+          = f.text_field :name, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:name).present?}"
+          - resource.errors.full_messages_for(:name).each do |message|
+            %p.text-muted.filled.text-sm.mt-1.mb-0= message
+      .form-group.row.mb-4
+        = f.label :description, class: "col-sm-3 col-form-label"
+        .col-sm-9
+          = f.text_area :description, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:description).present?}"
+          - resource.errors.full_messages_for(:description).each do |message|
+            %p.text-muted.filled.text-sm.mt-1.mb-0= message
+      .form-group.row.mb-4
+        = f.label :capacity, class: "col-sm-3 col-form-label"
+        .col-sm-9
+          = f.number_field :capacity, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:capacity).present?}"
+          - resource.errors.full_messages_for(:capacity).each do |message|
+            %p.text-muted.filled.text-sm.mt-1.mb-0= message
+      .form-group.row.mb-4
+        = label :skill, "レビュー言語", class: "col-sm-3 col-form-label"
+        .col-sm-9
+          = select :skill, :language, Language.options, { selected: lang_ids }, class: "select2 form-control", multiple: true
+      .action.text-center.mb-4
+        = f.submit class: "btn btn-rounded btn-fw primary"

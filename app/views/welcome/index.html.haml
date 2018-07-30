@@ -1,23 +1,103 @@
-.container
-  - if user_signed_in?
-    - if current_user.is_reviewer?
-      %h2 あなたはレビュワーとしてご利用頂くことが可能です
-      %h3 レビュワーが出来ること
-      %h4 1. レビュールームの作成
-      %p レビュールームを作成することで、その部屋に参加してくれたレビュイーのコードレビューを行うことができます
-      %p= link_to "早速、レビュールームを作成してみる", new_users_room_path, class: "btn btn-primary"
-
-      %h4 2. レビュールームへ参加
-      %p レビュールームへ参加することで、その部屋を所有するレビュワーからコードレビューを受けることができます
-      %p= link_to "自分にあったレビュールームを探してみる", users_rooms_path, class: "btn btn-primary"
-    - else
-      %h2 あなたはレビュイーとしてご利用頂くことが可能です
-      %h3 レビュイーが出来ること
-      %h4 1. レビュールムへの参加
-      %p レビュールームへ参加することで、その部屋を所有するレビュワーからコードレビューを受けることができます
-      %p= link_to "自分にあったレビュールームを探してみる", users_rooms_path, class: "btn btn-primary"
-  - else
-    %h1.app-title ReviewHub
-    .app-description
-      ReviewHubはレビュワーとレビュイーをつなげるマッチングプラットフォームです。一定以上の開発スキルを持っているレビュワーが部屋を作成することができ、その部屋に所属しているレビュイーからのレビューリクエストを受け、レビューを行っていくというサービスフローをイメージしています。
-    = link_to "GitHubアカウントでログイン", "/auth/github", class: "btn btn-dark btn-lg"
+.padding.info.py-5
+  %h1.mb-4
+    Your review save
+    %br the world of engineer
+  %h6.mb-4
+    .mb-2 レビュワーとレビュイーをつなげるマッチングプラットフォーム。
+    コードレビューを通してエンジニアの世界をより良くしましょう。
+  = link_to "/auth/github", class: "btn btn-lg btn-rounded white text-info" do
+    %i.fa.fa-github
+    GitHubでサインアップ
+.padding
+  %h3 レビュワーのあなたへ
+  .row
+    .col-sm-4
+      .box
+        .box-body.text-center
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+    .col-sm-4
+      .box
+        .box-body.text-center
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+    .col-sm-4
+      .box
+        .box-body.text-center
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+.padding.white
+  %h3 レビュイーのあなたへ
+  .row
+    .col-sm-4
+      .box
+        .box-body.text-center
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+    .col-sm-4
+      .box
+        .box-body.text-center
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+    .col-sm-4
+      .box
+        .box-body.text-center
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+          コンテンツ
+.padding.info
+  %h3.mb-4
+    GitHubアカウントさえあれば
+    %br 30秒で始められます。
+  = link_to "auth/github", class: "btn btn-rounded btn-lg white text-info" do
+    %i.fa.fa-github
+    GitHubでサインアップ
