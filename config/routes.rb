@@ -21,4 +21,6 @@ Rails.application.routes.draw do
     patch "/sync_repos", to: "repos#update"
     patch "/sync_pulls/:repo_id", to: "pulls#update", as: "sync_pulls"
   end
+
+  post "/hooks/pulls", to: "hooks#pulls"
 end
