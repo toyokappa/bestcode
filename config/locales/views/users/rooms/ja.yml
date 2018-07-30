@@ -10,3 +10,5 @@ ja:
         update_success: "%{name}を更新しました"
       destroy:
         close_success: "%{name}をクローズしました"
+      reopen:
+        reopen_success: "%{name}を再オープンしました"

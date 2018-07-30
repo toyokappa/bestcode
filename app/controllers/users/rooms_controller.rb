@@ -1,6 +1,6 @@
 class Users::RoomsController < ApplicationController
   before_action :check_reviewable_user, only: [:new, :create]
-  before_action :set_room, only: [:edit, :update, :destroy]
+  before_action :set_room, only: [:edit, :update, :destroy, :reopen]
   before_action :set_lang_ids, only: [:create, :update]
 
   def index
@@ -43,6 +43,11 @@ class Users::RoomsController < ApplicationController
   def destroy
     @room.close!
     redirect_to users_room_path(@room), success: t(".close_success", name: @room.name)
+  end
+
+  def reopen
+    @room.open!
+    redirect_to users_room_path(@room), success: t(".reopen_success", name: @room.name)
   end
 
   private
