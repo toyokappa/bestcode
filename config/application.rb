@@ -23,6 +23,6 @@ module Reviewhub
 
     # フォームのバリデーションでレイアウトが崩れる問題の対処
     # 参考: https://qiita.com/shunhikita/items/6ddc2cbdae698b514525
-    config.action_view.field_error_proc = Proc.new { |html_tag, instance| %Q(#{html_tag}).html_safe }
+    config.action_view.field_error_proc = proc {|html_tag, _instance| html_tag.to_s }
   end
 end
