@@ -52,6 +52,10 @@ class Room < ApplicationRecord
     end
   end
 
+  def close!
+    update!(is_open: false)
+  end
+
   private
 
     def capacity_greater_than_or_equal_to_participants
