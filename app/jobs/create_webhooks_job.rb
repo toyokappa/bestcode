@@ -17,5 +17,7 @@ class CreateWebhooksJob < ApplicationJob
         active: true,
       }
     )
+
+    repo.update!(is_hook: true)
   end
 end
