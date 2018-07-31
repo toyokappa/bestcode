@@ -5,7 +5,8 @@
         %h2= @pull.name
         %small= link_to @pull.url, @pull.url, target: "_blank"
       = link_to "レビューリクエストを作成する", new_users_pulls_review_request_path(@pull), class: "btn primary order-lg-1"
-  -if @pull.description.present?
-    .box-body
-      .markdown-body.no-border= markdown @pull.description
+    -if @pull.description.present?
+      .box-divider.m-0
+      .box-body
+        .markdown-body.no-border= markdown @pull.description
   %u= link_to "リポジトリ詳細に戻る", users_repo_path(@repo), class: "text-muted"

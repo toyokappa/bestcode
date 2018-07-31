@@ -2,11 +2,13 @@
   .row
     .col-md-8
       .box
-        .box-header
-          %h2
+        .box-header.navbar
+          %h2.flex
             = link_to users_rooms_path, class: 'mr-2 align-middle text-primary' do
               %i.fa.fa-chevron-left
             %span.align-middle= @room.name
+          - unless @room.is_open
+            .badge.danger.text.order-1 クローズ
         .box-divider.m-0
         .box-body
           .languages.mb-3
@@ -25,11 +27,15 @@
         .box-divider.m-0
         .box-footer
           - if current_user.own?(@room)
-            .room-edit= link_to "ルームを編集する", edit_users_room_path(@room), class: "btn success btn-block"
+            = link_to "ルームを編集する", edit_users_room_path(@room), class: "btn info btn-block"
+            - unless @room.is_open
+              .mt-3= link_to "ルームを再オープンする", reopen_users_room_path(@room), class: "btn success btn-block"
           - if current_user.participatable?(@room)
-            .room-participation= link_to "ルームに参加する", users_participation_path(@room), method: :put, class: "btn primary btn-block"
+            = button_to "ルームに参加する", users_participation_path(@room), method: :put, class: "btn primary btn-block", disabled: !@room.is_open
+            .text-muted= "ルームがクローズしているため参加できません" unless @room.is_open
           - if current_user.participating?(@room)
-            .create-review-request= link_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), class: "btn primary btn-block"
+            = button_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), method: :get, class: "btn primary btn-block", disabled: !@room.is_open
+            .text-muted= "ルームがクローズしているためレビューリクエストを作成できません" unless @room.is_open
   - if current_user.belonging_to?(@room)
     .box
       .box-header
@@ -45,7 +51,7 @@
         = render "review_reqs", review_reqs: @review_assigns, room: @room
       - elsif current_user.participating?(@room)
         = render "review_reqs", review_reqs: @review_reqs, room: @room
-  - if current_user.own?(@room)
+  - if current_user.own?(@room) && @room.is_open?
     .text-right
       = link_to users_room_path(@room), method: :delete, data: { confirm: "ルームをクローズしてよろしいですか？" }, class: "text-muted" do
         %u ルームをクローズする

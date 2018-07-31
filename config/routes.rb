@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   namespace :users do
     root "top#index"
     resources :participations, only: [:update, :destroy]
-    resources :rooms
+    resources :rooms do
+      member do
+        get "reopen"
+      end
+    end
     resources :repos, only: [:index, :show] do
       resources :pulls, only: [:show]
     end
