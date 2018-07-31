@@ -1,16 +1,16 @@
 .padding
   .box
     .box-header.navbar
-      %h2.flex Myリポジトリ
-      = link_to new_users_repo_path, class: "btn info order-lg-1" do
-        %i.fa.fa-plus-circle
-        %span リポジトリを追加する
+      %h2.flex リポジトリ追加
+      = link_to users_sync_repos_path, method: :patch, class: "btn btn-dark order-lg-1" do
+        %i.fa.fa-github
+        %span GitHubとリポジトリを同期する
     %table.table
       %thead
         %tr
           %th{ style: "width:100px;" } 公開設定
           %th リポジトリ名
-          %th{ style: "width:50px;" }
+          %th{ style: "width:250px;" }
       %tbody
         - if @repos.present?
           - @repos.each do |repo|
@@ -20,10 +20,13 @@
                   = repo.public_state
               %td.align-middle
                 = link_to repo.full_name, users_repo_path(repo)
-              %td.align-middle
-                - pull_count = repo.pulls.where(is_open: true).count
-                .badge.badge-pill.text-sm{ class: pull_count.zero? ? "light" : "danger" }
-                  = pull_count
+              %td.align-middle.text-right
+                - if repo.is_hook?
+                  すでに追加済みです
+                - else
+                  = button_to users_repos_path(id: repo), class: "btn btn-sm info" do
+                    %i.fa.fa-plus-circle
+                    %span Myリポジトリに追加する
         - else
           %tr
             %td -
