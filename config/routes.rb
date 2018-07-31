@@ -11,7 +11,7 @@ Rails.application.routes.draw do
         get "reopen"
       end
     end
-    resources :repos, only: [:index, :show] do
+    resources :repos, only: [:index, :show, :new, :create] do
       resources :pulls, only: [:show]
     end
     namespace :rooms do
