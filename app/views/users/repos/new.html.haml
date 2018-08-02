@@ -1,0 +1,37 @@
+.padding
+  .box
+    .box-header.navbar
+      %h2.flex
+        = link_to users_repos_path, class: 'mr-2 align-middle text-primary' do
+          %i.fa.fa-chevron-left
+        %span.align-middle リポジトリ追加
+      = link_to users_sync_repos_path, method: :patch, class: "btn btn-dark order-lg-1" do
+        %i.fa.fa-github
+        %span GitHubとリポジトリを同期する
+    %table.table
+      %thead
+        %tr
+          %th{ style: "width:100px;" } 公開設定
+          %th リポジトリ名
+          %th{ style: "width:250px;" }
+      %tbody
+        - if @repos.present?
+          - @repos.each do |repo|
+            %tr
+              %td.align-middle
+                .badge.badge-pill.text-sm{ class: repo.is_private ? "warning": "grey" }
+                  = repo.public_state
+              %td.align-middle
+                = repo.full_name
+              %td.align-middle.text-right
+                - if repo.is_hook?
+                  すでに追加済みです
+                - else
+                  = button_to users_repos_path(id: repo), class: "btn btn-sm info" do
+                    %i.fa.fa-plus-circle
+                    %span Myリポジトリに追加する
+        - else
+          %tr
+            %td -
+            %td 表示できるリポジトリはありません
+            %td

@@ -1,6 +1,16 @@
 class Users::ReposController < ApplicationController
   def index
+    @repos = current_user.repos.where(is_hook: true).order(pushed_at: :desc)
+  end
+
+  def new
     @repos = current_user.repos.order(pushed_at: :desc)
+  end
+
+  def create
+    repo = current_user.repos.find(params[:id])
+    CreateWebhooksJob.perform_now(current_user, repo)
+    redirect_to users_repos_path, success: "#{repo.full_name}をMyリポジトリに追加しました"
   end
 
   def show

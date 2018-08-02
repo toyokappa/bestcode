@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_30_151825) do
+ActiveRecord::Schema.define(version: 2018_07_31_150741) do
 
   create_table "languages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2018_07_30_151825) do
     t.datetime "pushed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_hook", default: false, null: false
     t.index ["user_id"], name: "index_repos_on_user_id"
   end
 

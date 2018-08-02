@@ -11,7 +11,7 @@ Rails.application.routes.draw do
         get "reopen"
       end
     end
-    resources :repos, only: [:index, :show] do
+    resources :repos, only: [:index, :show, :new, :create] do
       resources :pulls, only: [:show]
     end
     namespace :rooms do
@@ -23,7 +23,6 @@ Rails.application.routes.draw do
     end
     delete "/sign_out", to: "sessions#destroy"
     patch "/sync_repos", to: "repos#update"
-    patch "/sync_pulls/:repo_id", to: "pulls#update", as: "sync_pulls"
   end
 
   post "/hooks/pulls", to: "hooks#pulls"
