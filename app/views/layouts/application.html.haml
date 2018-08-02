@@ -11,7 +11,7 @@
       #aside.app-aside.box-shadow-x.nav-expand{ aria: { hidden: true } }
         .sidenav.dk.dark
           .navbar.lt
-            = link_to root_path, class: "navbar-brand" do
+            = link_to users_root_path, class: "navbar-brand" do
               %svg{ height: "28", viewbox: ("0 0 24 24"), width: "28", xmlns: "http://www.w3.org/2000/svg" }
                 %path{ d: ("M0 0h24v24H0z"), fill: "none" }
                 %path.fill-theme{ d: ("M19.51 3.08L3.08 19.51c.09.34.27.65.51.9.25.24.56.42.9.51L20.93 4.49c-.19-.69-.73-1.23-1.42-1.41zM11.88 3L3 11.88v2.83L14.71 3h-2.83zM5 3c-1.1 0-2 .9-2 2v2l4-4H5zm14 18c.55 0 1.05-.22 1.41-.59.37-.36.59-.86.59-1.41v-2l-4 4h2zm-9.71 0h2.83L21 12.12V9.29L9.29 21z"), fill:"#fff" }
@@ -22,6 +22,15 @@
                 %ul.nav
                   %li.nav-header.hidden-folded.mt-2
                     %span.text-xs.hidden-folded
+                  %li
+                    = link_to users_repos_path do
+                      %span.nav-badge
+                        %b.badge.badge-sm.badge-pill.info
+                          = current_user.repos.where(is_hook: true).sum {|repo| repo.pulls.where(is_open: true).count }
+                      %span.nav-icon
+                        %i.fa.fa-folder-open
+                      %span.nav-text
+                        Myリポジトリ
                   %li
                     = link_to users_rooms_path do
                       %span.nav-icon
@@ -53,8 +62,6 @@
                   .dropdown-divider
                   = link_to '', class: 'dropdown-item' do
                     %span プロフィール設定
-                  = link_to users_repos_path, class: 'dropdown-item' do
-                    %span Myリポジトリ
                   .dropdown-divider
                   = link_to 'ログアウト', users_sign_out_path, method: :delete, class: 'dropdown-item'
         #content-main.content-main
