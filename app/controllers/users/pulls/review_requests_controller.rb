@@ -13,6 +13,11 @@ class Users::Pulls::ReviewRequestsController < ApplicationController
     if @review_req.save
       redirect_to users_rooms_review_request_path(@review_req.room, @review_req), success: "レビューリクエストの作成に成功しました"
     else
+      @pull = current_user.pulls.find(params[:pull_id])
+
+      # pullとroomの選択肢
+      @pull_collection = current_user.pulls.with_hooked_repos.order(created_at: :desc).map {|pull| [pull.name, pull.id] }
+      @room_collection = current_user.participating_rooms.map {|room| [room.name, room.id] }
       render "new"
     end
   end
