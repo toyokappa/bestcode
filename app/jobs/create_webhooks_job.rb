@@ -13,9 +13,9 @@ class CreateWebhooksJob < ApplicationJob
         secret: "development",
       },
       {
-        events: %w(push pull_request),
+        events: %w[push pull_request],
         active: true,
-      }
+      },
     )
 
     repo.update!(is_hook: true)
