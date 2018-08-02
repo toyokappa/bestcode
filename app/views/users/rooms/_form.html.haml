@@ -6,19 +6,19 @@
         .col-sm-9
           = f.text_field :name, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:name).present?}"
           - resource.errors.full_messages_for(:name).each do |message|
-            %p.text-muted.filled.text-sm.mt-1.mb-0= message
+            %p.text-danger.filled.text-sm.mt-1.mb-0= message
       .form-group.row.mb-4
         = f.label :description, class: "col-sm-3 col-form-label"
         .col-sm-9
-          = f.text_area :description, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:description).present?}"
+          = f.text_area :description, rows: 8, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:description).present?}"
           - resource.errors.full_messages_for(:description).each do |message|
-            %p.text-muted.filled.text-sm.mt-1.mb-0= message
+            %p.text-danger.filled.text-sm.mt-1.mb-0= message
       .form-group.row.mb-4
         = f.label :capacity, class: "col-sm-3 col-form-label"
         .col-sm-9
           = f.number_field :capacity, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:capacity).present?}"
           - resource.errors.full_messages_for(:capacity).each do |message|
-            %p.text-muted.filled.text-sm.mt-1.mb-0= message
+            %p.text-danger.filled.text-sm.mt-1.mb-0= message
       .form-group.row.mb-4
         = label :skill, "レビュー言語", class: "col-sm-3 col-form-label"
         .col-sm-9

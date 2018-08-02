@@ -16,24 +16,34 @@
               .col-sm-9
                 = f.text_field :name, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:name).present?}"
                 - resource.errors.full_messages_for(:name).each do |message|
-                  %p.text-muted.filled.text-sm.mt-1.mb-0= message
+                  %p.text-danger.filled.text-sm.mt-1.mb-0= message
             .form-group.row.mb-4
               = f.label :description, class: "col-sm-3 col-form-label"
               .col-sm-9
-                = f.text_area :description, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:description).present?}"
+                = f.text_area :description, rows: 8, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:description).present?}"
                 - resource.errors.full_messages_for(:description).each do |message|
-                  %p.text-muted.filled.text-sm.mt-1.mb-0= message
+                  %p.text-danger.filled.text-sm.mt-1.mb-0= message
             .form-group.row.mb-4
               = f.label :pull_id, class: "col-sm-3 col-form-label"
               .col-sm-9
                 = f.select :pull_id, pull_collection, {}, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:pull_id).present?}"
                 - resource.errors.full_messages_for(:pull_id).each do |message|
-                  %p.text-muted.filled.text-sm.mt-1.mb-0= message
+                  %p.text-danger.filled.text-sm.mt-1.mb-0= message
+                - if current_user.repos.where(is_hook: true).blank?
+                  .text-muted.mt-1
+                    リポジトリの連携がまだのようです。
+                    = link_to "こちら", users_repos_path, class: "text-primary"
+                    からリポジトリの連携をしてみましょう。
             .form-group.row.mb-4
               = f.label :room_id, class: "col-sm-3 col-form-label"
               .col-sm-9
                 = f.select :room_id, room_collection, {}, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:room_id).present?}"
                 - resource.errors.full_messages_for(:room_id).each do |message|
-                  %p.text-muted.filled.text-sm.mt-1.mb-0= message
+                  %p.text-danger.filled.text-sm.mt-1.mb-0= message
+                - if room_collection.blank?
+                  .text-muted.mt-1
+                    ルームへの参加がまだのようです。
+                    = link_to "こちら", users_rooms_path, class: "text-primary"
+                    からルームへ参加してみましょう。
             .action.text-center.mb-4
               = f.submit class: "btn btn-rounded btn-fw primary"

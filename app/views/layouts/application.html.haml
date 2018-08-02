@@ -24,7 +24,7 @@
                     %span.text-xs.hidden-folded
                   %li
                     = link_to users_repos_path do
-                      - pulls_count = current_user.repos.where(is_hook: true).sum {|repo| repo.pulls.where(is_open: true).count }
+                      - pulls_count = current_user.pulls.with_hooked_repos.count
                       - if pulls_count > 0
                         %span.nav-badge
                           %b.badge.badge-sm.badge-pill.info
