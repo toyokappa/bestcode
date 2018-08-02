@@ -4,7 +4,7 @@ class Users::Pulls::ReviewRequestsController < ApplicationController
     @review_req = current_user.review_requests.build(name: @pull.name, description: @pull.description, pull_id: @pull.id)
 
     # pullとroomの選択肢
-    @pull_collection = current_user.pulls.where(is_open: true).order(created_at: :desc).map {|pull| [pull.name, pull.id] }
+    @pull_collection = current_user.pulls.with_hooked_repos.order(created_at: :desc).map {|pull| [pull.name, pull.id] }
     @room_collection = current_user.participating_rooms.map {|room| [room.name, room.id] }
   end
 

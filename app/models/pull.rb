@@ -22,6 +22,8 @@ class Pull < ApplicationRecord
   validates :description, length: { maximum: 10000 }
   validates :is_open, inclusion: { in: [true, false] }
 
+  scope :with_hooked_repos, -> { includes(:repo).where(is_open: true, repos: { is_hook: true }) }
+
   def sync!(github_pull)
     github_pull_state = github_pull.state == "open"
     update!(
