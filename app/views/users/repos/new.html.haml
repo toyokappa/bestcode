@@ -1,7 +1,10 @@
 .padding
   .box
     .box-header.navbar
-      %h2.flex リポジトリ追加
+      %h2.flex
+        = link_to users_repos_path, class: 'mr-2 align-middle text-primary' do
+          %i.fa.fa-chevron-left
+        %span.align-middle リポジトリ追加
       = link_to users_sync_repos_path, method: :patch, class: "btn btn-dark order-lg-1" do
         %i.fa.fa-github
         %span GitHubとリポジトリを同期する
@@ -19,7 +22,7 @@
                 .badge.badge-pill.text-sm{ class: repo.is_private ? "warning": "grey" }
                   = repo.public_state
               %td.align-middle
-                = link_to repo.full_name, users_repo_path(repo)
+                = repo.full_name
               %td.align-middle.text-right
                 - if repo.is_hook?
                   すでに追加済みです
