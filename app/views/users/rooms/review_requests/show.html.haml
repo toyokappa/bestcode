@@ -10,10 +10,10 @@
     .box-divider.m-0
     .box-body
       .mb-3
-        .badge.text{ class: @review_req.is_open ? "success" : "danger" }
+        .badge.text-sm{ class: @review_req.is_open ? "success" : "danger" }
           %i.fa{ class: @review_req.is_open ? "fa-square-o" : "fa-check-square-o" }
           = @review_req.is_open ? "オープン" : "クローズ"
-        .badge.text{ class: @review_req.state_color }= @review_req.state_text
+        .badge.text-sm{ class: @review_req.state_color }= @review_req.state_text
       .markdown-body.no-border= markdown @review_req.description
   .streamline.ml-2
     - @review_comments.each do |comment|
@@ -47,7 +47,7 @@
               %ul.nav.nav-sm.nav-pills
                 - ReviewComment.selectable_state(current_user, @room, @review_req).each do |text, val|
                   %li.nav-item
-                    %label.md-ckeck.mr-4.mb-0.pl-0.nav-link
+                    %label.md-ckeck.mr-2.mb-0.pl-0.nav-link
                       = f.radio_button :state, val
                       %i.primary.mr-1
                       = text
