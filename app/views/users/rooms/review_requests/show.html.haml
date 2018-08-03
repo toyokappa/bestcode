@@ -34,8 +34,20 @@
     .sl-item
       .sl-left= image_tag current_user.check_and_return_image(:thumb), class: "circle"
       .sl-content
-        = simple_form_for @review_comment, url: users_rooms_review_comments_path do |f|
-          = f.hidden_field :review_request_id, value: @review_req.id
-          = f.input :body
-          = f.input :state, collection: ReviewComment.selectable_state(current_user, @room, @review_req), include_blank: false
-          = f.button :submit, class: "primary"
+        .box.m-0
+          = form_for @review_comment, url: users_rooms_review_comments_path do |f|
+            = f.hidden_field :review_request_id, value: @review_req.id
+            - error_for_col = f.object.errors.full_messages_for(:content)
+            = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "form-control no-border #{'is-invalid' if error_for_col.present?}"
+            - error_for_col.each do |message|
+              %p.text-danger.filled.text-sm.mt-1= message
+            .box-divider.m-0
+            .box-footer.clearfix
+              = f.submit "コメントする", class: "btn btn-sm primary float-right"
+              %ul.nav.nav-sm.nav-pills
+                - ReviewComment.selectable_state(current_user, @room, @review_req).each do |text, val|
+                  %li.nav-item
+                    %label.md-ckeck.mr-4.mb-0.pl-0.nav-link
+                      = f.radio_button :state, val
+                      %i.primary.mr-1
+                      = text
