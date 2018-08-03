@@ -1,12 +1,21 @@
 .padding
   .box
     .box-header.navbar
-      %h2.flex
-        = link_to users_room_path(@room), class: 'mr-2 align-middle text-primary' do
+      %h2
+        = link_to users_room_path(@room), class: "mr-2 align-middle text-primary" do
           %i.fa.fa-chevron-left
         %span.align-middle= @review_req.name
-      %span.avatar.w-32.flex-row.order-lg-2
-        = image_tag @review_req.reviewee.check_and_return_image(:thumb)
+    .box-tool
+      %ul.nav
+        %li.nav-item
+          = link_to "", class: "avatar w-32 flex-row order-lg-2" do
+            = image_tag @review_req.reviewee.check_and_return_image(:thumb)
+        - if current_user == @review_req.reviewee && @review_req.is_open?
+          %li.nav-item.dropdown
+            = link_to "", class: "nav-link", data: { toggle: :dropdown } do
+              %i.fa.fa-ellipsis-v
+            .dropdown-menu.dropdown-menu-right
+              = link_to "編集する", edit_users_rooms_review_request_path(@room, @review_req), class: "dropdown-item"
     .box-divider.m-0
     .box-body
       .mb-3
