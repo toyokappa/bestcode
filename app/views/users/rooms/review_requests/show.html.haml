@@ -30,15 +30,15 @@
       .sl-item
         .sl-left= image_tag comment.user.check_and_return_image(:thumb), class: "circle"
         .sl-content.comment-container{ data: { comment_id: comment.id, comment_body: comment.body } }
-          .d-flex
-            .mb-1
+          .clearfix.mb-1
+            .d-inline-block
               .sl-date.text-muted= comment.created_at.strftime("%Y-%m-%d %H:%M")
               %b.sl-author= comment.user.name
               %span さんが
               .badge.text-sm.mr-0{ class: comment.state_color }
                 %span= comment.state_text
               %span.align-middle をしました
-            %ul.nav
+            %ul.nav.float-right
               %li.nav-item.dropdown
                 = link_to "", class: "nav-link", data: { toggle: :dropdown } do
                   %i.fa.fa-ellipsis-v 
@@ -55,12 +55,12 @@
         .box.m-0
           = form_for @review_comment, url: users_rooms_review_comments_path do |f|
             = f.hidden_field :review_request_id, value: @review_req.id
-            - error_for_col = f.object.errors.full_messages_for(:content)
+            - error_for_col = f.object.errors.full_messages_for(:body)
             = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "form-control no-border #{'is-invalid' if error_for_col.present?}"
-            - error_for_col.each do |message|
-              %p.text-danger.filled.text-sm.mt-1= message
             .box-divider.m-0
             .box-footer.clearfix
+              - error_for_col.each do |message|
+                %p.text-danger.filled.text-sm.mt-1= message
               = f.submit "コメントする", class: "btn btn-sm primary float-right"
               %ul.nav.nav-sm.nav-pills
                 - ReviewComment.selectable_state(current_user, @room, @review_req).each do |text, val|
