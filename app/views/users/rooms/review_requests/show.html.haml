@@ -38,12 +38,13 @@
               .badge.text-sm.mr-0{ class: comment.state_color }
                 %span= comment.state_text
               %span.align-middle をしました
-            %ul.nav.float-right
-              %li.nav-item.dropdown
-                = link_to "", class: "nav-link", data: { toggle: :dropdown } do
-                  %i.fa.fa-ellipsis-v 
-                .dropdown-menu.dropdown-menu-right
-                  = link_to "編集する", "", class: "edit-comment dropdown-item"
+            - if current_user == comment.user
+              %ul.nav.float-right
+                %li.nav-item.dropdown
+                  = link_to "", class: "nav-link", data: { toggle: :dropdown } do
+                    %i.fa.fa-ellipsis-v 
+                  .dropdown-menu.dropdown-menu-right
+                    = link_to "編集する", "", class: "edit-comment dropdown-item"
           - if comment.body.present?
             .box.mb-1.comment-body
               .box-body
