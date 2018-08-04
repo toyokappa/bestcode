@@ -24,22 +24,31 @@
           = @review_req.is_open ? "オープン" : "クローズ"
         .badge.text-sm{ class: @review_req.state_color }= @review_req.state_text
       .markdown-body.no-border= markdown @review_req.description
-  .streamline.ml-2
+  - edit_comment_form = render("users/rooms/review_requests/edit_comment_form")
+  .streamline.ml-2.ajax-comment-field{ data: { comment_form: edit_comment_form.gsub("\n", "") } }
     - @review_comments.each do |comment|
       .sl-item
         .sl-left= image_tag comment.user.check_and_return_image(:thumb), class: "circle"
-        .sl-content
-          .mb-1
-            .sl-date.text-muted= comment.created_at.strftime("%Y-%m-%d %H:%M")
-            %b.sl-author= comment.user.name
-            %span さんが
-            .badge.text-sm.mr-0{ class: comment.state_color }
-              %span= comment.state_text
-            %span.align-middle をしました
+        .sl-content.comment-container{ data: { comment_id: comment.id, comment_body: comment.body } }
+          .d-flex
+            .mb-1
+              .sl-date.text-muted= comment.created_at.strftime("%Y-%m-%d %H:%M")
+              %b.sl-author= comment.user.name
+              %span さんが
+              .badge.text-sm.mr-0{ class: comment.state_color }
+                %span= comment.state_text
+              %span.align-middle をしました
+            %ul.nav
+              %li.nav-item.dropdown
+                = link_to "", class: "nav-link", data: { toggle: :dropdown } do
+                  %i.fa.fa-ellipsis-v 
+                .dropdown-menu.dropdown-menu-right
+                  = link_to "編集する", "", class: "edit-comment dropdown-item"
           - if comment.body.present?
-            .box.mb-1
+            .box.mb-1.comment-body
               .box-body
-                .markdown-body.no-border= markdown comment.body
+                .markdown-body.no-border
+                  = markdown comment.body
     .sl-item
       .sl-left= image_tag current_user.check_and_return_image(:thumb), class: "circle"
       .sl-content
