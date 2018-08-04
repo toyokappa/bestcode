@@ -17,6 +17,7 @@ class Users::Rooms::ReviewCommentsController < ApplicationController
     binding.pry
     @review_comment = current_user.review_comments.find(params[:review_comment][:id])
     @review_req = @review_comment.review_request
+    @review_comments = @review_req.review_comments
     @room = @review_req.room
     if @review_comment.update(update_review_comment_params)
       flash[:success] = "コメントを更新しました"
