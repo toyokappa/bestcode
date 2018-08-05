@@ -14,7 +14,7 @@ class Users::Rooms::ReviewCommentsController < ApplicationController
   end
 
   def update
-    @review_comment = current_user.review_comments.find(params[:review_comment][:id])
+    @review_comment = current_user.review_comments.find(params[:id])
     @review_req = @review_comment.review_request
     @review_comments = @review_req.review_comments
     @room = @review_req.room

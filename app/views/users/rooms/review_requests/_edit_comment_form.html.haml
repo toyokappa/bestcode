@@ -1,6 +1,5 @@
 .box.m-0.edit-comment-form
-  = form_for ReviewComment.new, url: users_rooms_review_comment_path, method: :patch do |f|
-    = f.hidden_field :id, class: 'edit-comment-id'
+  = form_for comment, url: users_review_comment_path(comment), method: :patch do |f|
     - error_for_col = f.object.errors.full_messages_for(:body)
     = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "edit-comment-body form-control no-border"
     .box-divider.m-0

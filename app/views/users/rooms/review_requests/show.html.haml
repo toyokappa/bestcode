@@ -24,12 +24,12 @@
           = @review_req.is_open ? "オープン" : "クローズ"
         .badge.text-sm{ class: @review_req.state_color }= @review_req.state_text
       .markdown-body.no-border= markdown @review_req.description
-  - edit_comment_form = render("users/rooms/review_requests/edit_comment_form")
-  .streamline.ml-2.ajax-comment-field{ data: { comment_form: edit_comment_form.gsub("\n", "") } }
+  .streamline.ml-2.ajax-comment-field
     - @review_comments.each do |comment|
       .sl-item
         .sl-left= image_tag comment.user.check_and_return_image(:thumb), class: "circle"
-        .sl-content.comment-container{ data: { comment_id: comment.id, comment_body: comment.body, comment_state: comment.state } }
+        - edit_comment_form = render("users/rooms/review_requests/edit_comment_form", comment: comment)
+        .sl-content.comment-container{ data: { comment_form: edit_comment_form.gsub("\n", ""), comment_state: comment.state } }
           .clearfix.mb-1
             .d-inline-block
               .sl-date.text-muted= comment.created_at.strftime("%Y-%m-%d %H:%M")
