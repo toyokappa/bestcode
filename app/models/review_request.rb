@@ -58,7 +58,7 @@ class ReviewRequest < ApplicationRecord
     when :approved
       update!(state: :wait_review)
     when :resolved
-      update!(state: :resolved, is_open: true)
+      update!(state: :approved, is_open: true)
     when :closed
       update!(is_open: true)
     when :reopen
