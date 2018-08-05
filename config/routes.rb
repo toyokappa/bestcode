@@ -15,16 +15,14 @@ Rails.application.routes.draw do
       resources :review_requests, path: "/:room_id/review_requests", only: [:show, :new, :create, :edit, :update]
     end
 
+    namespace :pulls do
+      resources :review_requests, path: "/:pull_id/review_requests", only: [:new, :create]
+    end
+
     resources :review_comments, only: [:create, :update, :destroy]
 
     resources :rooms do
-      member do
-        get "reopen"
-      end
-    end
-
-    namespace :pulls do
-      resources :review_requests, path: "/:pull_id/review_requests", only: [:new, :create]
+      get "reopen", on: :member
     end
 
     delete "/sign_out", to: "sessions#destroy"
