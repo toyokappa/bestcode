@@ -1,6 +1,6 @@
 class Users::Rooms::ReviewRequestsController < ApplicationController
   before_action :set_review_req, only: [:edit, :update]
-  before_action :set_room, only: [:new]
+  before_action :set_room, only: [:new, :create, :update]
   before_action :set_collections, only: [:new, :edit]
 
   def show
@@ -19,9 +19,8 @@ class Users::Rooms::ReviewRequestsController < ApplicationController
   def create
     @review_req = current_user.review_requests.build(review_req_params)
     if @review_req.save
-      redirect_to users_rooms_review_request_path(@review_req.room, @review_req), success: "レビューリクエストの作成に成功しました"
+      redirect_to users_rooms_review_request_path(@room, @review_req), success: "レビューリクエストの作成に成功しました"
     else
-      set_room
       set_collections
       render "new"
     end
@@ -32,9 +31,8 @@ class Users::Rooms::ReviewRequestsController < ApplicationController
 
   def update
     if @review_req.update(review_req_params)
-      redirect_to users_rooms_review_request_path(@review_req.room, @review_req), success: "レビューリクエストを更新しました"
+      redirect_to users_rooms_review_request_path(@room, @review_req), success: "レビューリクエストを更新しました"
     else
-      set_room
       set_collections
       render "edit"
     end
@@ -51,8 +49,9 @@ class Users::Rooms::ReviewRequestsController < ApplicationController
     end
 
     def set_room
-      @room = current_user.participating_rooms.find(params[:room_id]) 
+      @room = current_user.participating_rooms.find(params[:room_id])
     end
+
     def set_collections
       # pullとroomの選択肢
       @pull_collection = current_user.pulls.with_hooked_repos.order(created_at: :desc).map {|pull| [pull.name, pull.id] }
