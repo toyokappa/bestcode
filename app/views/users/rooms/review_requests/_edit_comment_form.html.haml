@@ -2,11 +2,10 @@
   = form_for ReviewComment.new, url: users_rooms_review_comment_path, method: :patch do |f|
     = f.hidden_field :id, class: 'edit-comment-id'
     - error_for_col = f.object.errors.full_messages_for(:body)
-    = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "edit-comment-body form-control no-border #{'is-invalid' if error_for_col.present?}"
+    = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "edit-comment-body form-control no-border"
     .box-divider.m-0
     .box-footer.clearfix
-      - error_for_col.each do |message|
-        %p.text-danger.filled.text-sm.mt-1= message
+      .text-danger.text-sm.invalid-comment コメント内容を入力してください
       .float-right
         = button_tag "キャンセル", class: "btn btn-sm danger cancel-comment mr-2"
         = f.submit "コメントする", class: "btn btn-sm primary update-comment"

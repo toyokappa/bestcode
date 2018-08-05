@@ -29,7 +29,7 @@
     - @review_comments.each do |comment|
       .sl-item
         .sl-left= image_tag comment.user.check_and_return_image(:thumb), class: "circle"
-        .sl-content.comment-container{ data: { comment_id: comment.id, comment_body: comment.body } }
+        .sl-content.comment-container{ data: { comment_id: comment.id, comment_body: comment.body, comment_state: comment.state } }
           .clearfix.mb-1
             .d-inline-block
               .sl-date.text-muted= comment.created_at.strftime("%Y-%m-%d %H:%M")
@@ -61,7 +61,7 @@
             .box-divider.m-0
             .box-footer.clearfix
               - error_for_col.each do |message|
-                %p.text-danger.filled.text-sm.mt-1= message
+                %p.text-danger.filled.text-sm= message
               = f.submit "コメントする", class: "btn btn-sm primary float-right"
               %ul.nav.nav-sm.nav-pills
                 - ReviewComment.selectable_state(current_user, @room, @review_req).each do |text, val|

@@ -29,8 +29,25 @@ export default class EditComment {
     $commentContainer.find(".edit-comment").show()
   }
 
+  validateComment(e) {
+    e.preventDefault();
+    const $target = $(e.target);
+    const $commentContainer = $target.closest(".comment-container");
+    const commentState = $commentContainer.data().commentState;
+    const $editCommentForm = $commentContainer.find(".edit-comment-form form");
+    const $editCommentBody = $editCommentForm.find(".edit-comment-body");
+
+    if(commentState === "commented" && $editCommentBody.val() === "") {
+      if(!$editCommentBody.hasClass("is-invalid")) { $editCommentBody.addClass("is-invalid"); }
+      $editCommentForm.find(".invalid-comment").css("display", "inline-block");
+    } else {
+      $editCommentForm.submit();
+    }
+  }
+
   bindEvents() {
     this.$root.on("click", ".edit-comment", this.displayCommentField);
     this.$root.on("click", ".cancel-comment", this.cancelComment);
+    this.$root.on("click", ".update-comment", this.validateComment);
   }
 }
