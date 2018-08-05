@@ -45,6 +45,7 @@
                     %i.fa.fa-ellipsis-v 
                   .dropdown-menu.dropdown-menu-right
                     = link_to "編集する", "", class: "edit-comment dropdown-item"
+                    = link_to "削除する", users_review_comment_path(comment), method: :delete, data: { confirm: "コメントを削除してよろしいですか？" }, class: "dropdown-item"
           - if comment.body.present?
             .box.mb-1.comment-body
               .box-body
@@ -54,7 +55,7 @@
       .sl-left= image_tag current_user.check_and_return_image(:thumb), class: "circle"
       .sl-content
         .box.m-0
-          = form_for @review_comment, url: users_rooms_review_comments_path do |f|
+          = form_for @review_comment, url: users_review_comments_path do |f|
             = f.hidden_field :review_request_id, value: @review_req.id
             - error_for_col = f.object.errors.full_messages_for(:body)
             = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "form-control no-border #{'is-invalid' if error_for_col.present?}"

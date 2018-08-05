@@ -1,4 +1,4 @@
-class Users::Rooms::ReviewCommentsController < ApplicationController
+class Users::ReviewCommentsController < ApplicationController
   def create
     @review_comment = current_user.review_comments.build(create_review_comment_params)
     @review_req = @review_comment.review_request
@@ -25,6 +25,16 @@ class Users::Rooms::ReviewCommentsController < ApplicationController
       flash.now[:danger] = "コメントの更新に失敗しました"
       render "users/rooms/review_requests/show"
     end
+  end
+
+  def destroy
+    @review_comment = current_user.review_comments.find(params[:id])
+    @review_req = @review_comment.review_request
+    if @review_comment == @review_req.review_comments.where.not(state: :commented).last
+      @review_req.rollback_state(@review_comment.state)
+    end
+    @review_comment.destroy!
+    redirect_to users_rooms_review_request_path(@review_req.room, @review_req)
   end
 
   private

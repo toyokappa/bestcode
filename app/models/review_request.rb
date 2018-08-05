@@ -49,6 +49,23 @@ class ReviewRequest < ApplicationRecord
     end
   end
 
+  def rollback_state(comment_state)
+    case comment_state.to_sym
+    when :change_request
+      update!(state: :wait_review)
+    when :rereview_request
+      update!(state: :change_request)
+    when :approved
+      update!(state: :wait_review)
+    when :resolved
+      update!(state: :resolved, is_open: true)
+    when :closed
+      update!(is_open: true)
+    when :reopen
+      update!(is_open: false)
+    end
+  end
+
   def state_color
     case state.to_sym
     when :wait_review
