@@ -1,0 +1,9 @@
+.box.m-0.edit-comment-form
+  = form_for comment, url: users_review_comment_path(comment), method: :patch do |f|
+    = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "edit-comment-body form-control no-border"
+    .box-divider.m-0
+    .box-footer.clearfix
+      .text-danger.text-sm.invalid-comment コメント内容を入力してください
+      .float-right
+        = button_tag "キャンセル", class: "btn btn-sm danger cancel-comment mr-2"
+        = f.submit "コメントする", class: "btn btn-sm primary update-comment"

@@ -1,12 +1,21 @@
 .padding
   .box
     .box-header.navbar
-      %h2.flex
-        = link_to users_room_path(@room), class: 'mr-2 align-middle text-primary' do
+      %h2
+        = link_to users_room_path(@room), class: "mr-2 align-middle text-primary" do
           %i.fa.fa-chevron-left
         %span.align-middle= @review_req.name
-      %span.avatar.w-32.flex-row.order-lg-2
-        = image_tag @review_req.reviewee.check_and_return_image(:thumb)
+    .box-tool
+      %ul.nav
+        %li.nav-item
+          = link_to "", class: "avatar w-32 flex-row order-lg-2" do
+            = image_tag @review_req.reviewee.check_and_return_image(:thumb)
+        - if current_user == @review_req.reviewee && @review_req.is_open?
+          %li.nav-item.dropdown
+            = link_to "", class: "nav-link", data: { toggle: :dropdown } do
+              %i.fa.fa-ellipsis-v
+            .dropdown-menu.dropdown-menu-right
+              = link_to "編集する", edit_users_rooms_review_request_path(@room, @review_req), class: "dropdown-item"
     .box-divider.m-0
     .box-body
       .mb-3
@@ -15,34 +24,45 @@
           = @review_req.is_open ? "オープン" : "クローズ"
         .badge.text-sm{ class: @review_req.state_color }= @review_req.state_text
       .markdown-body.no-border= markdown @review_req.description
-  .streamline.ml-2
+  .streamline.ml-2.ajax-comment-field
     - @review_comments.each do |comment|
       .sl-item
         .sl-left= image_tag comment.user.check_and_return_image(:thumb), class: "circle"
-        .sl-content
-          .mb-1
-            .sl-date.text-muted= comment.created_at.strftime("%Y-%m-%d %H:%M")
-            %b.sl-author= comment.user.name
-            %span さんが
-            .badge.text-sm.mr-0{ class: comment.state_color }
-              %span= comment.state_text
-            %span.align-middle をしました
+        - edit_comment_form = render("users/rooms/review_requests/edit_comment_form", comment: comment)
+        .sl-content.comment-container{ data: { comment_form: edit_comment_form.gsub("\n", ""), comment_state: comment.state } }
+          .clearfix.mb-1
+            .d-inline-block
+              .sl-date.text-muted= comment.created_at.strftime("%Y-%m-%d %H:%M")
+              %b.sl-author= comment.user.name
+              %span さんが
+              .badge.text-sm.mr-0{ class: comment.state_color }
+                %span= comment.state_text
+              %span.align-middle をしました
+            - if current_user == comment.user
+              %ul.nav.float-right
+                %li.nav-item.dropdown
+                  = link_to "", class: "nav-link", data: { toggle: :dropdown } do
+                    %i.fa.fa-ellipsis-v 
+                  .dropdown-menu.dropdown-menu-right
+                    = link_to "編集する", "", class: "edit-comment dropdown-item"
+                    = link_to "削除する", users_review_comment_path(comment), method: :delete, data: { confirm: "コメントを削除してよろしいですか？" }, class: "dropdown-item"
           - if comment.body.present?
-            .box.mb-1
+            .box.mb-1.comment-body
               .box-body
-                .markdown-body.no-border= markdown comment.body
+                .markdown-body.no-border
+                  = markdown comment.body
     .sl-item
       .sl-left= image_tag current_user.check_and_return_image(:thumb), class: "circle"
       .sl-content
         .box.m-0
-          = form_for @review_comment, url: users_rooms_review_comments_path do |f|
+          = form_for @review_comment, url: users_review_comments_path do |f|
             = f.hidden_field :review_request_id, value: @review_req.id
-            - error_for_col = f.object.errors.full_messages_for(:content)
+            - error_for_col = f.object.errors.full_messages_for(:body)
             = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "form-control no-border #{'is-invalid' if error_for_col.present?}"
-            - error_for_col.each do |message|
-              %p.text-danger.filled.text-sm.mt-1= message
             .box-divider.m-0
             .box-footer.clearfix
+              - error_for_col.each do |message|
+                %p.text-danger.filled.text-sm= message
               = f.submit "コメントする", class: "btn btn-sm primary float-right"
               %ul.nav.nav-sm.nav-pills
                 - ReviewComment.selectable_state(current_user, @room, @review_req).each do |text, val|
