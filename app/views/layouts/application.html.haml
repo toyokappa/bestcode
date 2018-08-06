@@ -27,7 +27,7 @@
                       - pulls_count = current_user.pulls.with_hooked_repos.count
                       - if pulls_count > 0
                         %span.nav-badge
-                          %b.badge.badge-sm.badge-pill.info
+                          %b.badge.badge-sm.badge-pill.danger
                             = pulls_count
                       %span.nav-icon
                         %i.fa.fa-folder-open
@@ -38,7 +38,7 @@
                       - active_state_count = current_user.active_state_count_for_reviewer + current_user.active_state_count_for_reviewee
                       -if active_state_count > 0
                         %span.nav-badge
-                          %b.badge.badge-sm.badge-pill.info
+                          %b.badge.badge-sm.badge-pill.danger
                             = active_state_count
                       %span.nav-icon
                         %i.fa.fa-home
