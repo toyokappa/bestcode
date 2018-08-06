@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       get "reopen", on: :member
     end
 
+    resources :my_rooms, only: [:index]
+
     delete "/sign_out", to: "sessions#destroy"
     patch "/sync_repos", to: "repos#update"
   end

@@ -1,0 +1,51 @@
+.padding
+  - if current_user.is_reviewer
+    .box
+      .box-header.navbar
+        %h2
+          %span.align-middle 主催のルーム一覧
+      %table.table
+        %thead
+          %tr
+            %th ルーム名
+            %th 参加人数
+            %th{ style: "width:50px;" }
+        %tbody
+          - if @reviewer_rooms.present?
+            - @reviewer_rooms.each do |room|
+              %tr
+                %td= link_to room.name, users_room_path(room)
+                %td #{room.reviewees.size}/#{room.capacity}
+                %td
+                  .badge.badge-pill.text-sm.danger 3
+          - else
+            %tr
+              %td 表示できるルームはありません
+              %td -
+              %td -
+  .box
+    .box-header.navbar
+      %h2
+        %span.align-middle 参加中のルーム一覧
+    %table.table
+      %thead
+        %tr
+          %th ルーム名
+          %th 参加人数
+          %th レビュワー
+          %th{ style: "width:50px;" }
+      %tbody
+        - if @reviewee_rooms.present?
+          - @reviewee_rooms.each do |room|
+            %tr
+              %td= link_to room.name, users_room_path(room)
+              %td #{room.reviewees.size}/#{room.capacity}
+              %td= room.reviewer.name
+              %td
+                .badge.badge-pill.text-sm.danger 1
+        - else
+          %tr
+            %td 表示できるルームはありません
+            %td -
+            %td -
+            %td -

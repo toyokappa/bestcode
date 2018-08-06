@@ -34,6 +34,15 @@
                       %span.nav-text
                         Myリポジトリ
                   %li
+                    = link_to users_my_rooms_path do
+                      %span.nav-badge
+                        %b.badge.badge-sm.badge-pill.info
+                          = 4
+                      %span.nav-icon
+                        %i.fa.fa-home
+                      %span.nav-text
+                        Myルーム
+                  %li
                     = link_to users_rooms_path do
                       %span.nav-icon
                         %i.fa.fa-home
