@@ -76,6 +76,15 @@ class User < ApplicationRecord
     end
   end
 
+  def active_state_count_for_reviewer
+    review_assigns.where(state: :wait_review, is_open: true).count
+  end
+
+  def active_state_count_for_reviewee
+    active_state = %i[change_request approved]
+    review_requests.where(state: active_state, is_open: true).count
+  end
+
   class << self
     def create_with_omniauth(auth)
       contribution = total_contribution(auth.info.nickname)

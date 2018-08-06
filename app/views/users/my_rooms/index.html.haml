@@ -17,7 +17,9 @@
                 %td= link_to room.name, users_room_path(room)
                 %td #{room.reviewees.size}/#{room.capacity}
                 %td
-                  .badge.badge-pill.text-sm.danger 3
+                  - count_for_reviewer = room.active_state_count_for_reviewer
+                  .badge.badge-pill.text-sm{ class: count_for_reviewer.zero? ? "lignt" : "danger" }
+                    = count_for_reviewer
           - else
             %tr
               %td 表示できるルームはありません
@@ -42,7 +44,9 @@
               %td #{room.reviewees.size}/#{room.capacity}
               %td= room.reviewer.name
               %td
-                .badge.badge-pill.text-sm.danger 1
+                - count_for_reviewee = room.active_state_count_for_reviewee
+                .badge.badge-pill.text-sm{ class: count_for_reviewee.zero? ? "lignt" : "danger" }
+                  = count_for_reviewee
         - else
           %tr
             %td 表示できるルームはありません

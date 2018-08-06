@@ -59,6 +59,15 @@ class Room < ApplicationRecord
   def open!
     update!(is_open: true)
   end
+  
+  def active_state_count_for_reviewer
+    review_assigns.where(state: :wait_review, is_open: true).count
+  end
+
+  def active_state_count_for_reviewee
+    active_state = %i[change_request approved]
+    review_assigns.where(state: active_state, is_open: true).count
+  end
 
   private
 

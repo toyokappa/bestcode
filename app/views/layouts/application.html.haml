@@ -35,9 +35,11 @@
                         Myリポジトリ
                   %li
                     = link_to users_my_rooms_path do
-                      %span.nav-badge
-                        %b.badge.badge-sm.badge-pill.info
-                          = 4
+                      - active_state_count = current_user.active_state_count_for_reviewer + current_user.active_state_count_for_reviewee
+                      -if active_state_count > 0
+                        %span.nav-badge
+                          %b.badge.badge-sm.badge-pill.info
+                            = active_state_count
                       %span.nav-icon
                         %i.fa.fa-home
                       %span.nav-text
