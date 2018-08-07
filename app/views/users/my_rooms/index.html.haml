@@ -4,14 +4,24 @@
       .box-header.navbar
         %h2
           %span.align-middle 主催のルーム一覧
-      %table.table
-        %thead
-          %tr
-            %th ルーム名
-            %th 参加人数
-            %th{ style: "width:50px;" }
-        %tbody
-          - if @reviewer_rooms.present?
+      .box-divider.m-0
+      .box-body
+        .nav-active-primary
+          %ul.nav.nav-pills.nav-rounded.nav-sm
+            %li.nav-item{ class: "#{'active' unless params[:open_state].in? %w[closed all]}" }
+              = link_to "オープン中", users_my_rooms_path(open_state: :open), class: "nav-link text-primary"
+            %li.nav-item{ class: "#{'active' if params[:open_state] == "closed"}" }
+              = link_to "クローズ済み", users_my_rooms_path(open_state: :closed), class: "nav-link text-primary"
+            %li.nav-item{ class: "#{'active' if params[:open_state] == "all"}" }
+              = link_to "すべて", users_my_rooms_path(open_state: :all), class: "nav-link text-primary"
+      - if @reviewer_rooms.present?
+        %table.table
+          %thead
+            %tr
+              %th ルーム名
+              %th 参加人数
+              %th{ style: "width:50px;" }
+          %tbody
             - @reviewer_rooms.each do |room|
               %tr
                 %td= link_to room.name, users_room_path(room)
@@ -20,24 +30,38 @@
                   - count_for_reviewer = room.active_state_count_for_reviewer
                   .badge.badge-pill.text-sm{ class: count_for_reviewer.zero? ? "lignt" : "danger" }
                     = count_for_reviewer
-          - else
-            %tr
-              %td 表示できるルームはありません
-              %td -
-              %td -
+      - else
+        - if params[:open_state] == 'closed'
+          %table.table
+            %thead
+              %tr
+                %th ルーム名
+                %th 参加人数
+            %tbody
+              %tr
+                %td -
+                %td -
+        - else
+          .box-divider.m-0
+          .box-footer.text-center
+            .py-5
+              %h3.mb-3 ルームを作成してみましょう
+              .mb-1 ルームを作成することで、その部屋に参加してくれたレビュイーのコードレビューを行うことができます
+              .mb-3 コードレビューを行うことで、収益に繋がります
+              = link_to "ルームを作成する", new_users_room_path, class: "btn btn-rounded info"
   .box
     .box-header.navbar
       %h2
         %span.align-middle 参加中のルーム一覧
-    %table.table
-      %thead
-        %tr
-          %th ルーム名
-          %th 参加人数
-          %th レビュワー
-          %th{ style: "width:50px;" }
-      %tbody
-        - if @reviewee_rooms.present?
+    - if @reviewee_rooms.present?
+      %table.table
+        %thead
+          %tr
+            %th ルーム名
+            %th 参加人数
+            %th レビュワー
+            %th{ style: "width:50px;" }
+        %tbody
           - @reviewee_rooms.each do |room|
             %tr
               %td= link_to room.name, users_room_path(room)
@@ -47,9 +71,11 @@
                 - count_for_reviewee = room.active_state_count_for_reviewee
                 .badge.badge-pill.text-sm{ class: count_for_reviewee.zero? ? "lignt" : "danger" }
                   = count_for_reviewee
-        - else
-          %tr
-            %td 表示できるルームはありません
-            %td -
-            %td -
-            %td -
+    - else
+      .box-divider.m-0
+      .box-body.text-center
+        .py-5
+          %h3.mb-3 ルームへ参加してみましょう
+          .mb-1 ルームへ参加することで、その部屋のレビュワーからコードレビューを受けることができます
+          .mb-3 コードレビューを受けることで、自身のスキルアップに繋がります
+          = link_to "ルームを探す", users_rooms_path, class: "btn btn-rounded info"
