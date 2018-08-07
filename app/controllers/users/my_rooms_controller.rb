@@ -2,9 +2,9 @@ class Users::MyRoomsController < ApplicationController
   def index
     @reviewer_rooms =
       case params[:open_state]
-      when 'closed'
+      when "closed"
         current_user.owned_rooms.where(is_open: false)
-      when 'all'
+      when "all"
         current_user.owned_rooms
       else
         current_user.owned_rooms.where(is_open: true)
