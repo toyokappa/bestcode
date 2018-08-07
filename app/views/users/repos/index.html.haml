@@ -2,17 +2,18 @@
   .box
     .box-header.navbar
       %h2.flex Myリポジトリ
-      = link_to new_users_repo_path, class: "btn info order-lg-1" do
-        %i.fa.fa-plus-circle
-        %span リポジトリを追加する
-    %table.table
-      %thead
-        %tr
-          %th{ style: "width:100px;" } 公開設定
-          %th リポジトリ名
-          %th{ style: "width:50px;" }
-      %tbody
-        - if @repos.present?
+      - if @repo.present?
+        = link_to new_users_repo_path, class: "btn info order-lg-1" do
+          %i.fa.fa-plus-circle
+          %span リポジトリを追加する
+    - if @repos.present?
+      %table.table
+        %thead
+          %tr
+            %th{ style: "width:100px;" } 公開設定
+            %th リポジトリ名
+            %th{ style: "width:50px;" }
+        %tbody
           - @repos.each do |repo|
             %tr
               %td.align-middle
@@ -24,8 +25,11 @@
                 - pull_count = repo.pulls.where(is_open: true).count
                 .badge.badge-pill.text-sm{ class: pull_count.zero? ? "light" : "danger" }
                   = pull_count
-        - else
-          %tr
-            %td -
-            %td 表示できるリポジトリはありません
-            %td
+    - else
+      .box-divider.m-0
+      .box-body.text-center
+        .py-5
+          %h3.mb-3 リポジトリを登録してみましょう
+          .mb-1 リポジトリを登録することで、GitHubの情報が自動で同期されます
+          .mb-3 同期された情報を元に手軽にレビュー依頼が行えます
+          = link_to "リポジトリを登録する", new_users_repo_path, class: "btn btn-rounded info"
