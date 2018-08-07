@@ -2,7 +2,7 @@
   .box
     .box-header.navbar
       %h2.flex Myリポジトリ
-      - if @repo.present?
+      - if @repos.present?
         = link_to new_users_repo_path, class: "btn info order-lg-1" do
           %i.fa.fa-plus-circle
           %span リポジトリを追加する
