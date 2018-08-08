@@ -2,7 +2,7 @@ ja:
   activerecord:
     attributes:
       review_request:
-        name: レビューリクエスト名
+        name: タイトル
         description: 説明
         state: ステータス
         reviewee_id: 依頼者

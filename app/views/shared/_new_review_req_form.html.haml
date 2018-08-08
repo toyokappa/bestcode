@@ -7,43 +7,14 @@
         %span.align-middle レビューリクエスト作成
     .box-divider.m-0
     .box-body
-      .row.mt-4
-        .col-sm-8.offset-sm-2
-          = form_for resource, url: url do |f|
-            = f.hidden_field :is_open, value: true
-            .form-group.row.mb-4
-              = f.label :name, class: "col-sm-3 col-form-label"
-              .col-sm-9
-                = f.text_field :name, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:name).present?}"
-                - resource.errors.full_messages_for(:name).each do |message|
-                  %p.text-danger.filled.text-sm.mt-1.mb-0= message
-            .form-group.row.mb-4
-              = f.label :description, class: "col-sm-3 col-form-label"
-              .col-sm-9
-                = f.text_area :description, rows: 8, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:description).present?}"
-                - resource.errors.full_messages_for(:description).each do |message|
-                  %p.text-danger.filled.text-sm.mt-1.mb-0= message
-            .form-group.row.mb-4
-              = f.label :pull_id, class: "col-sm-3 col-form-label"
-              .col-sm-9
-                = f.select :pull_id, pull_collection, {}, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:pull_id).present?}"
-                - resource.errors.full_messages_for(:pull_id).each do |message|
-                  %p.text-danger.filled.text-sm.mt-1.mb-0= message
-                - if current_user.repos.where(is_hook: true).blank?
-                  .text-muted.mt-1
-                    リポジトリの連携がまだのようです。
-                    = link_to "こちら", users_repos_path, class: "text-primary"
-                    からリポジトリの連携をしてみましょう。
-            .form-group.row.mb-4
-              = f.label :room_id, class: "col-sm-3 col-form-label"
-              .col-sm-9
-                = f.select :room_id, room_collection, {}, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:room_id).present?}"
-                - resource.errors.full_messages_for(:room_id).each do |message|
-                  %p.text-danger.filled.text-sm.mt-1.mb-0= message
-                - if room_collection.blank?
-                  .text-muted.mt-1
-                    ルームへの参加がまだのようです。
-                    = link_to "こちら", users_rooms_path, class: "text-primary"
-                    からルームへ参加してみましょう。
-            .action.text-center.mb-4
-              = f.submit class: "btn btn-rounded btn-fw primary"
+      .padding
+        .row
+          .col-sm-8.offset-sm-2
+            = form_for resource, url: url do |f|
+              = f.hidden_field :is_open, value: true
+              = f.text_parts :name
+              = f.textarea_parts :description
+              = f.select_parts :room_id, options: room_collection, include_blank: "ルームを選択してください"
+              = f.select_parts :pull_id, options: pull_collection, include_blank: "プルリクエストを選択してください"
+              .action.text-center
+                = f.submit class: "btn btn-rounded btn-fw primary"

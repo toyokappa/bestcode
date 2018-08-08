@@ -7,4 +7,5 @@
         %span.align-middle ルーム作成
     .box-divider.m-0
     .box-body
-      = render "form", resource: @room, url: users_rooms_path, lang_ids: @lang_ids
+      .padding
+        = render "form", resource: @room, url: users_rooms_path, lang_ids: @lang_ids
