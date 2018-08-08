@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     delete "/sign_out", to: "sessions#destroy"
     patch "/top", to: "top#update"
     patch "/sync_repos", to: "repos#update"
+    get "/pulls/info", to: "pulls#info"
   end
 
   post "/hooks/pulls", to: "hooks#pulls"
