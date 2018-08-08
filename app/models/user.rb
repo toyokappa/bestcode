@@ -33,6 +33,10 @@ class User < ApplicationRecord
 
   after_create :init_repos_and_pulls
 
+  def authority
+    is_reviewer? ? "レビュワー" : "レビュイー"
+  end
+
   def participatable?(room)
     !own?(room) && !participating?(room) && !room.over_capacity?
   end

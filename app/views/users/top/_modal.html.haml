@@ -5,15 +5,14 @@
         %h5.modal-title
           審査結果
       .modal-body.text-center
-        - reviewer = current_user.is_reviewer
         %h6.mb-3 ReviewHubへご登録いただきありがとうございます！
-        = image_tag reviewer ? "/images/reviewercat.jpg" : "/images/revieweecat.png", style: "width: 300px;", class: "rounded-circle"
+        = image_tag current_user.is_reviewer? ? "/images/reviewercat.jpg" : "/images/revieweecat.png", style: "width: 300px;", class: "rounded-circle"
         .mb-3
           %span 厳正なる審査の結果、あなたは
-          %b= reviewer ? 'レビュワー' : 'レビュイー'
+          %b= current_user.authority
           %span としてご利用いただけます。
-        %h6= "#{reviewer ? 'レビュワー' : 'レビュイー' }のできること"
-        - if reviewer
+        %h6= "#{current_user.authority}のできること"
+        - if current_user.is_reviewer?
           .mb-1
             %i.fa.fa-check.text-success.mr-2
             他のユーザーへレビューを行うことで、収益を上げることができます
