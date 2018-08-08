@@ -1,46 +1,37 @@
-.padding
-  .box
-    .box-body
-      - if current_user.is_reviewer?
-        %h2 あなたはレビュワーとしてご利用頂くことが可能です
-        %h3 レビュワーが出来ること
-        %h4 1. レビュールームの作成
-        %p レビュールームを作成することで、その部屋に参加してくれたレビュイーのコードレビューを行うことができます
-        %p= link_to "早速、レビュールームを作成してみる", new_users_room_path, class: "btn btn-primary"
-
-        %h4 2. レビュールームへ参加
-        %p レビュールームへ参加することで、その部屋を所有するレビュワーからコードレビューを受けることができます
-        %p= link_to "自分にあったレビュールームを探してみる", users_rooms_path, class: "btn btn-primary"
-      - else
-        %h2 あなたはレビュイーとしてご利用頂くことが可能です
-        %h3 レビュイーが出来ること
-        %h4 1. レビュールムへの参加
-        %p レビュールームへ参加することで、その部屋を所有するレビュワーからコードレビューを受けることができます
-        %p= link_to "自分にあったレビュールームを探してみる", users_rooms_path, class: "btn btn-primary"
-.modal.fade{ class: "#{'first-time-user' if current_user.is_first_time?}" }
-  .modal-dialog.animate
-    .modal-content
-      .modal-header.info
-        %h5.modal-title
-          審査結果
-      .modal-body.text-center
-        - reviewer = current_user.is_reviewer
-        %h6.mb-3 ReviewHubへご登録いただきありがとうございます！
-        = image_tag reviewer ? "/images/reviewercat.jpg" : "/images/revieweecat.png", style: "width: 300px;", class: "rounded-circle"
-        .mb-3
-          %span 厳正なる審査の結果、あなたは
-          %b= reviewer ? 'レビュワー' : 'レビュイー'
-          %span としてご利用いただけます。
-        %h6= "#{reviewer ? 'レビュワー' : 'レビュイー' }のできること"
-        - if reviewer
-          .mb-1
-            %i.fa.fa-check.text-success.mr-2
-            他のユーザーへレビューを行うことで、収益を上げることができます
-        .mb-3
-          %i.fa.fa-check.text-success.mr-2
-          他のユーザーからレビューを受けることで、スキルアップを図れます
-        .mb-0
-          それでは早速サービスを利用してみましょう！
-      .modal-footer
-        = button_tag "閉じる", class: "btn danger", data: { dismiss: :modal }
-
+- if current_user.is_reviewer? && current_user.owned_rooms.blank?
+  .padding.pb-0
+    .box.mb-0
+      .box-header
+        %h2 ルームの作成
+      .box-divider.m-0
+      .box-body.text-center
+        .py-5
+          %h3.mb-3 ルームを作成してみましょう
+          .mb-1 ルームを作成することで、その部屋に参加してくれたレビュイーのコードレビューを行うことができます
+          .mb-3 コードレビューを行うことで、収益に繋がります
+          = link_to "ルームを作成する", new_users_room_path, class: "btn btn-rounded info"
+- if current_user.my_repos.blank?
+  .padding.pb-0
+    .box.mb-0
+      .box-header
+        %h2 Myリポジトリへの登録
+      .box-divider.m-0
+      .box-body.text-center
+        .py-5
+          %h3.mb-3 リポジトリを登録してみましょう
+          .mb-1 リポジトリを登録することで、GitHubの情報が自動で同期されます
+          .mb-3 同期された情報を元に手軽にレビュー依頼が行えます
+          = link_to "リポジトリを登録する", new_users_repo_path, class: "btn btn-rounded info"
+- if current_user.participating_rooms.blank?
+  .padding
+    .box.mb-0
+      .box-header
+        %h2 ルームへの参加
+      .box-divider.m-0
+      .box-body.text-center
+        .py-5
+          %h3.mb-3 ルームへ参加してみましょう
+          .mb-1 ルームへ参加することで、その部屋のレビュワーからコードレビューを受けることができます
+          .mb-3 コードレビューを受けることで、自身のスキルアップに繋がります
+          = link_to "ルームを探す", users_rooms_path, class: "btn btn-rounded info"
+= render "modal"

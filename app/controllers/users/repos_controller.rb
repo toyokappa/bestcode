@@ -1,6 +1,6 @@
 class Users::ReposController < ApplicationController
   def index
-    @repos = current_user.repos.where(is_hook: true).order(pushed_at: :desc)
+    @repos = current_user.my_repos.order(pushed_at: :desc)
   end
 
   def new

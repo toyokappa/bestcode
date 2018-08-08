@@ -85,6 +85,10 @@ class User < ApplicationRecord
     review_requests.where(state: active_state, is_open: true).count
   end
 
+  def my_repos
+    repos.where(is_hook: true)
+  end
+
   class << self
     def create_with_omniauth(auth)
       contribution = total_contribution(auth.info.nickname)
