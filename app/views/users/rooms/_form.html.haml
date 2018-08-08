@@ -1,27 +1,12 @@
-.row.mt-4
+.row
   .col-sm-8.offset-sm-2
     = form_for resource, url: url do |f|
-      .form-group.row.mb-4
-        = f.label :name, class: "col-sm-3 col-form-label"
-        .col-sm-9
-          = f.text_field :name, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:name).present?}"
-          - resource.errors.full_messages_for(:name).each do |message|
-            %p.text-danger.filled.text-sm.mt-1.mb-0= message
-      .form-group.row.mb-4
-        = f.label :description, class: "col-sm-3 col-form-label"
-        .col-sm-9
-          = f.text_area :description, rows: 8, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:description).present?}"
-          - resource.errors.full_messages_for(:description).each do |message|
-            %p.text-danger.filled.text-sm.mt-1.mb-0= message
-      .form-group.row.mb-4
-        = f.label :capacity, class: "col-sm-3 col-form-label"
-        .col-sm-9
-          = f.number_field :capacity, class: "form-control #{'is-invalid' if resource.errors.full_messages_for(:capacity).present?}"
-          - resource.errors.full_messages_for(:capacity).each do |message|
-            %p.text-danger.filled.text-sm.mt-1.mb-0= message
-      .form-group.row.mb-4
-        = label :skill, "レビュー言語", class: "col-sm-3 col-form-label"
-        .col-sm-9
+      = f.text_parts :name
+      = f.textarea_parts :description
+      = f.number_parts :capacity
+      .form-group.row
+        = label :skill, "レビュー言語", class: "col-sm-2 col-form-label"
+        .col-sm-10
           = select :skill, :language, Language.options, { selected: lang_ids }, class: "select2 form-control", multiple: true
       .action.text-center.mb-4
         = f.submit class: "btn btn-rounded btn-fw primary"
