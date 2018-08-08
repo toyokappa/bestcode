@@ -33,6 +33,10 @@ class User < ApplicationRecord
 
   after_create :init_repos_and_pulls
 
+  def authority
+    is_reviewer? ? "レビュワー" : "レビュイー"
+  end
+
   def participatable?(room)
     !own?(room) && !participating?(room) && !room.over_capacity?
   end
@@ -83,6 +87,10 @@ class User < ApplicationRecord
   def active_state_count_for_reviewee
     active_state = %i[change_request approved]
     review_requests.where(state: active_state, is_open: true).count
+  end
+
+  def my_repos
+    repos.where(is_hook: true)
   end
 
   class << self

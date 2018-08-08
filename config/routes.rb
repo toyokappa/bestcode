@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :my_rooms, only: [:index]
 
     delete "/sign_out", to: "sessions#destroy"
+    patch "/top", to: "top#update"
     patch "/sync_repos", to: "repos#update"
   end
 
