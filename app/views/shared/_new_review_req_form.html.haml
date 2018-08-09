@@ -10,11 +10,11 @@
       .padding
         .row
           .col-sm-8.offset-sm-2
-            = form_for resource, url: url do |f|
+            = form_for resource, url: url, html: { class: "review-req-form" } do |f|
               = f.hidden_field :is_open, value: true
-              = f.text_parts :name
-              = f.textarea_parts :description
+              = f.text_parts :name, add_class: "review-req-name"
+              = f.textarea_parts :description, add_class: "review-req-description"
               = f.select_parts :room_id, options: room_collection, include_blank: "ルームを選択してください"
-              = f.select_parts :pull_id, options: pull_collection, include_blank: "プルリクエストを選択してください"
+              = f.select_parts :pull_id, options: pull_collection, include_blank: "プルリクエストを選択してください", add_class: "pull-select"
               .action.text-center
                 = f.submit class: "btn btn-rounded btn-fw primary"
