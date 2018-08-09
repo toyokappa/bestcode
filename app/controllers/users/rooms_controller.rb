@@ -4,7 +4,7 @@ class Users::RoomsController < ApplicationController
   before_action :set_lang_ids, only: [:create, :update]
 
   def index
-    @rooms = Room.where(is_open: true)
+    @rooms = Room.where(is_open: true).order(created_at: :desc)
   end
 
   def show
