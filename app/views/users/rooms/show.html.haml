@@ -1,29 +1,48 @@
+.p-5.top-area
+  .top-bg{ style: "background-image: url(#{@room.check_and_return_image});" }
+  .top-bg-dk
+  .p-4.text-center.pos-rlt
+    .mb-1= image_tag @room.reviewer.check_and_return_image, class: 'circle w-56'
+    .mb-2.text-white Review by #{@room.reviewer.name}
+    %h2.mb-1.text-white= @room.name
+    .mb-1
+      - @room.languages.each do |language|
+        %span.badge.text-sm.primary.text-white= language.name
 .padding
   .row
-    .col-md-8
+    .col-md-9
+      .box
+        .box-body
+          .markdown-body.no-border= markdown @room.description
+      - if current_user.belonging_to?(@room)
+        .box
+          .box-header
+            .nav-active-primary
+              %ul.nav.nav-pills.nav-rounded.nav-sm
+                %li.nav-item{ class: "#{'active' unless params[:open_state].in? %w[closed all]}" }
+                  = link_to "オープン中", users_room_path(@room, open_state: :open), class: "nav-link text-primary"
+                %li.nav-item{ class: "#{'active' if params[:open_state] == "closed"}" }
+                  = link_to "クローズ済み", users_room_path(@room, open_state: :closed), class: "nav-link text-primary"
+                %li.nav-item{ class: "#{'active' if params[:open_state] == "all"}" }
+                  = link_to "すべて", users_room_path(@room, open_state: :all), class: "nav-link text-primary"
+          - if current_user.own?(@room)
+            = render "review_reqs", review_reqs: @review_assigns, room: @room
+          - elsif current_user.participating?(@room)
+            = render "review_reqs", review_reqs: @review_reqs, room: @room
+    .col-md-3
       .box
         .box-header.navbar
-          %h2.flex
-            = link_to users_rooms_path, class: 'mr-2 align-middle text-primary' do
-              %i.fa.fa-chevron-left
-            %span.align-middle= @room.name
-          - unless @room.is_open
-            .badge.danger.text.order-1 クローズ
-        .box-divider.m-0
-        .box-body
-          .languages.mb-3
-            - @room.languages.each do |language|
-              %span.badge.text-sm.primary.text-white= language.name
-          .markdown-body.no-border= markdown @room.description
-    .col-md-4
-      .box
-        .box-body
-          .room-capacity.mb-3
-            .content-header 参加上限人数
-            %h3.content-body.mb-0 #{@room.reviewees.size}/#{@room.capacity}
-          .room-reviewer
-            .content-header レビュワー
-            %h3.content-body.mb-0= @room.reviewer.name
+          .flex 参加人数
+          %h2.order-1 #{@room.reviewees.size}/#{@room.capacity}
+        - if @room.reviewees.present?
+          .box-divider.m-0
+          %ul.list.mb-0
+            - @room.reviewees.each do |reviewee|
+              %li.list-item
+                %span.w-40.avatar
+                  = image_tag reviewee.check_and_return_image
+                .list-body
+                  .mt-2= reviewee.name
         .box-divider.m-0
         .box-footer
           - if current_user.own?(@room)
@@ -32,30 +51,17 @@
               .mt-3= link_to "ルームを再オープンする", reopen_users_room_path(@room), class: "btn success btn-block"
           - if current_user.participatable?(@room)
             = button_to "ルームに参加する", users_participation_path(@room), method: :put, class: "btn primary btn-block", disabled: !@room.is_open
-            .text-muted= "ルームがクローズしているため参加できません" unless @room.is_open
+            .text-muted.mt-1= "ルームがクローズしているため参加できません" unless @room.is_open
           - if current_user.participating?(@room)
             = button_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), method: :get, class: "btn primary btn-block", disabled: !@room.is_open
-            .text-muted= "ルームがクローズしているためレビューリクエストを作成できません" unless @room.is_open
-  - if current_user.belonging_to?(@room)
-    .box
-      .box-header
-        .nav-active-primary
-          %ul.nav.nav-pills.nav-rounded.nav-sm
-            %li.nav-item{ class: "#{'active' unless params[:open_state].in? %w[closed all]}" }
-              = link_to "オープン中", users_room_path(@room, open_state: :open), class: "nav-link text-primary"
-            %li.nav-item{ class: "#{'active' if params[:open_state] == "closed"}" }
-              = link_to "クローズ済み", users_room_path(@room, open_state: :closed), class: "nav-link text-primary"
-            %li.nav-item{ class: "#{'active' if params[:open_state] == "all"}" }
-              = link_to "すべて", users_room_path(@room, open_state: :all), class: "nav-link text-primary"
-      - if current_user.own?(@room)
-        = render "review_reqs", review_reqs: @review_assigns, room: @room
-      - elsif current_user.participating?(@room)
-        = render "review_reqs", review_reqs: @review_reqs, room: @room
+            .text-muted.mt-1= "ルームがクローズしているためレビューリクエストを作成できません" unless @room.is_open
+  =link_to users_rooms_path, class: "text-muted" do
+    %u ルーム一覧に戻る
   - if current_user.own?(@room) && @room.is_open?
-    .text-right
+    .float-right
       = link_to users_room_path(@room), method: :delete, data: { confirm: "ルームをクローズしてよろしいですか？" }, class: "text-muted" do
         %u ルームをクローズする
   - if current_user.participating?(@room)
-    .text-right
+    .float-right
       = link_to users_participation_path(@room), method: :delete, data: { confirm: "ルームから退出してよろしいですか？" }, class: "text-muted" do
         %u ルームから退出する

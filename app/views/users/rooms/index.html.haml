@@ -1,29 +1,18 @@
 .padding
-  .box
-    .box-header.navbar
-      %h2.flex
-        %span.align-middle ルーム一覧
-      - if current_user.is_reviewer?
-        = link_to new_users_room_path, class: "btn btn-icon btn-rounded primary text-white flex-row order-lg-1 w-32" do
-          %i.fa.fa-plus
-    %table.table
-      %thead
-        %tr
-          %th{ scope: "col" } ルーム名
-          %th{ scope: "col" } 参加上限人数
-          %th{ scope: "col" } レビュワー
-          %th{ scope: "col" } ステータス
-      %tbody
-        - if @rooms.present?
-          - @rooms.each do |room|
-            %tr
-              %td= link_to room.name, users_room_path(room)
-              %td #{room.reviewees.size}/#{room.capacity}
-              %td= room.reviewer.name
-              %td= room.status_for(current_user)
-        - else
-          %tr
-            %td 表示できるルームはありません
-            %td -
-            %td -
-            %td -
+  .row
+    - @rooms.each do |room|
+      .col-sm-4
+        .box
+          .box-header.top-area.p-0
+            .top-bg{ style: "background-image: url(#{room.check_and_return_image(:thumb)})" }
+            .p-5.pos-rlt.text-center
+              = image_tag room.reviewer.check_and_return_image, class: 'circle w-56', style: 'margin-bottom: -7rem'
+          .box-body.text-center
+            = link_to room.reviewer.name, '', class: 'my-3 d-block'
+            .text-md= link_to room.name, users_room_path(room)
+            .mb-3
+              - room.languages.each do |language|
+                %span.badge.text-sm.primary.text-white= language.name
+            .text-sm 参加人数
+            .text-lg #{room.reviewees.size}/#{room.capacity}
+

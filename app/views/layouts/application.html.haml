@@ -75,6 +75,8 @@
                   .dropdown-divider
                   = link_to '', class: 'dropdown-item' do
                     %span プロフィール設定
+                  = link_to new_users_room_path, class: 'dropdown-item' do
+                    %span ルームを作成
                   .dropdown-divider
                   = link_to 'ログアウト', users_sign_out_path, method: :delete, class: 'dropdown-item'
         #content-main.content-main

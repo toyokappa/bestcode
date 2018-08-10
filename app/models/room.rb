@@ -24,6 +24,8 @@ class Room < ApplicationRecord
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }
   validate :capacity_greater_than_or_equal_to_participants
 
+  mount_uploader :image, RoomImageUploader
+
   def status_for(user)
     case
     when user.own?(self)
@@ -67,6 +69,12 @@ class Room < ApplicationRecord
   def active_state_count_for_reviewee
     active_state = %i[change_request approved]
     review_assigns.where(state: active_state, is_open: true).count
+  end
+
+  def check_and_return_image(type = nil)
+    return "/images/no_bg.jpg" if image.blank?
+
+    type ? image.send(type).url : image.url
   end
 
   private

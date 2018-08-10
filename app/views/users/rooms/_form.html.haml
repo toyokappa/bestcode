@@ -1,6 +1,8 @@
 .row
   .col-sm-8.offset-sm-2
     = form_for resource, url: url do |f|
+      - image_message = "推奨サイズは1250 × 300です"
+      = f.image_parts :image, is_preview: true, button_text: "カバー画像を選択...", message: image_message
       = f.text_parts :name
       = f.textarea_parts :description
       = f.number_parts :capacity

@@ -26,7 +26,7 @@ class User < ApplicationRecord
   has_many :review_assigns, class_name: "ReviewRequest", through: :owned_rooms
   has_many :review_comments, dependent: :destroy, inverse_of: :user
 
-  mount_uploader :image, ImageUploader
+  mount_uploader :image, UserImageUploader
 
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
@@ -73,11 +73,9 @@ class User < ApplicationRecord
   end
 
   def check_and_return_image(type = nil)
-    if image.present?
-      (type == :thumb) ? image.thumb.url : image.url
-    else
-      "/images/no_user.png"
-    end
+    return "/images/no_user.png" if image.blank?
+
+    type ? image.send(type).url : image.url
   end
 
   def active_state_count_for_reviewer
