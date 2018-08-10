@@ -73,11 +73,9 @@ class User < ApplicationRecord
   end
 
   def check_and_return_image(type = nil)
-    if image.present?
-      (type == :thumb) ? image.thumb.url : image.url
-    else
-      "/images/no_user.png"
-    end
+    return "/images/no_user.png" if image.blank?
+
+    type ? image.send(type).url : image.url
   end
 
   def active_state_count_for_reviewer

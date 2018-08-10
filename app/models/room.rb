@@ -71,6 +71,12 @@ class Room < ApplicationRecord
     review_assigns.where(state: active_state, is_open: true).count
   end
 
+  def check_and_return_image(type = nil)
+    return "/images/no_bg.jpg" if image.blank?
+
+    type ? image.send(type).url : image.url
+  end
+
   private
 
     def capacity_greater_than_or_equal_to_participants

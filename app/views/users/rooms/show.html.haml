@@ -1,5 +1,5 @@
 .p-5.top-area
-  .top-bg{ style: "background-image: url(/images/no_bg.jpg);" }
+  .top-bg{ style: "background-image: url(#{@room.check_and_return_image});" }
   .top-bg-dk
   .p-4.text-center.pos-rlt
     .mb-1= image_tag @room.reviewer.check_and_return_image, class: 'circle w-56'
