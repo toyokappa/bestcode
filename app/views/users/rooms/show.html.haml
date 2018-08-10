@@ -55,11 +55,13 @@
           - if current_user.participating?(@room)
             = button_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), method: :get, class: "btn primary btn-block", disabled: !@room.is_open
             .text-muted.mt-1= "ルームがクローズしているためレビューリクエストを作成できません" unless @room.is_open
+  =link_to users_rooms_path, class: "text-muted" do
+    %u ルーム一覧に戻る
   - if current_user.own?(@room) && @room.is_open?
-    .text-right
+    .float-right
       = link_to users_room_path(@room), method: :delete, data: { confirm: "ルームをクローズしてよろしいですか？" }, class: "text-muted" do
         %u ルームをクローズする
   - if current_user.participating?(@room)
-    .text-right
+    .float-right
       = link_to users_participation_path(@room), method: :delete, data: { confirm: "ルームから退出してよろしいですか？" }, class: "text-muted" do
         %u ルームから退出する

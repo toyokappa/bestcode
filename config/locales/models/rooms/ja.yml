@@ -7,3 +7,4 @@ ja:
         name: ルーム名
         description: ルーム説明
         capacity: 参加上限人数
+        image: カバー画像
