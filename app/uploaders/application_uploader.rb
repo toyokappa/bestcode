@@ -1,4 +1,4 @@
-class ImageUploader < CarrierWave::Uploader::Base
+class ApplicationUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   storage :file
@@ -21,10 +21,6 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   process convert: "jpg"
   process :fix_rotate
-  process resize_to_fill: [400, 400]
-  version :thumb do
-    process resize_to_fill: [200, 200]
-  end
 
   protected
 
