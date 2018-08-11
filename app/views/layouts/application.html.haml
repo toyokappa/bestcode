@@ -70,7 +70,7 @@
                   %span.avatar.w-32
                     = image_tag current_user.check_and_return_image(:thumb), alt: '...'
                 .dropdown-menu.dropdown-menu-right.w.pt-2.mt-2.animate.fadeIn
-                  %span.dropdown-item
+                  = link_to users_profile_path(current_user.name), class: "dropdown-item" do
                     %b= current_user.name
                   .dropdown-divider
                   = link_to '', class: 'dropdown-item' do

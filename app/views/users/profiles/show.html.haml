@@ -29,19 +29,22 @@
           .text-sm.text-muted Review Requests
 .padding
   .row
-    - @rooms.each do |room|
-      .col-sm-4
-        .box
-          .box-header.top-area.p-0
-            .top-bg{ style: "background-image: url(#{room.check_and_return_image(:thumb)})" }
-            .p-5.pos-rlt.text-center
-              = image_tag room.reviewer.check_and_return_image, class: 'circle w-56', style: 'margin-bottom: -7rem'
-          .box-body.text-center
-            = link_to room.reviewer.name, '', class: 'my-3 d-block'
-            .text-md= link_to room.name, users_room_path(room)
-            .mb-3
-              - room.languages.each do |language|
-                %span.badge.text-sm.primary.text-white= language.name
-            .text-sm 参加人数
-            .text-lg #{room.reviewees.size}/#{room.capacity}
-
+    - if @rooms.present?
+      - @rooms.each do |room|
+        .col-sm-4
+          .box
+            .box-header.top-area.p-0
+              .top-bg{ style: "background-image: url(#{room.check_and_return_image(:thumb)})" }
+              .p-5.pos-rlt.text-center
+                = link_to users_profile_path(room.reviewer.name) do
+                  = image_tag room.reviewer.check_and_return_image, class: 'circle w-56', style: 'margin-bottom: -7rem'
+            .box-body.text-center
+              = link_to room.reviewer.name, users_profile_path(room.reviewer.name), class: 'my-3 d-block'
+              .text-md= link_to room.name, users_room_path(room)
+              .mb-3
+                - room.languages.each do |language|
+                  %span.badge.text-sm.primary.text-white= language.name
+              .text-sm 参加人数
+              .text-lg #{room.reviewees.size}/#{room.capacity}
+    - else
+      .ml-4表示できるルームはありません
