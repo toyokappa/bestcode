@@ -1,5 +1,5 @@
 .p-5.top-area
-  .top-bg{ style: "background-image: url(/images/no_bg.jpg);" }
+  .top-bg{ style: "background-image: url(#{@user.check_and_return_header_image});" }
   .top-bg-dk
   .p-4.pos-rlt.text-center
     = image_tag @user.check_and_return_image, class: 'circle w-96 mb-1'
@@ -7,6 +7,9 @@
     = link_to "https://github.com/#{@user.name}", target: "_blank", class: "btn btn-sm btn-outline b-white text-white" do
       %i.fa.fa-github
       %span GitHub
+  - if current_user == @user
+    = link_to "javascript:void(0);", data: { toggle: "modal", target: ".update-header" }, class: "md-btn md-fab md-mini pos-rlt md-fab-offset info text-white float-right" do
+      %i.fa.fa-pencil
 .bg.white.b-b.px-3
   .row
     .col-sm-6.order-sm-1
@@ -48,3 +51,14 @@
               .text-lg #{room.reviewees.size}/#{room.capacity}
     - else
       .ml-4表示できるルームはありません
+.modal.fade.update-header
+  .modal-dialog.modal-lg
+    .modal-content
+      = form_for @user, url: users_update_profile_header_path do |f|
+        .modal-header
+          %h5.modal-title
+            ヘッダー画像の変更
+        .modal-body
+          = f.image_parts :header_image, is_preview: true
+        .modal-footer
+          = f.submit class: "btn btn-sm primary"
