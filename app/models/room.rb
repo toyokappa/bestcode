@@ -72,7 +72,8 @@ class Room < ApplicationRecord
   end
 
   def check_and_return_image(type = nil)
-    return "/images/no_bg.jpg" if image.blank?
+    return "/images/no_bg.jpg" if image.blank? && reviewer.header_image.blank?
+    return reviewer.header_image.url if image.blank?
 
     type ? image.send(type).url : image.url
   end
