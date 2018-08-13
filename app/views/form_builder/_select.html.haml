@@ -1,11 +1,10 @@
 - options = opts[:options] || f.object.class.send(col.to_s.pluralize).invert
-- include_blank = opts[:include_blank] || '選択してください'
 - rel_col = col.to_s.gsub(/_id\z/, '')&.to_sym
 - errors_for_col = f.object.errors.full_messages_for(rel_col) || f.object.errors.full_messages_for(col)
 .form-group.row
   = f.label col, class: 'col-sm-2 col-form-label'
   .col-sm-10
-    = f.select col, options, { include_blank: include_blank }, { class: "form-control#{' is-invalid' if errors_for_col.present?} #{opts[:add_class]}" }
+    = f.select col, options, { include_blank: opts[:include_blank] }, { class: "form-control#{' is-invalid' if errors_for_col.present?} #{opts[:add_class]}" }
     - if errors_for_col.empty? && opts[:message].present?
       .form-text.text-muted.filled.text-sm.mt-1= opts[:message]
     - else
