@@ -18,6 +18,7 @@ class Room < ApplicationRecord
   has_many :review_assigns, class_name: "ReviewRequest", dependent: :destroy, inverse_of: :room
   has_many :skills, as: :languageable, dependent: :destroy
   has_many :languages, through: :skills
+  has_many :evaluations, dependent: :destroy, inverse_of: :room
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 1000 }
