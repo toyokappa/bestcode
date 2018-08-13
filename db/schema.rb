@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_10_132919) do
+ActiveRecord::Schema.define(version: 2018_08_13_130010) do
 
   create_table "languages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2018_08_10_132919) do
     t.string "access_token"
     t.string "image"
     t.boolean "is_first_time", default: true, null: false
+    t.string "header_image"
   end
 
   add_foreign_key "pulls", "repos"

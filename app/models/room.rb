@@ -24,7 +24,7 @@ class Room < ApplicationRecord
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }
   validate :capacity_greater_than_or_equal_to_participants
 
-  mount_uploader :image, RoomImageUploader
+  mount_uploader :image, HeaderImageUploader
 
   def status_for(user)
     case

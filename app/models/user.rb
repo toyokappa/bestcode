@@ -27,6 +27,7 @@ class User < ApplicationRecord
   has_many :review_comments, dependent: :destroy, inverse_of: :user
 
   mount_uploader :image, UserImageUploader
+  mount_uploader :header_image, HeaderImageUploader
 
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
@@ -76,6 +77,12 @@ class User < ApplicationRecord
     return "/images/no_user.png" if image.blank?
 
     type ? image.send(type).url : image.url
+  end
+
+  def check_and_return_header_image(type = nil)
+    return "/images/no_bg.jpg" if header_image.blank?
+
+    type ? header_image.send(type).url : header_image.url
   end
 
   def active_state_count_for_reviewer
