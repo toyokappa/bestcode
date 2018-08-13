@@ -24,7 +24,7 @@ class Room < ApplicationRecord
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }
   validate :capacity_greater_than_or_equal_to_participants
 
-  mount_uploader :image, RoomImageUploader
+  mount_uploader :image, HeaderImageUploader
 
   def status_for(user)
     case
@@ -72,7 +72,8 @@ class Room < ApplicationRecord
   end
 
   def check_and_return_image(type = nil)
-    return "/images/no_bg.jpg" if image.blank?
+    return "/images/no_bg.jpg" if image.blank? && reviewer.header_image.blank?
+    return reviewer.header_image.url if image.blank?
 
     type ? image.send(type).url : image.url
   end

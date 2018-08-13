@@ -6,9 +6,10 @@
           .box-header.top-area.p-0
             .top-bg{ style: "background-image: url(#{room.check_and_return_image(:thumb)})" }
             .p-5.pos-rlt.text-center
-              = image_tag room.reviewer.check_and_return_image, class: 'circle w-56', style: 'margin-bottom: -7rem'
+              = link_to users_profile_path(room.reviewer.name) do
+                = image_tag room.reviewer.check_and_return_image, class: 'circle w-56', style: 'margin-bottom: -7rem'
           .box-body.text-center
-            = link_to room.reviewer.name, '', class: 'my-3 d-block'
+            = link_to room.reviewer.name, users_profile_path(room.reviewer.name), class: 'my-3 d-block'
             .text-md= link_to room.name, users_room_path(room)
             .mb-3
               - room.languages.each do |language|

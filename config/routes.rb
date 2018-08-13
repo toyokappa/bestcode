@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   namespace :users do
     root "top#index"
+
     resources :participations, only: [:update, :destroy]
 
     resources :repos, only: [:index, :show, :new, :create] do
@@ -31,6 +32,8 @@ Rails.application.routes.draw do
     patch "/top", to: "top#update"
     patch "/sync_repos", to: "repos#update"
     get "/pulls/info", to: "pulls#info"
+    get "/profiles/:name", to: "profiles#show", as: "profile"
+    patch "/profiles/:name/update_heder", to: "profiles#update_header", as: "update_profile_header"
   end
 
   post "/hooks/pulls", to: "hooks#pulls"

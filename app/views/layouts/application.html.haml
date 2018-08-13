@@ -70,13 +70,12 @@
                   %span.avatar.w-32
                     = image_tag current_user.check_and_return_image(:thumb), alt: '...'
                 .dropdown-menu.dropdown-menu-right.w.pt-2.mt-2.animate.fadeIn
-                  %span.dropdown-item
+                  = link_to users_profile_path(current_user.name), class: "dropdown-item" do
                     %b= current_user.name
-                  .dropdown-divider
-                  = link_to '', class: 'dropdown-item' do
-                    %span プロフィール設定
-                  = link_to new_users_room_path, class: 'dropdown-item' do
-                    %span ルームを作成
+                  - if current_user.is_reviewer?
+                    .dropdown-divider
+                    = link_to new_users_room_path, class: 'dropdown-item' do
+                      %span ルームを作成
                   .dropdown-divider
                   = link_to 'ログアウト', users_sign_out_path, method: :delete, class: 'dropdown-item'
         #content-main.content-main

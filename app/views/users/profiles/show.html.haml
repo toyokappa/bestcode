@@ -1,0 +1,64 @@
+.p-5.top-area
+  .top-bg{ style: "background-image: url(#{@user.check_and_return_header_image});" }
+  .top-bg-dk
+  .p-4.pos-rlt.text-center
+    = image_tag @user.check_and_return_image, class: 'circle w-96 mb-1'
+    %h4.text-white= @user.name
+    = link_to "https://github.com/#{@user.name}", target: "_blank", class: "btn btn-sm btn-outline b-white text-white" do
+      %i.fa.fa-github
+      %span GitHub
+  - if current_user == @user
+    = link_to "javascript:void(0);", data: { toggle: "modal", target: ".update-header" }, class: "md-btn md-fab md-mini pos-rlt md-fab-offset info text-white float-right" do
+      %i.fa.fa-pencil
+.bg.white.b-b.px-3
+  .row
+    .col-sm-6.order-sm-1
+      .py-4.clearfix.nav-active-theme
+        %ul.nav.nav-pills.nav-sm.ml-3
+          %li.nav-item
+            = link_to "主催のルーム", users_profile_path(@user.name), class: "nav-link#{' active' unless params[:room_type] == 'participating'}"
+          %li.nav-item
+            = link_to "参加中のルーム", users_profile_path(@user.name, room_type: :participating), class: "nav-link#{' active' if params[:room_type] == 'participating'}"
+    .col-sm-6.order-sm-2
+      .py-3.text-center.text-sm-right
+        .d-inline-block.px-3.text-center
+          .text-md= @user.contribution 
+          .text-sm.text-muted GitHub contributions
+        .d-inline-block.px-3.text-center.b-l
+          .text-md= @user.review_assigns.count
+          .text-sm.text-muted Reviews
+        .d-inline-block.px-3.text-center.b-l
+          .text-md= @user.review_requests.count
+          .text-sm.text-muted Review Requests
+.padding
+  .row
+    - if @rooms.present?
+      - @rooms.each do |room|
+        .col-sm-4
+          .box
+            .box-header.top-area.p-0
+              .top-bg{ style: "background-image: url(#{room.check_and_return_image(:thumb)})" }
+              .p-5.pos-rlt.text-center
+                = link_to users_profile_path(room.reviewer.name) do
+                  = image_tag room.reviewer.check_and_return_image, class: 'circle w-56', style: 'margin-bottom: -7rem'
+            .box-body.text-center
+              = link_to room.reviewer.name, users_profile_path(room.reviewer.name), class: 'my-3 d-block'
+              .text-md= link_to room.name, users_room_path(room)
+              .mb-3
+                - room.languages.each do |language|
+                  %span.badge.text-sm.primary.text-white= language.name
+              .text-sm 参加人数
+              .text-lg #{room.reviewees.size}/#{room.capacity}
+    - else
+      .ml-4表示できるルームはありません
+.modal.fade.update-header
+  .modal-dialog.modal-lg
+    .modal-content
+      = form_for @user, url: users_update_profile_header_path do |f|
+        .modal-header
+          %h5.modal-title
+            ヘッダー画像の変更
+        .modal-body
+          = f.image_parts :header_image, is_preview: true
+        .modal-footer
+          = f.submit class: "btn btn-sm primary"
