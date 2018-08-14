@@ -8,9 +8,14 @@
         .row
           .col-sm-8.offset-sm-2
             %h5.text-center
-              .mb-1 #{@room.name}に参加して30日が経過しました。
-              .mb-5 レビュワーのスキル向上のため、ルームの評価をしましょう。
-            = form_for @evaluation, url: users_rooms_evaluation_path(@room) do |f|
+              - if params[:referer] == "leave_room"
+                .mb-1 #{@room.name}を退出しようとしています。
+                .mb-5 レビュワーのスキル向上のため、ルームの評価をしましょう。
+              - else
+                .mb-1 #{@room.name}に参加して30日が経過しました。
+                .mb-5 レビュワーのスキル向上のため、ルームの評価をしましょう。
+            = form_for @evaluation, url: users_rooms_evaluations_path(@room) do |f|
+              = hidden_field_tag :referer, params[:referer]
               = f.hidden_field :room_id
               = f.select_parts :speed, options: 1..5, message: "対応の迅速さを1(遅かった)〜5(早かった)で評価してください"
               = f.select_parts :quantity, options: 1..5, message: "レビューの量を1(物足りなかった)〜5(ちょうどよかった)で評価してください"

@@ -55,6 +55,10 @@ class User < ApplicationRecord
     own?(room) || participating?(room)
   end
 
+  def evaluated?(room)
+    evaluations.find_by(room: room).present?
+  end
+
   def create_repo!(github_repo)
     repos.create!(
       id: github_repo.id,

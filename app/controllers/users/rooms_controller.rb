@@ -8,6 +8,7 @@ class Users::RoomsController < ApplicationController
   end
 
   def show
+    # TODO: ルーム入室日から30日以上経過したユーザーへは評価画面へ遷移
     @room = Room.find(params[:id])
     @review_assigns = get_review_reqs_with(params[:open_state])
 

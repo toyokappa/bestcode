@@ -1,6 +1,6 @@
 class Users::Rooms::EvaluationsController < ApplicationController
   before_action :set_room
-  # before_action :check_evaluation
+  before_action :check_evaluation
 
   def new
     @evaluation = current_user.evaluations.build(room: @room)
@@ -9,7 +9,12 @@ class Users::Rooms::EvaluationsController < ApplicationController
   def create
     @evaluation = current_user.evaluations.build(evaluation_params)
     if @evaluation.save
-      redirect_to users_room_path(@room), success: "評価が完了しました"
+      if params[:referer] == "leave_room"
+        @room.close!
+        redirect_to users_rooms_path, success: "評価が完了し、ルームを退出しました"
+      else
+        redirect_to users_room_path(@room), success: "評価が完了しました"
+      end
     else
       render "new"
     end
@@ -26,9 +31,7 @@ class Users::Rooms::EvaluationsController < ApplicationController
     end
 
     def check_evaluation
-      evaluation = current_user.evaluations.find_by(room: @room)
-      if evaluation.present?
-        # TODO: 遷移元がルームクローズだった場合、メッセージを"退出しました"に変更
+      if current_user.evaluated?(@room)
         redirect_to users_room_path(@room), danger: "こちらのルームは評価済みです"
       end
     end

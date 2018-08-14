@@ -1,5 +1,6 @@
 class Users::ParticipationsController < ApplicationController
   before_action :set_room
+  before_action :check_evaluable_room, only: [:destroy]
 
   def update
     check_participation_condition(@room)
@@ -28,6 +29,13 @@ class Users::ParticipationsController < ApplicationController
       else
         room.reviewees << current_user
         flash[:success] = t(".participation_success", name: room.name)
+      end
+    end
+
+    def check_evaluable_room
+      unless current_user.evaluated?(@room)
+        flash[:success] = "退出前にルームの評価をしてください（退出処理は完了していません）"
+        redirect_to new_users_rooms_evaluation_path(@room, referer: :leave_room)
       end
     end
 end
