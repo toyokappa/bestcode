@@ -8,8 +8,11 @@ class Users::RoomsController < ApplicationController
   end
 
   def show
-    # TODO: ルーム入室日から30日以上経過したユーザーへは評価画面へ遷移
     @room = Room.find(params[:id])
+    if check_evaluation
+      return redirect_to new_users_rooms_evaluation_path(@room), success: "#{@room.name}の評価をしてください"
+    end
+
     @review_assigns = get_review_reqs_with(params[:open_state])
 
     # get_visible_review_reqs_fromの戻り値がArrayとなるためorderではなくsort_byで順序を変更
@@ -71,6 +74,15 @@ class Users::RoomsController < ApplicationController
 
     def check_reviewable_user
       redirect_to users_rooms_path, danger: t(".unreviewable_error") unless current_user.is_reviewer?
+    end
+
+    def check_evaluation
+      return unless current_user.participating?(@room)
+
+      participated_at = current_user.participations.find_by(participating_room: @room).created_at
+      participating_term = (Time.zone.now.to_date - participated_at.to_date).to_i
+
+      participating_term >= 30 && !current_user.evaluated?(@room)
     end
 
     def get_review_reqs_with(open_state)
