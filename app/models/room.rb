@@ -55,10 +55,10 @@ class Room < ApplicationRecord
     end
   end
 
-  def evaluations_score
-    return "-" if evaluations.blank?
-    score = evaluations.inject(0) {|sum, ev| sum + ev.score } / evaluations.length
-    score.round(2)
+  def evaluations_score(output = nil, round = nil)
+    return output if evaluations.blank?
+    score = evaluations.sum {|ev| ev.score } / evaluations.length
+    round ? score.round(round) : score
   end
 
   def close!

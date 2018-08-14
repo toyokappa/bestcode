@@ -59,6 +59,15 @@ class User < ApplicationRecord
     evaluations.find_by(room: room).present?
   end
 
+  def evaluations_score(output = nil, round = nil)
+    length = owned_rooms.sum {|room| room.evaluations.length }
+    return output if length.zero?
+
+    total = owned_rooms.sum {|room| room.evaluations_score }
+    score = total / length
+    round ? score.round(round) : score
+  end
+
   def create_repo!(github_repo)
     repos.create!(
       id: github_repo.id,

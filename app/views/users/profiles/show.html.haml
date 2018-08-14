@@ -30,6 +30,9 @@
         .d-inline-block.px-3.text-center.b-l
           .text-md= @user.review_requests.count
           .text-sm.text-muted Review Requests
+        .d-inline-block.px-3.text-center.b-l
+          .text-md= @user.evaluations_score("-", 2)
+          .text-sm.text-muted Evaluation
 .padding
   .row
     - if @rooms.present?
