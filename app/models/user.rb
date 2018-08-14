@@ -25,6 +25,7 @@ class User < ApplicationRecord
   has_many :review_requests, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
   has_many :review_assigns, class_name: "ReviewRequest", through: :owned_rooms
   has_many :review_comments, dependent: :destroy, inverse_of: :user
+  has_many :evaluations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
 
   mount_uploader :image, UserImageUploader
   mount_uploader :header_image, HeaderImageUploader
@@ -52,6 +53,19 @@ class User < ApplicationRecord
 
   def belonging_to?(room)
     own?(room) || participating?(room)
+  end
+
+  def evaluated?(room)
+    evaluations.find_by(room: room).present?
+  end
+
+  def evaluations_score(output = nil, round = nil)
+    length = owned_rooms.sum {|room| room.evaluations.length }
+    return output if length.zero?
+
+    total = owned_rooms.sum(&:evaluations_score)
+    score = total / length
+    round ? score.round(round) : score
   end
 
   def create_repo!(github_repo)

@@ -30,6 +30,33 @@
             = render "review_reqs", review_reqs: @review_assigns, room: @room
           - elsif current_user.participating?(@room)
             = render "review_reqs", review_reqs: @review_reqs, room: @room
+      - unless current_user.belonging_to?(@room)
+        %h5 レビュイーからの評価
+        - if @room.evaluations.present?
+          - @room.evaluations.each do |evaluation|
+            .box
+              .box-header
+                .d-flex.align-items-stretch
+                  = link_to users_profile_path(evaluation.reviewee.name) do
+                    = image_tag evaluation.reviewee.check_and_return_image, class: "avatar w-32"
+                  %span.ml-2.mt-1= link_to evaluation.reviewee.name, users_profile_path(evaluation.reviewee.name)
+              .box-divider.m-0
+              .box-body
+                .mb-0
+                  %span 対応スピード:
+                  %strong.mr-3= evaluation.speed
+                  %span レビューの量:
+                  %strong.mr-3= evaluation.quantity
+                  %span レビューの質:
+                  %strong.mr-3= evaluation.quality
+                  %span 総合評価:
+                  %strong= evaluation.score
+                - if evaluation.comment.present?
+                  .mt-3= evaluation.comment
+                .mt-3.text-muted
+                  = evaluation.created_at.strftime("%Y-%m-%d %H:%M")
+        - else
+          .mb-3 現在レビュイーからの評価はありません
     .col-md-3
       .box
         .box-header.navbar
