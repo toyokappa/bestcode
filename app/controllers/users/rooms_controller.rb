@@ -73,7 +73,7 @@ class Users::RoomsController < ApplicationController
     end
 
     def check_reviewable_user
-      redirect_to users_rooms_path, danger: t(".unreviewable_error") unless current_user.is_reviewer?
+      redirect_to users_rooms_path, danger: t(".unreviewable_error") unless current_user.reviewer?
     end
 
     def check_evaluation

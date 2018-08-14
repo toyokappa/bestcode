@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :email
       t.integer :contribution, default: 0, null: false
-      t.boolean :is_reviewer, default: false, null: false
+      t.string :role, default: "reviewee", null: false
 
       t.timestamps
     end

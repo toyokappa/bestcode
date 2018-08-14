@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 2018_08_13_135755) do
     t.string "name"
     t.string "email"
     t.integer "contribution", default: 0, null: false
-    t.boolean "is_reviewer", default: false, null: false
+    t.string "role", default: "reviewee", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "access_token"
