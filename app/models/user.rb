@@ -128,12 +128,14 @@ class User < ApplicationRecord
 
     def get_contribution(nickname)
       # NOTE: できればこの処理を自鯖に持ちたいので修正する
-      url = "https://github-contributions-api.now.sh/v1/#{nickname}"
-      uri = URI.parse url
-      request = Net::HTTP::Get.new(uri.request_uri)
-      response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
-        http.request(request)
+      url = "https://github-contributions-api.now.sh"
+      conn = Faraday.new url: url do |faraday|
+        faraday.request  :url_encoded
+        faraday.response :logger
+        faraday.adapter  Faraday.default_adapter
       end
+
+      response = conn.get "/v1/#{nickname}"
       body = JSON.parse response.body
       body["years"]
     end
