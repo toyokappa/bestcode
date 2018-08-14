@@ -10,7 +10,7 @@ class Users::Rooms::EvaluationsController < ApplicationController
     @evaluation = current_user.evaluations.build(evaluation_params)
     if @evaluation.save
       if params[:referer] == "leave_room"
-        @room.close!
+        @room.reviewees.destroy(current_user)
         redirect_to users_rooms_path, success: "評価が完了し、ルームを退出しました"
       else
         redirect_to users_room_path(@room), success: "評価が完了しました"
