@@ -8,13 +8,14 @@
 #  name         :string(255)
 #  email        :string(255)
 #  contribution :integer          default(0), not null
-#  is_reviewer  :boolean          default(FALSE), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  access_token :string(255)
 #
 
 class User < ApplicationRecord
+  extend Enumerize
+
   has_many :owned_rooms, class_name: "Room", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
   has_many :participations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
   has_many :participating_rooms, class_name: "Room", through: :participations
@@ -27,6 +28,8 @@ class User < ApplicationRecord
   has_many :review_comments, dependent: :destroy, inverse_of: :user
   has_many :evaluations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
 
+  enumerize :role, in: [:reviewee, :reviewer], predicates: true
+
   mount_uploader :image, UserImageUploader
   mount_uploader :header_image, HeaderImageUploader
 
@@ -34,10 +37,6 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   after_create :init_repos_and_pulls
-
-  def authority
-    is_reviewer? ? "レビュワー" : "レビュイー"
-  end
 
   def participatable?(room)
     !own?(room) && !participating?(room) && !room.over_capacity?
@@ -122,19 +121,21 @@ class User < ApplicationRecord
         email: auth.info.email,
         remote_image_url: auth.info.image,
         contribution: contribution,
-        is_reviewer: reviewable_with?(contribution),
+        role: which_role_with?(contribution),
         access_token: auth.credentials.token,
       )
     end
 
     def get_contribution(nickname)
       # NOTE: できればこの処理を自鯖に持ちたいので修正する
-      url = "https://github-contributions-api.now.sh/v1/#{nickname}"
-      uri = URI.parse url
-      request = Net::HTTP::Get.new(uri.request_uri)
-      response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
-        http.request(request)
+      url = "https://github-contributions-api.now.sh"
+      conn = Faraday.new url: url do |faraday|
+        faraday.request  :url_encoded
+        faraday.response :logger
+        faraday.adapter  Faraday.default_adapter
       end
+
+      response = conn.get "/v1/#{nickname}"
       body = JSON.parse response.body
       body["years"]
     end
@@ -145,8 +146,8 @@ class User < ApplicationRecord
       yearly_contributions[0]["total"]
     end
 
-    def reviewable_with?(contribution)
-      contribution >= 1000
+    def which_role_with?(contribution)
+      (contribution >= 1000) ? :reviewer : :reviewee
     end
   end
 

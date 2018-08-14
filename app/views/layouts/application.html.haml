@@ -72,7 +72,7 @@
                 .dropdown-menu.dropdown-menu-right.w.pt-2.mt-2.animate.fadeIn
                   = link_to users_profile_path(current_user.name), class: "dropdown-item" do
                     %b= current_user.name
-                  - if current_user.is_reviewer?
+                  - if current_user.reviewer?
                     .dropdown-divider
                     = link_to new_users_room_path, class: 'dropdown-item' do
                       %span ルームを作成
