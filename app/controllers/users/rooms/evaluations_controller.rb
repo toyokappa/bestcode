@@ -9,12 +9,10 @@ class Users::Rooms::EvaluationsController < ApplicationController
   def create
     @evaluation = current_user.evaluations.build(evaluation_params)
     if @evaluation.save
-      if params[:referer] == "leave_room"
-        @room.reviewees.destroy(current_user)
-        redirect_to users_rooms_path, success: "評価が完了し、ルームを退出しました"
-      else
-        redirect_to users_room_path(@room), success: "評価が完了しました"
-      end
+      return redirect_to users_room_path(@room), success: "評価が完了しました" unless params[:referer] == "leave_room"
+
+      @room.reviewees.destroy(current_user)
+      redirect_to users_rooms_path, success: "評価が完了し、ルームを退出しました"
     else
       render "new"
     end
@@ -31,8 +29,6 @@ class Users::Rooms::EvaluationsController < ApplicationController
     end
 
     def check_evaluation
-      if current_user.evaluated?(@room)
-        redirect_to users_room_path(@room), danger: "こちらのルームは評価済みです"
-      end
+      redirect_to users_room_path(@room), danger: "こちらのルームは評価済みです" if current_user.evaluated?(@room)
     end
 end

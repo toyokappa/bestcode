@@ -57,7 +57,8 @@ class Room < ApplicationRecord
 
   def evaluations_score(output = nil, round = nil)
     return output if evaluations.blank?
-    score = evaluations.sum {|ev| ev.score } / evaluations.length
+
+    score = evaluations.sum(&:score) / evaluations.length
     round ? score.round(round) : score
   end
 
