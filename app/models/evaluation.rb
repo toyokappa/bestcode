@@ -5,4 +5,8 @@ class Evaluation < ApplicationRecord
   validates :speed, presence: true
   validates :quantity, presence: true
   validates :quality, presence: true
+
+  def score
+    (speed + quantity + quality).to_f / 3
+  end
 end

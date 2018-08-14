@@ -14,6 +14,14 @@
             .mb-3
               - room.languages.each do |language|
                 %span.badge.text-sm.primary.text-white= language.name
-            .text-sm 参加人数
-            .text-lg #{room.reviewees.size}/#{room.capacity}
+          .row.no-gutters.b-t.text-center
+            .col-4.b-r.py-3
+              .text-lg #{room.reviewees.size}/#{room.capacity}
+              .text-sm 参加人数
+            .col-4.b-r.py-3
+              .text-lg= room.review_assigns.count
+              .text-sm レビュー数
+            .col-4.py-3
+              .text-lg= room.evaluations_score
+              .text-sm 評価
 
