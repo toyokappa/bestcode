@@ -7,7 +7,7 @@ class Users::ReviewCommentsController < ApplicationController
     @review_comments = @review_req.review_comments
     @room = @review_req.room
     if @review_comment.save
-      @review_req.change_state(@review_comment.state)
+      @review_req.change_state(@review_comment)
       flash[:success] = "コメントしました"
       redirect_to users_rooms_review_request_path(@room, @review_req)
     else
@@ -23,7 +23,7 @@ class Users::ReviewCommentsController < ApplicationController
 
   def destroy
     if @review_comment == @review_req.review_comments.where.not(state: :commented).last
-      @review_req.rollback_state(@review_comment.state)
+      @review_req.rollback_state(@review_comment)
     end
     @review_comment.destroy!
     redirect_to users_rooms_review_request_path(@room, @review_req)
