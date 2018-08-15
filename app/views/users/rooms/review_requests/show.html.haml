@@ -5,6 +5,10 @@
         = link_to users_room_path(@room), class: "mr-2 align-middle text-primary" do
           %i.fa.fa-chevron-left
         %span.align-middle= @review_req.name
+        %span.ml-1
+          = link_to @review_req.pull.url, target: "_blank", class: "btn btn-sm btn-dark" do
+            %i.fa.fa-github
+            %span GitHub
     .box-tool
       %ul.nav
         %li.nav-item
