@@ -8,6 +8,7 @@ class Users::Pulls::ReviewRequestsController < ApplicationController
   def create
     @review_req = current_user.review_requests.build(review_req_params)
     if @review_req.save
+      ReviewRequestMailer.open(@review_req).deliver
       redirect_to users_rooms_review_request_path(@review_req.room, @review_req), success: "レビューリクエストの作成に成功しました"
     else
       @pull = current_user.pulls.find(params[:pull_id])
