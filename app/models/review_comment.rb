@@ -15,6 +15,7 @@ class ReviewComment < ApplicationRecord
       states = I18n.t("enumerize.review_comment.state")
       if user.own?(room)
         target_keys = review_req.wait_review? ? [:commented, :change_request, :approved] : [:commented]
+        target_keys = [:commented] unless review_req.is_open
       else
         target_keys =
           case review_req.state.to_sym
