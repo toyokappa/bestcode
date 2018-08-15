@@ -1,0 +1,69 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # CircleCI2.0でビルドの環境として任意のDocker imageを指定できるので、
+      # プロジェクトの構成に合わせてビルドイメージを作成して
+      # sikmiのgithubとDocker hubのautomated buildに登録しておく
+      #
+      # イメージの内容としては、awscliを使うために必要な
+      #   https://github.com/sikmi/awseb-deployer-docker
+      # がベースイメージとして存在し、そこからプロジェクトごとに
+      # 例えば、ビルド内でrubyやnodeが必要、となったら、
+      # 上記のイメージを"FROM"としたプロジェクト用のDocker Imageを作成する。
+      - image: toyokappa/bestcode-deployer-docker
+    working_directory: ~/bestcode
+    branches:
+      only:
+        - master
+        - feature/setup_production
+    steps:
+      # gitからソース取得
+      - checkout
+      # ビルド環境内でDockerを使う場合に必要な設定
+      #
+      # ビルド環境外にRemote Docker Daemonが立ちDokerでのオペレーションはそのRemote Docker daemonの中で行われる。
+      # このため、ビルド処理内で、
+      #   docker run -v (ビルド環境内のディレクトリ):(コンテナ内のディレクトリ) IMAGE_NAME COMMAND
+      # などをしても、「(ビルド環境内のディレクトリ)」は見えないので注意
+      #「(ビルド環境内のディレクトリ)」というのが、実際にはRemote Daemon内での場所になるため
+      - setup_remote_docker
+      - restore_cache:
+          name: Restoring docker cache
+          keys:
+            # キャッシュのキー名にdigestのsuffix付きとsuffix無しの2つを指定しているのは、
+            # digestが変わって新しいキャッシュになるときに、フルビルドを避けるために過去のキャッシュをrestoreしている。
+            # CircleCI2.0では、キャッシュのキー名の前方一致で検索されるためこれが可能。
+            - 001-cache-docker-image-{{ .Branch }}-{{ checksum "Dockerfile" }}
+            - 001-cache-docker-image-{{ .Branch }}-
+      - restore_cache:
+          name: Restoring bundle cache
+          keys:
+            - 001-cache-bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - 001-cache-bundle-{{ .Branch }}-
+      - run:
+          name: build docker
+          command: |
+            if [ $CIRCLE_BRANCH = 'master' ]; then
+              ./build_docker.sh $CIRCLE_SHA1 production
+            elif [ $CIRCLE_BRANCH = 'feature/setup_production' ]; then
+              ./build_docker.sh $CIRCLE_SHA1 production
+            fi
+      - save_cache:
+          name: Saving Docker Image cache
+          key: 001-cache-docker-image-{{ .Branch }}-{{ checksum "Dockerfile" }}
+          paths:
+            - "~/caches/docker"
+      - save_cache:
+          name: Saving bundle cache
+          key: 001-cache-bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - "~/caches/bundle"
+      - run:
+          name: deploy
+          command: |
+            if [ $CIRCLE_BRANCH = 'master' ]; then
+              ./deploy.sh $CIRCLE_SHA1 production $CIRCLE_BUILD_NUM
+            elif [ $CIRCLE_BRANCH = 'feature/setup_production' ]; then
+              ./deploy.sh $CIRCLE_SHA1 production $CIRCLE_BUILD_NUM
+            fi

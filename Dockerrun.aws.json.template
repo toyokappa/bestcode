@@ -1,0 +1,45 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "<APP_NAME>-rails",
+      "image": "<CONTAINER_REGISTRY>/<NAMESPACE>/<APP_NAME>-rails:<RAILS_ENV>_<TAG>",
+      "memory": <RAILS_MEMORY>,
+      "logConfiguration":
+      {
+        "logDriver": "awslogs",
+        "options":
+        {
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-group": "<APP_NAME>-rails",
+          "awslogs-stream-prefix": "<RAILS_ENV>"
+        }
+      }
+    },
+    {
+      "name": "<APP_NAME>-nginx",
+      "image": "<CONTAINER_REGISTRY>/<NAMESPACE>/<APP_NAME>-nginx:<NGINX_TAG>",
+      "memory": <NGINX_MEMORY>,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration":
+      {
+        "logDriver": "awslogs",
+        "options":
+        {
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-group": "<APP_NAME>-nginx",
+          "awslogs-stream-prefix": "<RAILS_ENV>"
+        }
+      },
+      "links": [
+        "<APP_NAME>-rails:rails"
+      ]
+    }
+  ]
+}
