@@ -1,0 +1,12 @@
+<%= @reviewee.name %>さんがあなたのルームから退室しました。
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+【ルーム名】
+<%= @room.name %>
+
+【ルームURL】
+<%= users_room_url(@room) %>
+
+【退室したユーザー】
+<%= users_profile_url(@reviewee.name) %>
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝

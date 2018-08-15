@@ -6,7 +6,8 @@ class Evaluation < ApplicationRecord
   validates :quantity, presence: true
   validates :quality, presence: true
 
-  def score
-    (speed + quantity + quality).to_f / 3
+  def score(round = nil)
+    score = (speed + quantity + quality).to_f / 3
+    round ? score.round(round) : score
   end
 end

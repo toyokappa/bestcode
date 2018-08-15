@@ -1,0 +1,21 @@
+<%= @reviewee.name %>さんがあなたのルームから退室しました。
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+【ルーム名】
+<%= @room.name %>
+
+【ルームURL】
+<%= users_room_url(@room) %>
+
+【退室したユーザー】
+<%= users_profile_url(@reviewee.name) %>
+
+【評価】
+対応スピード: <%= @evaluation.speed %>
+レビューの量: <%= @evaluation.quantity %>
+レビューの質: <%= @evaluation.quality %>
+総合評価: <%= @evaluation.score(2) %>
+
+コメント:
+<%= @evaluation.comment %>
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝

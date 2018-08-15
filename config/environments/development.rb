@@ -64,4 +64,6 @@ Rails.application.configure do
 
   # Extra configurations
   config.x.redis_url = "#{ENV.fetch("REDIS_HOSTNAME") { "localhost" }}:#{ENV.fetch("REDIS_PORT") { "6379" }}"
+  config.x.mail.info = "info@reviewhub.com"
+  config.x.mail.bcc = "kppg42@gmail.com"
 end

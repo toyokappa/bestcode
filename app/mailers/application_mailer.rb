@@ -1,4 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: Rails.configuration.x.mail.info
+  default bcc: Rails.configuration.x.mail.bcc
   layout "mailer"
 end
