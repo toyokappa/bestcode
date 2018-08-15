@@ -32,8 +32,9 @@ class ReviewRequest < ApplicationRecord
 
   enumerize :state, in: [:wait_review, :change_request, :approved, :resolved], predicates: true
 
-  def change_state(comment_state)
-    case comment_state.to_sym
+  def change_state(comment)
+    state = comment.state.to_sym
+    case state
     when :change_request
       update!(state: :change_request)
     when :rereview_request
@@ -47,10 +48,15 @@ class ReviewRequest < ApplicationRecord
     when :reopen
       update!(is_open: true)
     end
+
+    return ReviewRequestMailer.send(state, comment, self).deliver if state == :commented
+
+    ReviewRequestMailer.send(state, self).deliver
   end
 
-  def rollback_state(comment_state)
-    case comment_state.to_sym
+  def rollback_state(comment)
+    state = comment.state.to_sym
+    case state
     when :change_request
       update!(state: :wait_review)
     when :rereview_request

@@ -50,7 +50,7 @@
                   %span レビューの質:
                   %strong.mr-3= evaluation.quality
                   %span 総合評価:
-                  %strong= evaluation.score
+                  %strong= evaluation.score(2)
                 - if evaluation.comment.present?
                   .mt-3= evaluation.comment
                 .mt-3.text-muted

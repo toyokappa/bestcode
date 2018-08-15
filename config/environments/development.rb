@@ -34,6 +34,8 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.delivery_method = :letter_opener
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -62,4 +64,6 @@ Rails.application.configure do
 
   # Extra configurations
   config.x.redis_url = "#{ENV.fetch("REDIS_HOSTNAME") { "localhost" }}:#{ENV.fetch("REDIS_PORT") { "6379" }}"
+  config.x.mail.info = "info@reviewhub.com"
+  config.x.mail.bcc = "kppg42@gmail.com"
 end

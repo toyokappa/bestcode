@@ -42,6 +42,7 @@ gem "mini_magick"
 
 group :development, :test do
   gem "factory_bot_rails"
+  gem "letter_opener"
   gem "pry-byebug"
   gem "pry-doc"
   gem "pry-rails"
