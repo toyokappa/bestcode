@@ -1,5 +1,5 @@
-# ReviewHub（仮）について
-ReviewHub（仮）はレビュワーとレビュイーをつなげるマッチングプラットフォームです。一定以上の開発スキルを持っているレビュワーが部屋を作成することができ、その部屋に所属しているレビュイーからのレビューリクエストを受け、レビューを行っていくというサービスフローをイメージしています。
+# BestCodeについて
+BestCodeはレビュワーとレビュイーをつなげるマッチングプラットフォームです。一定以上の開発スキルを持っているレビュワーが部屋を作成することができ、その部屋に所属しているレビュイーからのレビューリクエストを受け、レビューを行っていくというサービスフローをイメージしています。
 
 レビュワーが自身の部屋に月額費用を設定できるUIを想定しているため、ちょっとしたお小遣い稼ぎにレビューを行うといったことが可能です。レビュイーは月額費用を支払うことで、プロのエンジニアから本格的なレビューを受けることが出来るため、プログラミング言語学習の成果を飛躍的に伸ばせることが期待できます。
 
@@ -25,8 +25,8 @@ Webpack: 4.10
 サーバサイドはRails、フロントエンドはWebpackを使用しています。下記にも記載をしますが、JSのパッケージ管理はYarnで行いますのでLocalで環境構築をする場合は事前にインストールをしていただくようにお願いします。(Dockerの場合は不要)
 
 ## 事前準備
-GitHub developer settingsにてReviewHubの開発環境用のOAuth Appsを作成しておく必要があります。
-ReviewHubのOAuth Appsの作成が完了したら下記の通りに環境変数を自身のPC等に設定してください。
+GitHub developer settingsにてBestCodeの開発環境用のOAuth Appsを作成しておく必要があります。
+BestCodeのOAuth Appsの作成が完了したら下記の通りに環境変数を自身のPC等に設定してください。
 
 ```bash
 export GITHUB_KEY="今回取得したaccess_key"
@@ -46,8 +46,8 @@ Yarn:  JSライブラリの管理に仕様
 ### セットアップコマンド
 下記のコマンドで開発環境のセットアップが可能です。
 ```bash
-$ git clone git@github.com:toyokappa/reviewhub.git
-$ cd reviewhub/
+$ git clone git@github.com:toyokappa/bestcode.git
+$ cd bestcode/
 $ bundle install --path vendor/bundle
 $ bin/rails db:create
 $ bin/rails db:migrate
@@ -62,8 +62,8 @@ $ yarn run start
 ## 開発環境セットアップ(Docker環境)
 Docker環境も用意しています。Dockerでの環境構築を希望の場合は下記でセットアップしてください。
 ```bash
-$ git clone git@github.com:toyokappa/reviewhub.git
-$ cd reviewhub/
+$ git clone git@github.com:toyokappa/bestcode.git
+$ cd bestcode/
 
 # 初回のみ実行。5〜10分程度かかります。
 $ docker-compose build

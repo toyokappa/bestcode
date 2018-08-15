@@ -10,14 +10,14 @@ default: &default
 
 development:
   <<: *default
-  database: reviewhub_development
+  database: bestcode_development
 
 test:
   <<: *default
-  database: reviewhub_test
+  database: bestcode_test
 
 production:
   <<: *default
-  database: reviewhub_production
-  username: reviewhub
-  password: <%= ENV['REVIEWHUB_DATABASE_PASSWORD'] %>
+  database: bestcode_production
+  username: bestcode
+  password: <%= ENV['BESTCODE_DATABASE_PASSWORD'] %>

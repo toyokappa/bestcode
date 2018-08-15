@@ -63,7 +63,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: reviewhub_development
+      MYSQL_DATABASE: bestcode_development
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
   redis:

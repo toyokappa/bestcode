@@ -1,5 +1,5 @@
 {
-  "name": "reviewhub",
+  "name": "bestcode",
   "private": true,
   "scripts": {
     "build": "webpack --config frontend/webpack.config.js",
