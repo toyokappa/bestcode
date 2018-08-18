@@ -1,21 +1,25 @@
-// TODO: 本番環境用は完全なセットアップができていないためデプロイをするタイミングで設定が必要
+if (typeof process.env.ENV === 'undefined') {
+  console.error('You need to define $ENV for npm build.');
+  process.exit(1);
+}
+
 const webpack = require("webpack");
 const path = require("path");
 
 const __root = path.resolve(__dirname, "../");
-const buildPath = path.resolve(__root, "public", "assets");
+const buildPath = path.resolve(__root, "public", process.env.ENV, "assets");
 const nodeModulesPath = path.resolve(__root, "node_modules");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 
 const configs = [
   {
-    mode: "development",
+    mode: "production",
     entry: path.join(__root, "/frontend/javascripts/application.js"),
     devtool: "source-map",
     output: {
       path: buildPath,
-      filename: "[name].js",
+      filename: "[name].[hash].js",
     },
     module: {
       rules: [
@@ -50,10 +54,12 @@ const configs = [
     },
     optimization: {
       noEmitOnErrors: true,
-      minimize: true,
+      minimizer: [
+        new UglifyJsPlugin(),
+      ],
     },
     plugins: [
-      new ExtractTextPlugin("[name].css"),
+      new ExtractTextPlugin("[name].[hash].css"),
       new ManifestPlugin(),
       new webpack.ProvidePlugin({
         $: "jquery",
@@ -63,6 +69,7 @@ const configs = [
     resolve: {
       extensions: [".js", ".jsx"]
     },
+    cache: true,
   },
 ];
 

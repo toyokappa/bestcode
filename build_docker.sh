@@ -21,7 +21,8 @@ export NGINX_TAG
 BUNDLE_CACHE_PATH=~/caches/bundle
 bundle install --path=${BUNDLE_CACHE_PATH}
 
-# TODO: webpackのbuild
+# webpackのbuild
+ENV=${ENV} yarn run build:app
 
 $(aws ecr get-login --region ap-northeast-1)
 

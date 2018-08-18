@@ -2,8 +2,12 @@
   "name": "bestcode",
   "private": true,
   "scripts": {
-    "build": "webpack --config frontend/webpack.config.js",
-    "start": "webpack-dev-server --config frontend/webpack.config.js --colors --progress"
+    "start": "webpack-dev-server --config frontend/webpack.config.js --colors --progress",
+    "build:app": "yarn install && yarn run clean && yarn run build:production && yarn run asset_sync",
+    "build:production": "webpack --config frontend/webpack.config-pro.js --progress --color",
+    "build:development": "webpack --config frontend/webpack.config.js",
+    "clean": "node frontend/clean.js",
+    "asset_sync": "node frontend/asset_sync.js"
   },
   "dependencies": {
     "activestorage": "^5.2.0",
@@ -11,11 +15,13 @@
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "font-awesome": "^4.7.0",
+    "fs-extra": "^7.0.0",
     "github-markdown-css": "^2.10.0",
     "jquery": "^3.3.1",
     "jquery-ujs": "^1.2.2",
     "node-sass": "^4.9.0",
     "popper.js": "^1.14.3",
+    "s3": "^4.4.0",
     "sass-loader": "^7.0.1",
     "select2": "^4.0.6-rc.1",
     "style-loader": "^0.21.0",
