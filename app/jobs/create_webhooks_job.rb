@@ -8,9 +8,9 @@ class CreateWebhooksJob < ApplicationJob
       repo.id,
       "web",
       {
-        url: "http://325c6cde.ngrok.io/hooks/pulls",
+        url: Rails.configuration.x.webhook.url,
         content_type: :json,
-        secret: "development",
+        secret: Rails.configuration.x.webhook.secret,
       },
       {
         events: %w[push pull_request],

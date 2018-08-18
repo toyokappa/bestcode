@@ -91,4 +91,11 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Extra configurations
+  # config.x.redis_url = "#{ENV.fetch("REDIS_HOSTNAME") { "localhost" }}:#{ENV.fetch("REDIS_PORT") { "6379" }}"
+  config.x.mail.info = "info@bestcode.com"
+  config.x.mail.bcc = "kppg42@gmail.com"
+  config.x.webhook.url = "http://bestcode-production.sjpnkywfup.ap-northeast-1.elasticbeanstalk.com/hooks/pulls"
+  config.x.webhook.secret = ENV["WEBHOOK_SECRET"]
 end
