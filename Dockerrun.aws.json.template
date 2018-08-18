@@ -5,6 +5,9 @@
       "name": "<APP_NAME>-rails",
       "image": "<CONTAINER_REGISTRY>/<NAMESPACE>/<APP_NAME>-rails:<RAILS_ENV>_<TAG>",
       "memory": <RAILS_MEMORY>,
+      "command": [
+        "/usr/src/app/bin/start_server.sh"
+      ],
       "logConfiguration":
       {
         "logDriver": "awslogs",
@@ -12,6 +15,24 @@
         {
           "awslogs-region": "ap-northeast-1",
           "awslogs-group": "<APP_NAME>-rails",
+          "awslogs-stream-prefix": "<RAILS_ENV>"
+        }
+      }
+    },
+    {
+      "name": "<APP_NAME>-sidekiq",
+      "image": "<CONTAINER_REGISTRY>/<NAMESPACE>/<APP_NAME>-rails:<RAILS_ENV>_<TAG>",
+      "memory": <SIDEKIQ_MEMORY>,
+      "command": [
+        "/usr/src/app/bin/start_sidekiq.sh"
+      ],
+      "logConfiguration":
+      {
+        "logDriver": "awslogs",
+        "options":
+        {
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-group": "<APP_NAME>-sidekiq",
           "awslogs-stream-prefix": "<RAILS_ENV>"
         }
       }

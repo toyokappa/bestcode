@@ -13,10 +13,12 @@ BUILD_NO=$3
 
 if [ -n "$ENV" -a "$ENV" = "production" ]; then
   RAILS_MEMORY=648
+  SIDEKIQ_MEMORY=128
   NGINX_MEMORY=128
   NGINX_TAG=latest
 elif [ -n "$ENV" -a "$ENV" = "staging" ]; then
   RAILS_MEMORY=648
+  SIDEKIQ_MEMORY=128
   NGINX_MEMORY=128
   NGINX_TAG=release
 fi
@@ -31,6 +33,7 @@ sed -i -e "s/<NAMESPACE>/${NAMESPACE}/g" ${DOCKERRUN_FILE}
 sed -i -e "s/<RAILS_ENV>/${ENV}/g" ${DOCKERRUN_FILE}
 sed -i -e "s/<CONTAINER_REGISTRY>/${CONTAINER_REGISTRY}/g" ${DOCKERRUN_FILE}
 sed -i -e "s/<RAILS_MEMORY>/${RAILS_MEMORY}/g" ${DOCKERRUN_FILE}
+sed -i -e "s/<SIDEKIQ_MEMORY>/${SIDEKIQ_MEMORY}/g" ${DOCKERRUN_FILE}
 sed -i -e "s/<NGINX_MEMORY>/${NGINX_MEMORY}/g" ${DOCKERRUN_FILE}
 sed -i -e "s/<NGINX_TAG>/${NGINX_TAG}/g" ${DOCKERRUN_FILE}
 
