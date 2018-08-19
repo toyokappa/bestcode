@@ -41,7 +41,7 @@ var params = {
                        // that have no corresponding local file.
 
   s3Params: {
-    Bucket: "bestcode",
+    Bucket: "bestcode-app",
     Prefix: prefix,
     ACL: "public-read",
     CacheControl: "max-age=315576000",
