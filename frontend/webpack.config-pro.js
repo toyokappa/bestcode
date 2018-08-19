@@ -54,9 +54,7 @@ const configs = [
     },
     optimization: {
       noEmitOnErrors: true,
-      minimizer: [
-        new UglifyJsPlugin(),
-      ],
+      minimize: true,
     },
     plugins: [
       new ExtractTextPlugin("[name].[hash].css"),
