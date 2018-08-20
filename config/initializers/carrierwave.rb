@@ -7,6 +7,7 @@ if Rails.env.production?
       aws_access_key_id: ENV["S3_ACCESS_KEY"],
       aws_secret_access_key: ENV["S3_SECRET_KEY"],
     }
+    config.asset_host = "https://bestcode.reviews"
     config.fog_directory = "bestcode-app"
     config.cache_storage = :fog
     config.fog_attributes = { "Cache-Control" => "max-age=315576000" }
