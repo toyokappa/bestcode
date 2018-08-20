@@ -17,9 +17,9 @@ services:
       - gem_data:/usr/src/app/vendor/bundle
     environment:
       RAILS_ENV: development
-      RAILS_DB_HOST: db
-      RAILS_DB_USER: root
-      RAILS_DB_PASS:
+      RDS_HOSTNAME: db
+      RDS_USERNAME: root
+      RDS_PASSWORD:
       REDIS_HOSTNAME: redis
       REDIS_PORT: 6379
       GITHUB_KEY: $GITHUB_KEY
