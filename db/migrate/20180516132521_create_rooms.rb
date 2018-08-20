@@ -4,6 +4,8 @@ class CreateRooms < ActiveRecord::Migration[5.2]
       t.string :name
       t.text :description
       t.integer :capacity
+      t.boolean :is_open, null: false, default: true
+      t.string :image
       t.references :reviewer
 
       t.timestamps

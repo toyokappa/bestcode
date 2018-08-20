@@ -60,11 +60,11 @@ ActiveRecord::Schema.define(version: 2018_08_13_135755) do
     t.string "url"
     t.boolean "is_private", default: false, null: false
     t.boolean "is_visible", default: false, null: false
+    t.boolean "is_hook", default: false, null: false
     t.bigint "user_id"
     t.datetime "pushed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_hook", default: false, null: false
     t.index ["user_id"], name: "index_repos_on_user_id"
   end
 
@@ -98,11 +98,11 @@ ActiveRecord::Schema.define(version: 2018_08_13_135755) do
     t.string "name"
     t.text "description"
     t.integer "capacity"
+    t.boolean "is_open", default: true, null: false
+    t.string "image"
     t.bigint "reviewer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_open", default: true, null: false
-    t.string "image"
     t.index ["reviewer_id"], name: "index_rooms_on_reviewer_id"
   end
 
@@ -123,12 +123,12 @@ ActiveRecord::Schema.define(version: 2018_08_13_135755) do
     t.string "email"
     t.integer "contribution", default: 0, null: false
     t.string "role", default: "reviewee", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "access_token"
     t.string "image"
-    t.boolean "is_first_time", default: true, null: false
     t.string "header_image"
+    t.boolean "is_first_time", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "pulls", "repos"
