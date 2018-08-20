@@ -1,8 +1,8 @@
 # Be sure to restart your server when you modify this file.
 
 Rails.application.config.assets.webpack_manifest =
-  if File.exist?(Rails.root.join("public", "assets", "manifest.json"))
-    JSON.parse(File.read(Rails.root.join("public", "assets", "manifest.json")))
+  if File.exist?(Rails.root.join("public", Rails.env, "assets", "manifest.json"))
+    JSON.parse(File.read(Rails.root.join("public", Rails.env, "assets", "manifest.json")))
   end
 
 # Version of your assets, change this if you want to expire all your assets.
