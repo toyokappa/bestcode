@@ -1,4 +1,6 @@
 class Users::TopController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :update
+
   def index
   end
 
