@@ -6,9 +6,12 @@ export default class InitModal {
 
   displayModal() {
     this.$root.modal();
+    const token = $('meta[name="csrf_token"]').attr('content')
+
     $.ajax({
       url: '/users/top',
       method: 'PATCH',
+      data: { authenticity_token: token }
     });
   }
 }
