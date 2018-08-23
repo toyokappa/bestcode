@@ -113,7 +113,7 @@ class User < ApplicationRecord
 
   class << self
     def create_with_omniauth(auth)
-      contribution = total_contribution(auth.info.nickname)
+      contribution = total_contributions(auth.info.nickname)
       create!(
         provider: auth.provider,
         uid: auth.uid,
@@ -126,7 +126,7 @@ class User < ApplicationRecord
       )
     end
 
-    def get_contribution(nickname)
+    def get_contributions(nickname)
       # NOTE: できればこの処理を自鯖に持ちたいので修正する
       url = "https://github-contributions-api.now.sh"
       conn = Faraday.new url: url do |faraday|
@@ -137,13 +137,13 @@ class User < ApplicationRecord
 
       response = conn.get "/v1/#{nickname}"
       body = JSON.parse response.body
-      body["years"]
+      body["contributions"]
     end
 
-    # 昨年〜今年のコントリビューションを取得し合算
-    def total_contribution(nickname)
-      yearly_contributions = get_contribution(nickname)
-      yearly_contributions[0]["total"]
+    # コントリビューションの総計を算出
+    def total_contributions(nickname)
+      contributions = get_contributions(nickname)
+      contributions.sum {|con| con["count"] }
     end
 
     def which_role_with?(contribution)
