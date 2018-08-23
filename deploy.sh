@@ -12,13 +12,13 @@ ENV=$2
 BUILD_NO=$3
 
 if [ -n "$ENV" -a "$ENV" = "production" ]; then
-  RAILS_MEMORY=648
-  SIDEKIQ_MEMORY=128
+  RAILS_MEMORY=600
+  SIDEKIQ_MEMORY=200
   NGINX_MEMORY=128
   NGINX_TAG=latest
 elif [ -n "$ENV" -a "$ENV" = "staging" ]; then
-  RAILS_MEMORY=648
-  SIDEKIQ_MEMORY=128
+  RAILS_MEMORY=600
+  SIDEKIQ_MEMORY=200
   NGINX_MEMORY=128
   NGINX_TAG=release
 fi
