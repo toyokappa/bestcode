@@ -4,13 +4,13 @@ class Users::ParticipationsController < ApplicationController
 
   def update
     check_participation_condition(@room)
-    RoomMailer.participate(@room, current_user).deliver
+    RoomMailer.participate(@room, current_user).deliver_later
     redirect_to users_room_path(@room)
   end
 
   def destroy
     @room.reviewees.destroy(current_user)
-    RoomMailer.leave(@room, current_user).deliver
+    RoomMailer.leave(@room, current_user).deliver_later
     redirect_to users_room_path(@room), success: t(".leaving_success", name: @room.name)
   end
 

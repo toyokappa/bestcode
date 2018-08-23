@@ -49,9 +49,9 @@ class ReviewRequest < ApplicationRecord
       update!(is_open: true)
     end
 
-    return ReviewRequestMailer.send(state, comment, self).deliver if state == :commented
+    return ReviewRequestMailer.send(state, comment, self).deliver_later if state == :commented
 
-    ReviewRequestMailer.send(state, self).deliver
+    ReviewRequestMailer.send(state, self).deliver_later
   end
 
   def rollback_state(comment)
