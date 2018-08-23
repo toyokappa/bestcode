@@ -36,7 +36,7 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
-  after_create :init_repos_and_pulls
+  after_create :init_repos
 
   def participatable?(room)
     !own?(room) && !participating?(room) && !room.over_capacity?
@@ -153,7 +153,7 @@ class User < ApplicationRecord
 
   private
 
-    def init_repos_and_pulls
-      SyncReposAndPullsJob.perform_later(self)
+    def init_repos
+      SyncReposJob.perform_later(self)
     end
 end
