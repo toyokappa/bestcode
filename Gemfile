@@ -44,6 +44,9 @@ gem "mini_magick"
 # Mailer
 gem "mailgun_rails"
 
+# Error Tracking
+gem "rollbar"
+
 group :development, :test do
   gem "factory_bot_rails"
   gem "letter_opener"
