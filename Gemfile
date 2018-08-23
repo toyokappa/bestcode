@@ -41,6 +41,9 @@ gem "carrierwave"
 gem "fog-aws"
 gem "mini_magick"
 
+# Mailer
+gem "mailgun_rails"
+
 group :development, :test do
   gem "factory_bot_rails"
   gem "letter_opener"

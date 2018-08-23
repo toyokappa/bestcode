@@ -65,6 +65,12 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "bestcode_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = { host: "bestcode.reviews", protocol: "https" }
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: ENV["MAILGUN_API_KEY"],
+    domain: "mg.bestcode.reviews"
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -95,7 +101,7 @@ Rails.application.configure do
 
   # Extra configurations
   config.x.redis_url = "#{ENV.fetch("REDIS_HOSTNAME") { "localhost" }}:#{ENV.fetch("REDIS_PORT") { "6379" }}"
-  config.x.mail.info = "info@bestcode.com"
+  config.x.mail.info = "info@bestcode.reviews"
   config.x.mail.bcc = "kppg42@gmail.com"
   config.x.webhook.url = "#{config.action_controller.asset_host}/hooks/pulls"
   config.x.webhook.secret = ENV["WEBHOOK_SECRET"]
