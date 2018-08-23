@@ -9,6 +9,7 @@ gem "faraday"
 gem "haml-rails"
 gem "mysql2", ">= 0.4.4", "< 0.6.0"
 gem "puma", "~> 3.11"
+gem "puma_worker_killer"
 gem "rails", "~> 5.2.0"
 gem "uglifier", ">= 1.3.0"
 
