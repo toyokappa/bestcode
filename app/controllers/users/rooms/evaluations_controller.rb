@@ -1,4 +1,5 @@
 class Users::Rooms::EvaluationsController < ApplicationController
+  before_action :set_title
   before_action :set_room
   before_action :check_evaluation
 
@@ -20,6 +21,10 @@ class Users::Rooms::EvaluationsController < ApplicationController
   end
 
   private
+
+    def set_title
+      @title = "レビュワー評価"
+    end
 
     def evaluation_params
       params.require(:evaluation).permit(:speed, :quantity, :quality, :comment, :user_id, :room_id)

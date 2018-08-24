@@ -1,4 +1,6 @@
 class Users::ProfilesController < ApplicationController
+  before_action :set_title
+
   def show
     @user = User.find_by!(name: params[:name])
     @rooms = @user.owned_rooms.where(is_open: true)
@@ -16,6 +18,10 @@ class Users::ProfilesController < ApplicationController
   end
 
   private
+
+    def set_title
+      @title = "プロフィール"
+    end
 
     def update_header_params
       params.require(:user).permit(:header_image)

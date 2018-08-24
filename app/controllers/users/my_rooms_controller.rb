@@ -1,5 +1,6 @@
 class Users::MyRoomsController < ApplicationController
   def index
+    @title = "Myルーム"
     @reviewer_rooms =
       case params[:open_state]
       when "closed"
