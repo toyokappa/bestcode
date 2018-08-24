@@ -7,7 +7,6 @@ jobs:
     branches:
       only:
         - master
-        - feature/setup_production
     steps:
       - checkout
       - setup_remote_docker
@@ -24,11 +23,7 @@ jobs:
       - run:
           name: build docker
           command: |
-            if [ $CIRCLE_BRANCH = 'master' ]; then
-              ./build_docker.sh $CIRCLE_SHA1 production
-            elif [ $CIRCLE_BRANCH = 'feature/setup_production' ]; then
-              ./build_docker.sh $CIRCLE_SHA1 production
-            fi
+            ./build_docker.sh $CIRCLE_SHA1 production
       - save_cache:
           name: Saving Docker Image cache
           key: 001-cache-docker-image-{{ .Branch }}-{{ checksum "Dockerfile" }}
@@ -42,8 +37,4 @@ jobs:
       - run:
           name: deploy
           command: |
-            if [ $CIRCLE_BRANCH = 'master' ]; then
-              ./deploy.sh $CIRCLE_SHA1 production $CIRCLE_BUILD_NUM
-            elif [ $CIRCLE_BRANCH = 'feature/setup_production' ]; then
-              ./deploy.sh $CIRCLE_SHA1 production $CIRCLE_BUILD_NUM
-            fi
+            ./deploy.sh $CIRCLE_SHA1 production $CIRCLE_BUILD_NUM
