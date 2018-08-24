@@ -7,7 +7,7 @@ class Users::ProfilesController < ApplicationController
 
   def update_header
     @user = User.find_by!(name: params[:name])
-    if @user.update(update_header_params)
+    if params[:user].present? && @user.update(update_header_params)
       redirect_to users_profile_path(@user.name), success: "ヘッダー画像を更新しました"
     else
       flash.now[:danger] = "ヘッダー画像の更新に失敗しました"

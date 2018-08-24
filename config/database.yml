@@ -4,9 +4,9 @@ default: &default
   charset: utf8mb4
   collation: utf8mb4_general_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("RAILS_DB_HOST") { "localhost" } %>
-  username: <%= ENV.fetch("RAILS_DB_USER") { "root" } %>
-  password: <%= ENV.fetch("RAILS_DB_PASS") { "" } %>
+  host: <%= ENV.fetch("RDS_HOSTNAME") { "localhost" } %>
+  username: <%= ENV.fetch("RDS_USERNAME") { "root" } %>
+  password: <%= ENV.fetch("RDS_PASSWORD") { "" } %>
 
 development:
   <<: *default
@@ -19,5 +19,3 @@ test:
 production:
   <<: *default
   database: bestcode_production
-  username: bestcode
-  password: <%= ENV['BESTCODE_DATABASE_PASSWORD'] %>

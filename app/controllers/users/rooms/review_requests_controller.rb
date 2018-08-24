@@ -19,7 +19,7 @@ class Users::Rooms::ReviewRequestsController < ApplicationController
   def create
     @review_req = current_user.review_requests.build(review_req_params)
     if @review_req.save
-      ReviewRequestMailer.open(@review_req).deliver
+      ReviewRequestMailer.open(@review_req).deliver_later
       redirect_to users_rooms_review_request_path(@room, @review_req), success: "レビューリクエストの作成に成功しました"
     else
       set_collections

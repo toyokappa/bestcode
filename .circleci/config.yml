@@ -1,0 +1,40 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: toyokappa/bestcode-deployer-docker
+    working_directory: ~/bestcode
+    branches:
+      only:
+        - master
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          name: Restoring docker cache
+          keys:
+            - 001-cache-docker-image-{{ .Branch }}-{{ checksum "Dockerfile" }}
+            - 001-cache-docker-image-{{ .Branch }}-
+      - restore_cache:
+          name: Restoring bundle cache
+          keys:
+            - 001-cache-bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - 001-cache-bundle-{{ .Branch }}-
+      - run:
+          name: build docker
+          command: |
+            ./build_docker.sh $CIRCLE_SHA1 production
+      - save_cache:
+          name: Saving Docker Image cache
+          key: 001-cache-docker-image-{{ .Branch }}-{{ checksum "Dockerfile" }}
+          paths:
+            - "~/caches/docker"
+      - save_cache:
+          name: Saving bundle cache
+          key: 001-cache-bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - "~/caches/bundle"
+      - run:
+          name: deploy
+          command: |
+            ./deploy.sh $CIRCLE_SHA1 production $CIRCLE_BUILD_NUM
