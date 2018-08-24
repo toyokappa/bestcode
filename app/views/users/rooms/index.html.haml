@@ -8,20 +8,20 @@
             .p-5.pos-rlt.text-center
               = link_to users_profile_path(room.reviewer.name) do
                 = image_tag room.reviewer.check_and_return_image, class: 'circle w-56', style: 'margin-bottom: -7rem'
-          .box-body.text-center
-            = link_to room.reviewer.name, users_profile_path(room.reviewer.name), class: 'my-3 d-block'
-            .text-md= link_to room.name, users_room_path(room)
-            .mb-3
-              - room.languages.each do |language|
-                %span.badge.text-sm.primary.text-white= language.name
-          .row.no-gutters.b-t.text-center
-            .col-4.b-r.py-3
-              .text-lg #{room.reviewees.size}/#{room.capacity}
-              .text-sm 参加人数
-            .col-4.b-r.py-3
-              .text-lg= room.review_assigns.count
-              .text-sm レビュー数
-            .col-4.py-3
-              .text-lg= room.evaluations_score("-", 2)
-              .text-sm 評価
-
+          = link_to users_room_path(room) do
+            .box-body.text-center
+              .my-3= room.reviewer.name
+              .text-md= room.name
+              .mb-3
+                - room.languages.each do |language|
+                  %span.badge.text-sm.primary.text-white= language.name
+            .row.no-gutters.b-t.text-center
+              .col-4.b-r.py-3
+                .text-lg #{room.reviewees.size}/#{room.capacity}
+                .text-sm 参加人数
+              .col-4.b-r.py-3
+                .text-lg= room.review_assigns.count
+                .text-sm レビュー数
+              .col-4.py-3
+                .text-lg= room.evaluations_score("-", 2)
+                .text-sm 評価
