@@ -32,8 +32,8 @@ Rails.application.configure do
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = 'https://bestcode.reviews'
-  config.assets.prefix = '/production/assets'
+  config.action_controller.asset_host = "https://bestcode.reviews"
+  config.assets.prefix = "/production/assets"
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
@@ -69,7 +69,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
     api_key: ENV["MAILGUN_API_KEY"],
-    domain: "mg.bestcode.reviews"
+    domain: "mg.bestcode.reviews",
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.

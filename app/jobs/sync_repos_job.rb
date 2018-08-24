@@ -6,11 +6,7 @@ class SyncReposJob < ApplicationJob
     github_user.login
     github_user.repos({}, query: { type: "owner" }).each do |github_repo|
       repo = user.repos.find_by(id: github_repo.id)
-      if repo
-        repo.sync!(github_repo)
-      else
-        repo = user.create_repo!(github_repo)
-      end
+      repo ? repo.sync!(github_repo) : user.create_repo!(github_repo)
     end
   end
 end
