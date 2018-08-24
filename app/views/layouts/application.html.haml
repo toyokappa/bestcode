@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title BestCode
+    %title= @title ? "#{@title} | BestCode" : "BestCode"
     = csrf_meta_tags
     = csp_meta_tag
     = webpack_css_tag("main.css")

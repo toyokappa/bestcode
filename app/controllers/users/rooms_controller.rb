@@ -1,13 +1,16 @@
 class Users::RoomsController < ApplicationController
+  before_action :set_title
   before_action :check_reviewable_user, only: [:new, :create]
   before_action :set_room, only: [:edit, :update, :destroy, :reopen]
   before_action :set_lang_ids, only: [:create, :update]
 
   def index
+    @title = "ルーム一覧"
     @rooms = Room.where(is_open: true).order(created_at: :desc)
   end
 
   def show
+    @title = "ルーム詳細"
     @room = Room.find(params[:id])
     if check_evaluation
       return redirect_to new_users_rooms_evaluation_path(@room), success: "#{@room.name}の評価をしてください"
@@ -55,6 +58,9 @@ class Users::RoomsController < ApplicationController
   end
 
   private
+    def set_title
+      @title = "ルーム"
+    end
 
     def room_params
       params.require(:room).permit(:name, :description, :capacity, :image)

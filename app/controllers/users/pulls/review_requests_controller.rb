@@ -1,4 +1,6 @@
 class Users::Pulls::ReviewRequestsController < ApplicationController
+  before_action :set_title
+
   def new
     @pull = current_user.pulls.find(params[:pull_id])
     @review_req = current_user.review_requests.build(name: @pull.name, description: @pull.description, pull_id: @pull.id)
@@ -18,6 +20,10 @@ class Users::Pulls::ReviewRequestsController < ApplicationController
   end
 
   private
+
+    def set_title
+      @title = "レビューリクエスト"
+    end
 
     def review_req_params
       params.require(:review_request).permit(:name, :description, :is_open, :pull_id, :room_id)

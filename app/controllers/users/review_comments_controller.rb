@@ -2,6 +2,7 @@ class Users::ReviewCommentsController < ApplicationController
   before_action :set_review_vars, only: [:update, :destroy]
 
   def create
+    @set_title = "レビューリクエスト"
     @review_comment = current_user.review_comments.build(create_review_comment_params)
     @review_req = @review_comment.review_request
     @review_comments = @review_req.review_comments

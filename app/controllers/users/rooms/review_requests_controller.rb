@@ -1,4 +1,5 @@
 class Users::Rooms::ReviewRequestsController < ApplicationController
+  before_action :set_title
   before_action :set_review_req, only: [:edit, :update]
   before_action :set_room, only: [:new, :create, :update]
   before_action :set_collections, only: [:new, :edit]
@@ -40,6 +41,10 @@ class Users::Rooms::ReviewRequestsController < ApplicationController
   end
 
   private
+
+    def set_title
+      @title = "レビューリクエスト"
+    end
 
     def review_req_params
       params.require(:review_request).permit(:name, :description, :is_open, :pull_id, :room_id)
