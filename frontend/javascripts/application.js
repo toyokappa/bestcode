@@ -16,3 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if($(".review-req-form")[0]) { new InsertPullInfo($(".review-req-form")); }
   if($(".preview-image")[0]) { new PreviewImage($(".preview-image")); }
 });
+
+$(window).on("resize", function() {
+  if ($("#aside")[0] && window.innerWidth > 992) $("#aside").modal("hide");
+});
