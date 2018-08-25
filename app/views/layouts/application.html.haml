@@ -9,8 +9,8 @@
     = javascript_include_tag webpack_assets_path("main.js")
   %body.fixed-aside.fixed-content
     #app.app
-      #aside.app-aside.box-shadow-x.nav-expand{ aria: { hidden: true } }
-        .sidenav.dk.dark
+      #aside.app-aside.box-shadow-x.fade.nav-expand{ aria: { hidden: true } }
+        .sidenav.dk.dark.modal-dialog
           .navbar.lt
             = link_to users_root_path, class: "navbar-brand" do
               %svg{ height: "28", viewbox: ("0 0 24 24"), width: "28", xmlns: "http://www.w3.org/2000/svg" }
@@ -61,9 +61,8 @@
       #content.app-content.box-shadow-0{ role: :main }
         #content-header.content-header.white.box-shadow-0
           .navbar.navbar-expand-lg
-            %a.d-lg-none.mx-2{ data: { target: "#aside" }, data: { toggle: "modal" } }
-              %svg{ height: 24, viewbox: ("0 0 512 512"), width: 24, xmlns: "http://www.w3.org/2000/svg" }
-                %path{ d: ("M80 304h352v16H80zM80 248h352v16H80zM80 192h352v16H80z") }
+            %a.d-lg-none.mx-2{ data: { toggle: "modal", target: "#aside" } }
+              %i.fa.fa-bars{ style: "font-size: 20px; margin-top: 3px;" }
             #pageTitle.navbar-text.nav-title.flex= @title || "ダッシュボード"
             %ul.nav.flex-row.order-lg-2
               %li.dropdown.d-flex.align-items-center
