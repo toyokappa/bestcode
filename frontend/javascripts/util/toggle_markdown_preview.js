@@ -8,10 +8,10 @@ export default class ToggleMarkdownPreview {
   showMarkdownEdit(e) {
     e.preventDefault();
     const $editBtn = $(e.target);
-    const $root = $editBtn.closest('.toggle-markdown-preview');
-    const $editField = $root.find('.markdown-edit-field');
-    const $previewBtn = $root.find('.markdown-preview-btn');
-    const $previewField = $root.find('.markdown-preview-field');
+    const $container = $editBtn.closest('.markdown-preview-container');
+    const $editField = $container.find('.markdown-edit-field');
+    const $previewBtn = $container.find('.markdown-preview-btn');
+    const $previewField = $container.find('.markdown-preview-field');
 
     $editBtn.addClass('active');
     $editField.show();
@@ -22,10 +22,10 @@ export default class ToggleMarkdownPreview {
   showMarkdownPreview(e) {
     e.preventDefault();
     const $previewBtn = $(e.target);
-    const $root = $previewBtn.closest('.toggle-markdown-preview');
-    const $previewField = $root.find('.markdown-preview-field');
-    const $editBtn = $root.find('.markdown-edit-btn');
-    const $editField = $root.find('.markdown-edit-field');
+    const $container = $previewBtn.closest('.markdown-preview-container');
+    const $previewField = $container.find('.markdown-preview-field');
+    const $editBtn = $container.find('.markdown-edit-btn');
+    const $editField = $container.find('.markdown-edit-field');
 
     $previewBtn.addClass('active');
     $previewField.show();
@@ -34,8 +34,8 @@ export default class ToggleMarkdownPreview {
   }
 
   async fetchMarkdownPreview(e) {
-    const $root = $(e.target).closest('.toggle-markdown-preview');
-    const previewBody = $root.find('.preview-body').val();
+    const $container = $(e.target).closest('.markdown-preview-container');
+    const previewBody = $container.find('.preview-body').val();
     if (previewBody === this.beforeBody) return;
 
     this.beforeBody = previewBody;
@@ -43,7 +43,7 @@ export default class ToggleMarkdownPreview {
     const path = '/markdown/preview';
     const params = { body: previewBody, authenticity_token: token };
     const markdown = await $.post(path, params);
-    $root.find('.markdown-body').html(markdown["body"]);
+    $container.find('.markdown-body').html(markdown["body"]);
   }
 
   bind() {

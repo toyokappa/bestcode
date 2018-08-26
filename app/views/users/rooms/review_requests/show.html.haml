@@ -1,4 +1,4 @@
-.padding
+.padding.toggle-markdown-preview
   .box
     .box-header.navbar
       %h2
@@ -59,8 +59,8 @@
                   = markdown comment.body
     .sl-item
       .sl-left= image_tag current_user.check_and_return_image(:thumb), class: "circle"
-      .sl-content.toggle-markdown-preview
-        .box.m-0
+      .sl-content
+        .box.m-0.markdown-preview-container
           .box-header.pb-0
             .nav-active-white
               %ul.nav.nav-tabs
