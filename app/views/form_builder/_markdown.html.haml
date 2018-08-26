@@ -1,0 +1,22 @@
+- errors_for_col = f.object.errors.full_messages_for(col)
+- placeholder = opts[:placeholder] || "Markdown記法が利用可能です。(チェックボックス、画像、リンク、絵文字は非対応)"
+- rows = opts[:rows] || 8
+.toggle-markdown-preview
+  .form-group.row.markdown-preview-container
+    = f.label col, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      .nav-active-white
+        %ul.nav.nav-tabs
+          %li.nav-item.mr-2
+            = link_to "編集画面", "#", class: "nav-link active markdown-edit-btn"
+          %li.nav-item
+            = link_to "プレビュー", "#", class: "nav-link markdown-preview-btn"
+      .markdown-edit-field
+        = f.text_area col, rows: rows, placeholder: placeholder, class: "form-control preview-body#{' is-invalid' if errors_for_col.present?} #{opts[:add_class]}", style: "border-radius: 0 .25rem .25rem .25rem;"
+        - if errors_for_col.empty? && opts[:message].present?
+          .form-text.text-muted.filled.text-sm.mt-1= opts[:message]
+        - else
+          - errors_for_col.each do |message|
+            %p.text-danger.filled.text-sm.mt-1= message
+      .markdown-preview-field{ style: "display: none;" }
+        .markdown-body

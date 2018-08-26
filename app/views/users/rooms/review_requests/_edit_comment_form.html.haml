@@ -1,6 +1,17 @@
-.box.m-0.edit-comment-form
+.box.m-0.edit-comment-form.markdown-preview-container
+  .box-header.pb-0
+    .nav-active-white
+      %ul.nav.nav-tabs
+        %li.nav-item.mr-2
+          = link_to "編集画面", "#", class: "nav-link active markdown-edit-btn"
+        %li.nav-item
+          = link_to "プレビュー", "#", class: "nav-link markdown-preview-btn"
+  .box-divider.m-0
   = form_for comment, url: users_review_comment_path(comment), method: :patch do |f|
-    = f.text_area :body, rows: 5, placeholder: "コメントを入力...", class: "edit-comment-body form-control no-border"
+    .markdown-edit-field
+      = f.text_area :body, rows: 5, placeholder: "Markdown記法が利用可能です。(チェックボックス、画像、リンク、絵文字は非対応)", class: "edit-comment-body preview-body form-control no-border"
+    .box-body.markdown-preview-field{ style: "display: none;" }
+      .markdown-body.no-border
     .box-divider.m-0
     .box-footer.clearfix
       .text-danger.text-sm.invalid-comment コメント内容を入力してください
