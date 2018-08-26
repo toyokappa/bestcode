@@ -59,12 +59,23 @@
                   = markdown comment.body
     .sl-item
       .sl-left= image_tag current_user.check_and_return_image(:thumb), class: "circle"
-      .sl-content
+      .sl-content.toggle-markdown-preview
         .box.m-0
+          .box-header.pb-0
+            .nav-active-white
+              %ul.nav.nav-tabs
+                %li.nav-item.mr-2
+                  = link_to "編集画面", "#", class: "nav-link active markdown-edit-btn"
+                %li.nav-item
+                  = link_to "プレビュー", "#", class: "nav-link markdown-preview-btn"
+          .box-divider.m-0
           = form_for @review_comment, url: users_review_comments_path do |f|
             = f.hidden_field :review_request_id, value: @review_req.id
-            - error_for_col = f.object.errors.full_messages_for(:body)
-            = f.text_area :body, rows: 5, placeholder: "Markdown記法が利用可能です。(チェックボックス、画像、リンク、絵文字は非対応)", class: "form-control no-border #{'is-invalid' if error_for_col.present?}"
+            .markdown-edit-field
+              - error_for_col = f.object.errors.full_messages_for(:body)
+              = f.text_area :body, rows: 5, placeholder: "Markdown記法が利用可能です。(チェックボックス、画像、リンク、絵文字は非対応)", class: "form-control no-border preview-body #{'is-invalid' if error_for_col.present?}"
+            .box-body.markdown-preview-field{ style: "display: none;" }
+              .markdown-body.no-border
             .box-divider.m-0
             .box-footer.clearfix
               - error_for_col.each do |message|
