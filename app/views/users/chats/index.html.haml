@@ -1,0 +1,59 @@
+.d-flex.flex
+  #content-aside.fade.aside.aside-sm
+    #chat-nav.d-flex.flex-column.w-xl.b-r.white.modal-dialog
+      .scrollable.hover
+        .list.inset
+          .p-2.px-3.text-muted.text-sm 参加者
+          .list-item
+            %span.w-40.avatar.circle.grey G
+            .list-body
+              .item-title._500 General
+              .item-except.text-sm.text-muted.h-1x Message to all reviewees
+          - @room.reviewees.each do |reviewee|
+            .list-item
+              %span.w-40.avatar.circle
+                = image_tag reviewee.image.url
+              .list-body
+                .item-title._500.mt-2= reviewee.name
+              .mt-2
+                %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger 2
+  #content-body.d-flex.flex
+    #chat-list.d-flex.flex-column.flex
+      .navbar.flex-nowrap.white.lt.box-shadow
+        = link_to '', data: :modal, data: { toggle: "modal", target: "#content-aside" }, class: "mr-2 d-md-none" do
+          %span.btn.btn-sm.btn-icon.primary
+            %i.fa.fa-th
+        %span.text-md.text-ellipsis.flex General
+        %ul.nav.flex-row.no-border.d-lg-block{ style: "display: none;" }
+          %li.dropdown.d-flex.align-items-center
+            = link_to '#', class: 'd-flex align-items-center', data: { toggle: 'dropdown' } do
+              %span.avatar.w-32
+                = image_tag current_user.check_and_return_image(:thumb), alt: '...'
+            .dropdown-menu.dropdown-menu-right.w.pt-2.mt-2.animate.fadeIn
+              = link_to users_profile_path(current_user.name), class: "dropdown-item" do
+                %b= current_user.name
+              - if current_user.reviewer?
+                .dropdown-divider
+                = link_to new_users_room_path, class: 'dropdown-item' do
+                  %span ルームを作成
+              .dropdown-divider
+              = link_to 'ログアウト', users_sign_out_path, method: :delete, class: 'dropdown-item'
+      .scrollable.hover
+        .p-3
+          .chat-list
+            .chat-item{ data: { class: "null" } }
+              = link_to "A", "#", class: "w-40 avatar pink"
+              .chat-body
+                .chat-content.rounded.msg Hi, Please review this!
+                .chat-date.date 10 minutes ago
+            .chat-item{ data: { class: "alt" } }
+              = link_to "B", "#", class: "w-40 avatar blue"
+              .chat-body
+                .chat-content.rounded.msg OK. I'll see it. Wait for a minute.
+                .chat-date.date 9 minutes ago
+      #chat-form.p-3.white.lt.b-t.mt-auto
+        .input-group
+          %input{ type: :text, class: "form-control", placeholder: "Say something", id: "message-field" }
+          %span.input-group-append
+            = button_tag class: "btn white b-a no-shadow", id: "message-btn" do
+              %i.fa.fa-send.text-success
