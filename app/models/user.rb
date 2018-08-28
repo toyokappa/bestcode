@@ -111,6 +111,10 @@ class User < ApplicationRecord
     repos.where(is_hook: true)
   end
 
+  def chat_id
+    "user_#{id}"
+  end
+
   class << self
     def create_with_omniauth(auth)
       contribution = total_contributions(auth.info.nickname)

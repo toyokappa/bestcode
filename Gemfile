@@ -15,6 +15,7 @@ gem "uglifier", ">= 1.3.0"
 
 # Javascript
 gem "jbuilder", "~> 2.5"
+gem "gon"
 
 # I18n
 gem "rails-i18n"

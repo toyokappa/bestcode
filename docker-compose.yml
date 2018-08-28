@@ -53,6 +53,13 @@ services:
     volumes:
       - .:/usr/src/app
     working_dir: /usr/src/app
+    environment:
+      FIREBASE_API_KEY: $FIREBASE_API_KEY
+      FIREBASE_AUTH_DOMAIN: $FIREBASE_AUTH_DOMAIN
+      FIREBASE_DB_URL: $FIREBASE_DB_URL
+      FIREBASE_PROJECT_ID: $FIREBASE_PROJECT_ID
+      FIREBASE_STORAGE_BUCKET: $FIREBASE_STORAGE_BUCKET
+      FIREBASE_SENDER_ID: $FIREBASE_SENDER_ID
 
   db:
     build:

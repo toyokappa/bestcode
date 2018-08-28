@@ -1,4 +1,4 @@
-.d-flex.flex
+#chat-container.d-flex.flex
   #content-aside.fade.aside.aside-sm
     #chat-nav.d-flex.flex-column.w-xl.b-r.white.modal-dialog
       .scrollable.hover
@@ -10,7 +10,7 @@
               .item-title._500 General
               .item-except.text-sm.text-muted.h-1x Message to all reviewees
           - @room.reviewees.each do |reviewee|
-            .list-item
+            = link_to users_room_chats_path(@room, reviewee_id: reviewee.id), class: "list-item" do
               %span.w-40.avatar.circle
                 = image_tag reviewee.image.url
               .list-body
