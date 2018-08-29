@@ -9,12 +9,21 @@
             .list-body
               .item-title._500 General
               .item-except.text-sm.text-muted.h-1x Message to all reviewees
-          - @room.reviewees.each do |reviewee|
-            = link_to users_room_chats_path(@room, reviewee_id: reviewee.id), class: "list-item" do
+          - if current_user.own?(@room)
+            - @room.reviewees.each do |reviewee|
+              = link_to users_room_chats_path(@room, reviewee_id: reviewee.id), class: "list-item" do
+                %span.w-40.avatar.circle
+                  = image_tag reviewee.image.url
+                .list-body
+                  .item-title._500.mt-2= reviewee.name
+                .mt-2
+                  %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger 2
+          - else
+            = link_to users_room_chats_path(@room, reviewee_id: current_user.id), class: "list-item" do
               %span.w-40.avatar.circle
-                = image_tag reviewee.image.url
+                = image_tag @room.reviewer.image.url
               .list-body
-                .item-title._500.mt-2= reviewee.name
+                .item-title._500.mt-2= @room.reviewer.name
               .mt-2
                 %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger 2
   #content-body.d-flex.flex
@@ -41,16 +50,6 @@
       .scrollable.hover
         .p-3
           .chat-list
-            .chat-item{ data: { class: "null" } }
-              = link_to "A", "#", class: "w-40 avatar pink"
-              .chat-body
-                .chat-content.rounded.msg Hi, Please review this!
-                .chat-date.date 10 minutes ago
-            .chat-item{ data: { class: "alt" } }
-              = link_to "B", "#", class: "w-40 avatar blue"
-              .chat-body
-                .chat-content.rounded.msg OK. I'll see it. Wait for a minute.
-                .chat-date.date 9 minutes ago
       #chat-form.p-3.white.lt.b-t.mt-auto
         .input-group
           %input{ type: :text, class: "form-control", placeholder: "Say something", id: "message-field" }

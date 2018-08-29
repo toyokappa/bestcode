@@ -15,6 +15,7 @@ export default class Firebase {
   }
 
   fetchMessages(roomId) {
-    return this.firestore.collection('rooms').doc(roomId).collection('messages').get();
+    return this.firestore.collection('rooms').doc(roomId).collection('messages').orderBy('created_at').get();
   }
+
 }
