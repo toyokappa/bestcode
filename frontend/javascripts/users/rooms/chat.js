@@ -8,6 +8,7 @@ export default class Chat {
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;
     this.displayMessages();
+    this.bind()
   }
 
   async displayMessages() {
@@ -40,5 +41,21 @@ export default class Chat {
                       </div>
                     </div>`;
     $('.chat-list').append(msgElm);
+  }
+
+  sendMessage() {
+    const $msgField = $('#message-field')
+    const msgBody = $msgField.val();
+    if(!msgBody) return;
+
+    this.firebase.sendMessage(this.roomId, msgBody, this.currentUser.id);
+    $msgField.val('');
+  }
+
+  bind() {
+    $('#message-btn').on('click', (e) => {
+      e.preventDefault();
+      this.sendMessage();
+    });
   }
 }
