@@ -7,11 +7,13 @@ export default class Chat {
     this.roomId = gon.room_chat_id;
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;
-    this.displayMessages();
+    // リアルタイム読み込み時に初期メッセージが表示されるので
+    // initMessagesメソッドは一旦コメントアウト
+    // this.initMessages();
     this.bind()
   }
 
-  async displayMessages() {
+  async initMessages() {
     const messages = await this.firebase.fetchMessages(this.roomId)
     messages.forEach((message) => {
       this.appendMessage(message.data());
@@ -44,7 +46,7 @@ export default class Chat {
   }
 
   sendMessage() {
-    const $msgField = $('#message-field')
+    const $msgField = $('#message-field');
     const msgBody = $msgField.val();
     if(!msgBody) return;
 
@@ -56,6 +58,10 @@ export default class Chat {
     $('#message-btn').on('click', (e) => {
       e.preventDefault();
       this.sendMessage();
+    });
+
+    this.firebase.onChangeMessages(this.roomId, (msgData) => {
+      this.appendMessage(msgData);
     });
   }
 }
