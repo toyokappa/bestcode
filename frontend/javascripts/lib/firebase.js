@@ -30,7 +30,6 @@ export default class Firebase {
     this.firestore.collection('rooms').doc(roomId).collection('messages').orderBy('created_at')
       .onSnapshot(function(messages) {
         messages.docChanges().forEach((change) => {
-          console.log(change, change.doc.data());
           if (change.type === 'added') {
             // Firestoreへメッセージ送信時にcreated_atがnullの場合がある
             // その場合は一時退避し、created_at確定後(modified)時にmessageを取得

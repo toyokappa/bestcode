@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if($(".review-req-form")[0]) { new InsertPullInfo($(".review-req-form")); }
   if($(".preview-image")[0]) { new PreviewImage($(".preview-image")); }
   if($(".toggle-markdown-preview")[0]) { new ToggleMarkdownPreview($(".toggle-markdown-preview")); }
-  if($("#chat-container")[0]) new Chat(gon);
+  if($("#chat-container")[0] && typeof gon !== "undefined") new Chat(gon);
 });
 
 $(window).on("resize", function() {
