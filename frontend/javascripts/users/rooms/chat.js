@@ -37,7 +37,7 @@ export default class Chat {
                       <a class='avatar w-40 blue' href='${profilePath}'>
                         <img src='${userImg}'>
                       </a>
-                      <div class='chat-body'>
+                      <div class='chat-body chat-width'>
                         <div class='chat-content rounded msg'>${msgData.body}</div>
                         <div class='chat-date date'>${msgCreatedAt}</div>
                       </div>
