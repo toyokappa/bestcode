@@ -1,9 +1,9 @@
 class Users::ChatsController < ApplicationController
   layout "chat"
+  before_action :check_room_reviewee
 
   def index
     @title = "チャット"
-    @room = Room.find(params[:room_id])
     return if params[:reviewee_id].blank?
 
     reviewee = @room.reviewees.find_by(id: params[:reviewee_id])
@@ -25,4 +25,13 @@ class Users::ChatsController < ApplicationController
       }
     }
   end
+
+  private
+
+    def check_room_reviewee
+      @room = Room.find(params[:room_id])
+      unless current_user.participating?(@room) || current_user.own?(@room)
+        redirect_to users_room_path(@room), danger: "ルームに参加してください" 
+      end
+    end
 end
