@@ -27,6 +27,7 @@ gem "omniauth-github"
 
 # Models
 gem "enumerize"
+gem "google-cloud-firestore"
 gem "seed-fu"
 
 # Views

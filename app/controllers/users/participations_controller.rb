@@ -29,7 +29,7 @@ class Users::ParticipationsController < ApplicationController
       when room.over_capacity?
         flash[:danger] = t(".over_capacity_error")
       else
-        room.reviewees << current_user
+        current_user.join(room)
         flash[:success] = t(".participation_success", name: room.name)
       end
     end

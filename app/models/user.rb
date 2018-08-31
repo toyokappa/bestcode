@@ -15,6 +15,7 @@
 
 class User < ApplicationRecord
   extend Enumerize
+  include Firestore
 
   has_many :owned_rooms, class_name: "Room", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
   has_many :participations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
@@ -40,6 +41,11 @@ class User < ApplicationRecord
 
   def participatable?(room)
     !own?(room) && !participating?(room) && !room.over_capacity?
+  end
+
+  def join(room)
+    self.participating_rooms << room
+    join_firestore_chat(room)
   end
 
   def own?(room)
