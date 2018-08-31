@@ -422,6 +422,7 @@ DEPENDENCIES
   google-cloud-firestore
   haml-rails
   jbuilder (~> 2.5)
+  jwt
   letter_opener
   listen (>= 3.0.5, < 3.2)
   mailgun_rails

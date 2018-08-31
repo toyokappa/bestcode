@@ -15,7 +15,7 @@
 
 class User < ApplicationRecord
   extend Enumerize
-  include Firestore
+  include User::Firestore
 
   has_many :owned_rooms, class_name: "Room", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
   has_many :participations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee

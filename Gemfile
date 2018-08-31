@@ -21,6 +21,7 @@ gem "gon"
 gem "rails-i18n"
 
 # Authentication
+gem "jwt"
 gem "octokit"
 gem "omniauth"
 gem "omniauth-github"
