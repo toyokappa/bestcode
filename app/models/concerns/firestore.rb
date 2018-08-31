@@ -20,7 +20,7 @@ module Firestore
     #       いい実装方法があればそちらに切り替えたい
     def get_firestore
       file_path = "#{Rails.root}/config/firebase_key.json"
-      firebase = Rails.application.credentials.firebase
+      firebase = Rails.application.credentials.firebase["#{Rails.env}".to_sym]
       firebase_key = {
         type: firebase[:type],
         project_id: firebase[:project_id],
