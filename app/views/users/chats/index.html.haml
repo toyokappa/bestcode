@@ -3,13 +3,8 @@
     #chat-nav.d-flex.flex-column.w-xl.b-r.white.modal-dialog
       .scrollable.hover
         .list.inset
-          .p-2.px-3.text-muted.text-sm 参加者
-          .list-item
-            %span.w-40.avatar.circle.grey G
-            .list-body
-              .item-title._500 General
-              .item-except.text-sm.text-muted.h-1x Message to all reviewees
           - if current_user.own?(@room)
+            .p-2.px-3.text-muted.text-sm レビュイー
             - @room.reviewees.each do |reviewee|
               = link_to users_room_chats_path(@room, reviewee_id: reviewee.id), class: "list-item" do
                 %span.w-40.avatar.circle
@@ -19,6 +14,7 @@
                 .mt-2
                   %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger 2
           - else
+            .p-2.px-3.text-muted.text-sm レビュワー
             = link_to users_room_chats_path(@room, reviewee_id: current_user.id), class: "list-item" do
               %span.w-40.avatar.circle
                 = image_tag @room.reviewer.image.url
@@ -32,7 +28,11 @@
         = link_to '', data: :modal, data: { toggle: "modal", target: "#content-aside" }, class: "mr-2 d-md-none" do
           %span.btn.btn-sm.btn-icon.primary
             %i.fa.fa-th
-        %span.text-md.text-ellipsis.flex General
+        %span.text-md.text-ellipsis.flex
+          - if current_user.own?(@room)
+            = @reviewee&.name || "チャット"
+          - else
+            = @reviewer&.name || "チャット"
         %ul.nav.flex-row.no-border.d-lg-block{ style: "display: none;" }
           %li.dropdown.d-flex.align-items-center
             = link_to '#', class: 'd-flex align-items-center', data: { toggle: 'dropdown' } do
