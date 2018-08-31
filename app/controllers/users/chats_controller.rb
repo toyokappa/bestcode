@@ -9,6 +9,7 @@ class Users::ChatsController < ApplicationController
     reviewee = @room.reviewees.find_by(id: params[:reviewee_id])
     return flash.now[:danger] = "不正なチャットルームです" unless reviewee
 
+    gon.auth_token = current_user.firebase_auth_token
     gon.room_chat_id = @room.chat_id(params[:reviewee_id])
     gon.current_user = { id: current_user.chat_id }
     gon.users_info = {

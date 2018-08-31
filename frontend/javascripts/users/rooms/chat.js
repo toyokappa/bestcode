@@ -3,7 +3,9 @@ import Firebase from '../../lib/firebase'
 
 export default class Chat {
   constructor(gon) {
-    this.firebase = new Firebase();
+    const firebase = new Firebase();
+    firebase.auth(gon.auth_token);
+    this.firebase = firebase;
     this.roomId = gon.room_chat_id;
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;

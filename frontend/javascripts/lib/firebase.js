@@ -11,7 +11,15 @@ export default class Firebase {
       messagingSenderId: process.env.FIREBASE_SENDER_ID,
     });
     this.firestore = firebase.firestore();
+    this.firebaseAuth = firebase.auth();
     this.firestore.settings({timestampsInSnapshots: true});
+  }
+
+  auth(auth_token) {
+    this.firebaseAuth.signInWithCustomToken(auth_token).catch((error) => {
+      console.error(`error code: ${error.code}, message: ${error.message}`);
+      throw error;
+    });
   }
 
   fetchMessages(roomId) {
