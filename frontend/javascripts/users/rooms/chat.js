@@ -35,7 +35,14 @@ export default class Chat {
     const msgBody = $msgField.val();
     if(!msgBody) return;
 
-    const msgType = 'text'
+    var msgType
+    if(this.currentUser.id === this.usersInfo.reviewee.id) {
+      const regex = new RegExp(`https://github.com/${this.currentUser.name}/[\\w\\d]+/pull/\\d+`);
+      msgType = msgBody.match(regex) ? 'review_req' : 'text';
+    } else {
+      msgType = 'text';
+    }
+
     this.firebase.sendMessage(this.roomId, msgBody, msgType, this.currentUser.id);
     $msgField.val('');
   }
