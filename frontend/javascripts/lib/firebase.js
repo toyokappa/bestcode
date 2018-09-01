@@ -26,9 +26,10 @@ export default class Firebase {
     return this.firestore.collection('rooms').doc(roomId).collection('messages').orderBy('created_at').get();
   }
 
-  sendMessage(roomId, msgBody, userId) {
+  sendMessage(roomId, msgBody, msgType, userId) {
     this.firestore.collection('rooms').doc(roomId).collection('messages').add({
       body: msgBody,
+      message_type: msgType,
       user_id: userId,
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     });
