@@ -50,11 +50,19 @@ export default class Chat {
       };
       const response = await $.post(path, params);
 
-      if(response.status === 'NO_PULL') {
-        const checkSend = confirm('PRが存在しないため、通常のテキストメッセージとして送信されますがよろしいですか？');
-        if(!checkSend) return;
+      var checkSend
+      switch(response.status) {
+        case 'NO_PULLS':
+          checkSend = confirm('PRが存在しないため、通常のテキストメッセージとして送信されますがよろしいですか？');
+          if(!checkSend) return $msgField.val('');
 
-        msgType = 'text';
+          msgType = 'text';
+          break;
+        case 'EXIST_REVIEW_REQ':
+          checkSend = confirm('すでにレビュー依頼中です。再依頼しますか？');
+          if(!checkSend) return $msgField.val('');
+
+          break;
       }
     }
 

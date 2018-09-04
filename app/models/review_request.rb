@@ -23,7 +23,6 @@ class ReviewRequest < ApplicationRecord
   has_many :review_comments, dependent: :destroy, inverse_of: :review_request
 
   validates :name, presence: true, length: { maximum: 1000 }
-  validates :description, length: { maximum: 10000 }
   validates :is_open, inclusion: { in: [true, false] }
   validates :state, presence: true
   validates :pull_id, presence: true

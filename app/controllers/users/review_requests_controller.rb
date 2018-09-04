@@ -14,11 +14,11 @@ class Users::ReviewRequestsController < ApplicationController
   end
 
   def create
-    pull = Pull.where(is_open: true).find_by(url: params[:url])
-    return render json: { status: "NO_PULL" } unless pull
+    pull = current_user.pulls.where(is_open: true).find_by(url: params[:url])
+    return render json: { status: "NO_PULLS" } unless pull
+    return render json: { status: "EXIST_REVIEW_REQ" } if pull.review_requests.present?
 
-    ReviewRequest.create do |rr|
-      rr.pull_id = pull.id
+    pull.review_requests.create do |rr|
       rr.name = pull.name
       rr.room_id = params[:room_id]
       rr.reviewee_id = params[:reviewee_id]
