@@ -11,7 +11,7 @@ export default class Chat {
     this.roomId = gon.room_chat_id;
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;
-    this.bind()
+    this.bind();
   }
 
   appendMessage(msgData) {
@@ -30,17 +30,32 @@ export default class Chat {
     $('.chat-list').append(msgElm);
   }
 
-  sendMessage() {
+  async sendMessage() {
     const $msgField = $('#message-field');
     const msgBody = $msgField.val();
     if(!msgBody) return;
 
-    var msgType
-    if(this.currentUser.id === this.usersInfo.reviewee.id) {
-      const regex = new RegExp(`https://github.com/${this.currentUser.name}/[\\w\\d]+/pull/\\d+`);
-      msgType = msgBody.match(regex) ? 'review_req' : 'text';
-    } else {
-      msgType = 'text';
+    const regex = new RegExp(`https://github.com/${this.currentUser.name}/[\\w\\d]+/pull/\\d+`);
+    var msgType = 'text';
+
+    if(this.currentUser.id === this.usersInfo.reviewee.id && msgBody.match(regex)) {
+    msgType = 'review_req';
+    const path = `/users/rooms/${this.roomId.replace(/room_(\d+)_reviewee_\d+/, '$1')}/review_requests`;
+      const pullUrl = msgBody.match(regex)[0];
+      const authenticityToken = $('meta[name="csrf_token"]').attr('content');
+      const params = { 
+        url: pullUrl,
+        reviewee_id: this.currentUser.id.replace('user_', ''),
+        authenticity_token: authenticityToken
+      };
+      const response = await $.post(path, params);
+
+      if(response.status === 'NO_PULL') {
+        const checkSend = confirm('PRが存在しないため、通常のテキストメッセージとして送信されますがよろしいですか？');
+        if(!checkSend) return;
+
+        msgType = 'text';
+      }
     }
 
     this.firebase.sendMessage(this.roomId, msgBody, msgType, this.currentUser.id);

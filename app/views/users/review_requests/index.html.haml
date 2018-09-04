@@ -1,0 +1,40 @@
+.padding
+  .box
+    .box-header.navbar
+      %h2
+        = link_to users_room_chats_path(@room), class: "mr-2 align-middle text-primary" do
+          %i.fa.fa-chevron-left
+        %span.align-middle レビューリクエスト
+    .box-divider.m-0
+    .box-body.pb-0
+      .nav-active-white
+        %ul.nav.nav-tabs
+          - open_states = %w(open closed all)
+          - open_states.each do |open_state|
+            %li.nav-item.mr-2
+              = link_to users_room_review_requests_path(open_state: open_state), class: "nav-link#{' active' if @open_state == open_state}" do
+                %span.mr-1.align-middle= t("enumerize.review_request.open_state.#{open_state}")
+    %table.table
+      %thead
+        %tr
+          %th= ReviewRequest.human_attribute_name :name
+          %th= ReviewRequest.human_attribute_name :state
+          %th= ReviewRequest.human_attribute_name :reviewee_id
+          %th{ style: "width: 100px;" }
+      %body
+        - if @review_reqs.present?
+          - @review_reqs.each do |review_req|
+            %tr
+              %td.align-middle= review_req.name
+              %td.align-middle
+                .badge.text-sm.text-white{ class: review_req.state_color }= review_req.state_text
+              %td.align-middle= review_req.reviewee.name
+              %td.align-middle
+                = link_to review_req.pull.url, target: "_blank", class: "btn btn-dark btn-sm" do
+                  %i.fa.fa-github
+                  %span GitHub
+        - else
+          %tr
+            %td 表示できるレビューリクエストはありません
+            %td -
+            %td -

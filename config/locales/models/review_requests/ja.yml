@@ -15,3 +15,7 @@ ja:
         change_request: 修正依頼中
         approved: 承認済み
         resolved: 解決済み
+      open_state:
+        open: オープン中
+        closed: クローズ済み
+        all: すべて

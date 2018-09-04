@@ -47,7 +47,7 @@ class Users::Rooms::ReviewRequestsController < ApplicationController
     end
 
     def review_req_params
-      params.require(:review_request).permit(:name, :description, :is_open, :pull_id, :room_id)
+      params.require(:review_request).permit(:name, :is_open, :pull_id, :room_id)
     end
 
     def set_review_req

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     end
 
     namespace :rooms, path: "rooms/:room_id" do
-      resources :review_requests, only: [:show, :new, :create, :edit, :update]
+      resources :review_requests, only: [:show, :new, :edit, :update]
       resources :evaluations, only: [:new, :create]
     end
 
@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resources :rooms do
       get "reopen", on: :member
       resources :chats, only: [:index]
+      resources :review_requests, only: [:index, :create]
     end
 
     resources :my_rooms, only: [:index]
