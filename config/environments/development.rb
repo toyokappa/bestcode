@@ -66,6 +66,7 @@ Rails.application.configure do
   config.x.redis_url = "#{ENV.fetch("REDIS_HOSTNAME") { "localhost" }}:#{ENV.fetch("REDIS_PORT") { "6379" }}"
   config.x.mail.info = "info@bestcode.com"
   config.x.mail.bcc = "kppg42@gmail.com"
-  config.x.webhook.url = "http://325c6cde.ngrok.io/hooks/pulls"
+  config.x.webhook.pulls_url = "http://82efb99d.ngrok.io/hooks/pulls"
+  config.x.webhook.state_url = "http://82efb99d.ngrok.io/hooks/state"
   config.x.webhook.secret = "development"
 end

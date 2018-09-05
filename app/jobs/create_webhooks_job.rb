@@ -8,12 +8,25 @@ class CreateWebhooksJob < ApplicationJob
       repo.id,
       "web",
       {
-        url: Rails.configuration.x.webhook.url,
+        url: Rails.configuration.x.webhook.pulls_url,
         content_type: :json,
         secret: Rails.configuration.x.webhook.secret,
       },
       {
         events: %w[push pull_request],
+        active: true,
+      },
+    )
+    github_user.create_hook(
+      repo.id,
+      "web",
+      {
+        url: Rails.configuration.x.webhook.state_url,
+        content_type: :json,
+        secret: Rails.configuration.x.webhook.secret,
+      },
+      {
+        events: %w[pull_request_review],
         active: true,
       },
     )

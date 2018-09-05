@@ -9,4 +9,17 @@ class HooksController < ApplicationController
     SyncPullsJob.perform_later(user, repo)
     render json: { message: :ok }
   end
+
+  def state
+    reviewer = User.find_by!(uid: params[:review][:user][:id])
+    pull = Pull.find(params[:pull_request][:id])
+
+    # NOTE: システム上、1つのpullから同じreviewerに複数レビュリクが
+    #       作成されないことを仮定して、下記を実装
+    review_req = reviewer.review_assigns.find_by!(pull_id: pull.id)
+    review_req.update!(state: params[:review][:state])
+    render json: { message: :ok }
+  rescue ActiveRecord::RecordNotFound
+    render json: { message: "Not State Changes on BestCode." }
+  end
 end

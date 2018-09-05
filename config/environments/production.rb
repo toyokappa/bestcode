@@ -103,6 +103,7 @@ Rails.application.configure do
   config.x.redis_url = "#{ENV.fetch("REDIS_HOSTNAME") { "localhost" }}:#{ENV.fetch("REDIS_PORT") { "6379" }}"
   config.x.mail.info = "info@bestcode.reviews"
   config.x.mail.bcc = "kppg42@gmail.com"
-  config.x.webhook.url = "#{config.action_controller.asset_host}/hooks/pulls"
+  config.x.webhook.pulls_url = "#{config.action_controller.asset_host}/hooks/pulls"
+  config.x.webhook.state_url = "#{config.action_controller.asset_host}/hooks/state"
   config.x.webhook.secret = ENV["WEBHOOK_SECRET"]
 end

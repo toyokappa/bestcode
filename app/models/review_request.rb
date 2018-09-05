@@ -29,7 +29,7 @@ class ReviewRequest < ApplicationRecord
   validates :reviewee_id, presence: true
   validates :room_id, presence: true
 
-  enumerize :state, in: [:wait_review, :change_request, :approved, :resolved], predicates: true
+  enumerize :state, in: [:wait_review, :commented, :changes_requested, :approved, :resolved], predicates: true
 
   def change_state(comment)
     state = comment.state.to_sym
@@ -75,7 +75,9 @@ class ReviewRequest < ApplicationRecord
     case state.to_sym
     when :wait_review
       "info"
-    when :change_request
+    when :commented
+      "grey"
+    when :changes_requested
       "warning"
     when :approved
       "success"

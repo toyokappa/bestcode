@@ -40,5 +40,6 @@ Rails.application.routes.draw do
   end
 
   post "/hooks/pulls", to: "hooks#pulls"
+  post "/hooks/state", to: "hooks#state"
   post "/markdown/preview", to: "markdown#preview"
 end

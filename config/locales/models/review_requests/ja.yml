@@ -12,7 +12,8 @@ ja:
     review_request:
       state:
         wait_review: レビュー待ち
-        change_request: 修正依頼中
+        commented: コメント済み
+        changes_requested: 修正依頼済み
         approved: 承認済み
         resolved: 解決済み
       open_state:

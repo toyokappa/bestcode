@@ -26,10 +26,10 @@
         .p-3.mt-auto.b-t
           = link_to users_room_review_requests_path(@room), class: "d-flex" do
             .flex レビューリクエスト
-            - unless @room.review_assigns.where(is_open: true).size.zero?
+            - unless @room.review_assigns.where(state: :wait_review, is_open: true).size.zero?
               .m-0
                 .text-xs.badge.badge-sm.badge-pill.danger
-                  = @room.review_assigns.where(is_open: true).size
+                  = @room.review_assigns.where(state: :wait_review, is_open: true).size
   #content-body.d-flex.flex
     #chat-list.d-flex.flex-column.flex
       .navbar.flex-nowrap.white.lt.box-shadow
