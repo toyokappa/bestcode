@@ -35,16 +35,18 @@ export default class Chat {
     const msgBody = $msgField.val();
     if(!msgBody) return;
 
-    const regex = new RegExp(`https://github.com/${this.currentUser.name}/[\\w\\d]+/pull/\\d+`);
+    const regex = new RegExp(`https://github.com/${this.currentUser.name}/([\\w\\d]+)/pull/(\\d+)`);
     var msgType = 'text';
 
     if(this.currentUser.id === this.usersInfo.reviewee.id && msgBody.match(regex)) {
-    msgType = 'review_req';
-    const path = `/users/rooms/${this.roomId.replace(/room_(\d+)_reviewee_\d+/, '$1')}/review_requests`;
-      const pullUrl = msgBody.match(regex)[0];
+      msgType = 'review_req';
+      const path = `/users/rooms/${this.roomId.replace(/room_(\d+)_reviewee_\d+/, '$1')}/review_requests`;
+      const repoName = msgBody.match(regex)[1];
+      const pullNum = msgBody.match(regex)[2];
       const authenticityToken = $('meta[name="csrf_token"]').attr('content');
       const params = { 
-        url: pullUrl,
+        repo_name: repoName,
+        pull_num: pullNum,
         reviewee_id: this.currentUser.id.replace('user_', ''),
         authenticity_token: authenticityToken
       };
@@ -52,8 +54,26 @@ export default class Chat {
 
       var checkSend
       switch(response.status) {
+        case 'NO_REPOS':
+          checkSend = confirm('リポジトリが存在しないため、通常のテキストメッセージとして送信されますがよろしいですか？');
+          if(!checkSend) return $msgField.val('');
+
+          msgType = 'text';
+          break;
+        case 'NOT_MY_REPO':
+          checkSend = confirm('Myリポジトリに登録されていないため、通常のテキストメッセージとして送信されますがよろしいですか？');
+          if(!checkSend) return $msgField.val('');
+
+          msgType = 'text';
+          break;
         case 'NO_PULLS':
           checkSend = confirm('PRが存在しないため、通常のテキストメッセージとして送信されますがよろしいですか？');
+          if(!checkSend) return $msgField.val('');
+
+          msgType = 'text';
+          break;
+        case 'NOT_OPEN_PULL':
+          checkSend = confirm('PRはクローズされているため、通常のテキストメッセージとして送信されますがよろしいですか？');
           if(!checkSend) return $msgField.val('');
 
           msgType = 'text';

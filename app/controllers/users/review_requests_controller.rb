@@ -14,8 +14,13 @@ class Users::ReviewRequestsController < ApplicationController
   end
 
   def create
-    pull = current_user.pulls.where(is_open: true).find_by(url: params[:url])
+    repo = current_user.repos.find_by(name: params[:repo_name])
+    return render json: { status: "NO_REPOS" } unless repo
+    return render json: { status: "NOT_MY_REPO" } unless repo.is_hook?
+
+    pull = repo.pulls.find_by(number: params[:pull_num])
     return render json: { status: "NO_PULLS" } unless pull
+    return render json: { status: "NOT_OPEN_PULL" } unless pull.is_open?
     return render json: { status: "EXIST_REVIEW_REQ" } if pull.review_requests.present?
 
     pull.review_requests.create do |rr|
