@@ -109,7 +109,7 @@ class User < ApplicationRecord
   end
 
   def active_state_count_for_reviewee
-    active_state = %i[change_request approved]
+    active_state = %i[commented changes_requested approved]
     review_requests.where(state: active_state, is_open: true).count
   end
 
