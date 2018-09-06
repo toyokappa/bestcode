@@ -97,6 +97,16 @@ export default class Chat {
       this.sendMessage();
     });
 
+    $('#message-field').on('keydown', (e) => {
+      if(e.keyCode !== 13) return;
+
+      if((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey)) {
+        // Windows: ctrl+enter / Mac: command+enter
+        this.sendMessage();
+        e.preventDefault();
+      }
+    });
+
     this.firebase.onChangeMessages(this.roomId, (msgData) => {
       this.appendMessage(msgData);
     });
