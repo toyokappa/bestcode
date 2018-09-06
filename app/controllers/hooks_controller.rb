@@ -11,6 +11,8 @@ class HooksController < ApplicationController
   end
 
   def state
+    return render json: { message: :pong } if request.headers["HTTP_X_GITHUB_EVENT"] == "ping"
+
     reviewer = User.find_by!(uid: params[:review][:user][:id])
     pull = Pull.find(params[:pull_request][:id])
 
