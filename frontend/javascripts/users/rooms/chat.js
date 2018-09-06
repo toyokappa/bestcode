@@ -40,7 +40,7 @@ export default class Chat {
 
     if(this.currentUser.id === this.usersInfo.reviewee.id && msgBody.match(regex)) {
       msgType = 'review_req';
-      const path = `/users/rooms/${this.roomId.replace(/room_(\d+)_reviewee_\d+/, '$1')}/review_requests`;
+      const path = `/users/rooms/${this.roomId.replace(/room_(\d+)_reviewee_\d+/, '$1')}/review_request`;
       const repoName = msgBody.match(regex)[1];
       const pullNum = msgBody.match(regex)[2];
       const authenticityToken = $('meta[name="csrf_token"]').attr('content');
@@ -82,6 +82,7 @@ export default class Chat {
           checkSend = confirm('すでにレビュー依頼中です。再依頼しますか？');
           if(!checkSend) return $msgField.val('');
 
+          $.ajax({ url: path, method: "PATCH", data: params });
           break;
       }
     }

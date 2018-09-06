@@ -26,7 +26,8 @@ Rails.application.routes.draw do
     resources :rooms do
       get "reopen", on: :member
       resources :chats, only: [:index]
-      resources :review_requests, only: [:index, :create]
+      resources :review_requests, only: [:index]
+      resource :review_request, only: [:create, :update]
     end
 
     resources :my_rooms, only: [:index]
