@@ -1,4 +1,5 @@
 import moment from 'moment'
+import Converter from '../util/converter'
 
 export default class Message {
   generateMessage(msgData, profilePath, userImg, msgSide) {
@@ -15,13 +16,14 @@ export default class Message {
   }
 
   generateTextMessage(msgData, profilePath, userImg, msgSide) {
+    const escapeMsg = Converter.escapeHtml(msgData.body)
     const msgCreatedAt = moment.unix(msgData.created_at.seconds).format('H:mm');
     const msgElm = `<div class='chat-item' data-class='${msgSide}'>
                       <a class='avatar w-40 blue' href='${profilePath}'>
                         <img src='${userImg}'>
                       </a>
                       <div class='chat-body chat-width'>
-                        <div class='chat-content rounded msg'>${msgData.body}</div>
+                        <div class='chat-content rounded msg'>${escapeMsg}</div>
                         <div class='chat-date date'>${msgCreatedAt}</div>
                       </div>
                     </div>`;
