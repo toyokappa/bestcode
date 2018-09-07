@@ -1,6 +1,7 @@
 import moment from 'moment'
 import Firebase from '../../lib/firebase'
 import Message from '../../lib/message'
+import ResizeTextarea from '../../util/resize_textarea'
 
 export default class Chat {
   constructor(gon) {
@@ -11,6 +12,8 @@ export default class Chat {
     this.roomId = gon.room_chat_id;
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;
+    $('#message-field').prop('disabled', false);
+    $('#message-btn').prop('disabled', false);
     this.bind();
   }
 
@@ -110,5 +113,7 @@ export default class Chat {
     this.firebase.onChangeMessages(this.roomId, (msgData) => {
       this.appendMessage(msgData);
     });
+
+    new ResizeTextarea($('#message-field'));
   }
 }

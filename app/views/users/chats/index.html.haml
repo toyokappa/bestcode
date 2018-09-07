@@ -37,10 +37,7 @@
           %span.btn.btn-sm.btn-icon.primary
             %i.fa.fa-th
         %span.text-md.text-ellipsis.flex
-          - if current_user.own?(@room)
-            = @reviewee&.name || "チャット"
-          - else
-            = @reviewer&.name || "チャット"
+          = @room.name
         %ul.nav.flex-row.no-border.d-lg-block{ style: "display: none;" }
           %li.dropdown.d-flex.align-items-center
             = link_to '#', class: 'd-flex align-items-center', data: { toggle: 'dropdown' } do
@@ -60,7 +57,7 @@
           .chat-list
       #chat-form.p-3.white.lt.b-t.mt-auto
         .input-group
-          %input{ type: :text, class: "form-control", placeholder: "Say something", id: "message-field" }
-          %span.input-group-append
-            = button_tag class: "btn white b-a no-shadow", id: "message-btn" do
+          %textarea{ class: "form-control", rows: 1, disabled: true, placeholder: "送信ボタンもしくはCtrl + Enterで送信", id: "message-field", style: "resize: none;" }
+          %span.input-group-append.align-items-end
+            = button_tag class: "btn white b-a no-shadow", id: "message-btn", disabled: true do
               %i.fa.fa-send.text-success
