@@ -13,4 +13,8 @@ Converter.escapeHtml = str => {
   });
 };
 
+Converter.enterCode = str => {
+  return (str + '').replace(/\r?\n/g, '<br>');
+}
+
 export default Converter;

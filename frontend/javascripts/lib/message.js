@@ -16,14 +16,15 @@ export default class Message {
   }
 
   generateTextMessage(msgData, profilePath, userImg, msgSide) {
-    const escapeMsg = Converter.escapeHtml(msgData.body)
+    const escapeMsg = Converter.escapeHtml(msgData.body);
+    const convertMsg = Converter.enterCode(escapeMsg);
     const msgCreatedAt = moment.unix(msgData.created_at.seconds).format('H:mm');
     const msgElm = `<div class='chat-item' data-class='${msgSide}'>
                       <a class='avatar w-40 blue' href='${profilePath}'>
                         <img src='${userImg}'>
                       </a>
                       <div class='chat-body chat-width'>
-                        <div class='chat-content rounded msg'>${escapeMsg}</div>
+                        <div class='chat-content rounded msg'>${convertMsg}</div>
                         <div class='chat-date date'>${msgCreatedAt}</div>
                       </div>
                     </div>`;
