@@ -31,8 +31,8 @@
                 .text-xs.badge.badge-sm.badge-pill.danger
                   = @room.review_assigns.where(state: :wait_review, is_open: true).size
   #content-body.d-flex.flex
-    #chat-list.d-flex.flex-column.flex
-      .navbar.flex-nowrap.white.lt.box-shadow
+    #chat-wrapper.d-flex.flex-column.flex
+      #chat-header.navbar.flex-nowrap.white.lt.box-shadow
         = link_to '', data: :modal, data: { toggle: "modal", target: "#content-aside" }, class: "mr-2 d-md-none" do
           %span.btn.btn-sm.btn-icon.primary
             %i.fa.fa-th
@@ -52,7 +52,7 @@
                   %span ルームを作成
               .dropdown-divider
               = link_to 'ログアウト', users_sign_out_path, method: :delete, class: 'dropdown-item'
-      .scrollable.hover
+      #chat-content{ style: "overflow: auto" }
         .p-3
           .chat-list
       #chat-form.p-3.white.lt.b-t.mt-auto

@@ -94,6 +94,10 @@ export default class Chat {
     $msgField.val('');
   }
 
+  scrollToLatest() {
+    $('#chat-content').animate({scrollTop: $('#chat-content')[0].scrollHeight});
+  }
+
   bind() {
     $('#message-btn').on('click', (e) => {
       e.preventDefault();
@@ -110,8 +114,21 @@ export default class Chat {
       }
     });
 
-    this.firebase.onChangeMessages(this.roomId, (msgData) => {
-      this.appendMessage(msgData);
+    this.firebase.onChangeMessages(this.roomId, (messages) => {
+      messages.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          // Firestoreへメッセージ送信時にcreated_atがnullの場合がある
+          // その場合は一時退避し、created_at確定後(modified)時にmessageを取得
+          if(change.doc.data().created_at === null) return;
+
+          this.appendMessage(change.doc.data());
+        }
+        if (change.type === 'modified') {
+          this.appendMessage(change.doc.data());
+        }
+      });
+      this.scrollToLatest();
+      console.log(0);
     });
 
     new ResizeTextarea($('#message-field'));
