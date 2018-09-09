@@ -12,9 +12,52 @@ export default class Chat {
     this.roomId = gon.room_chat_id;
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;
+    this.readTime = 0;
+    this.isInit = true;
     $('#message-field').prop('disabled', false);
     $('#message-btn').prop('disabled', false);
+    this.initChat();
     this.bind();
+  }
+
+  async initChat() {
+    this.readTime = await this.firebase.getReadTime(this.roomId, this.currentUser.id);
+    await this.initMessages();
+    await this.appendUnreadSeparation();
+    this.firebase.onChangeMessages(this.roomId, this.readTime, (messages) => {
+      messages.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          // Firestoreへメッセージ送信時にcreated_atがnullの場合がある
+          // その場合は一時退避し、created_at確定後(modified)時にmessageを取得
+          if(change.doc.data().created_at === null) return;
+
+          this.appendMessage(change.doc.data());
+        }
+        if (change.type === 'modified') {
+          this.appendMessage(change.doc.data());
+        }
+      });
+      this.updateReadTime();
+      if(this.isInit) return;
+
+      this.scrollToLatest();
+    });
+  }
+
+  async initMessages() {
+    const messages = await this.firebase.fetchMessages(this.roomId, this.readTime)
+    messages.forEach((message) => {
+      this.appendMessage(message.data());
+    });
+    this.scrollToLatest();
+  }
+
+  async appendUnreadSeparation() {
+    const unreadsCount = await this.firebase.getUnreadsCount(this.roomId, this.readTime);
+    if(unreadsCount === 0) return;
+
+    const unreadSeparation = '<div class="chat-item unread-separation"><div class="mx-auto text-info unread-text">ここから未読</div></div>'
+    $('.chat-list').append(unreadSeparation);
   }
 
   appendMessage(msgData) {
@@ -34,6 +77,8 @@ export default class Chat {
   }
 
   async sendMessage() {
+    // TODO: 苦肉の策でここでinitフラグを外しているが良い方法があれば別途実装
+    this.isInit = false;
     const $msgField = $('#message-field');
     const msgBody = $msgField.val();
     if(!msgBody) return;
@@ -98,7 +143,11 @@ export default class Chat {
     $('#chat-content').animate({scrollTop: $('#chat-content')[0].scrollHeight});
   }
 
-  bind() {
+  updateReadTime() {
+    this.firebase.updateReadTime(this.roomId, this.currentUser.id);
+  }
+
+  async bind() {
     $('#message-btn').on('click', (e) => {
       e.preventDefault();
       this.sendMessage();
@@ -112,23 +161,6 @@ export default class Chat {
         this.sendMessage();
         e.preventDefault();
       }
-    });
-
-    this.firebase.onChangeMessages(this.roomId, (messages) => {
-      messages.docChanges().forEach((change) => {
-        if (change.type === 'added') {
-          // Firestoreへメッセージ送信時にcreated_atがnullの場合がある
-          // その場合は一時退避し、created_at確定後(modified)時にmessageを取得
-          if(change.doc.data().created_at === null) return;
-
-          this.appendMessage(change.doc.data());
-        }
-        if (change.type === 'modified') {
-          this.appendMessage(change.doc.data());
-        }
-      });
-      this.scrollToLatest();
-      console.log(0);
     });
 
     new ResizeTextarea($('#message-field'));

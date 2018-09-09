@@ -22,8 +22,8 @@ export default class Firebase {
     });
   }
 
-  fetchMessages(roomId) {
-    return this.firestore.collection('rooms').doc(roomId).collection('messages').orderBy('created_at').get();
+  fetchMessages(roomId, readTime) {
+    return this.firestore.collection('rooms').doc(roomId).collection('messages').where('created_at', '<=', readTime).orderBy('created_at').get();
   }
 
   sendMessage(roomId, msgBody, msgType, userId) {
@@ -35,10 +35,26 @@ export default class Firebase {
     });
   }
 
-  onChangeMessages(roomId, callback) {
-    this.firestore.collection('rooms').doc(roomId).collection('messages').orderBy('created_at')
+  onChangeMessages(roomId, readTime, callback) {
+    this.firestore.collection('rooms').doc(roomId).collection('messages').where('created_at', '>', readTime).orderBy('created_at')
       .onSnapshot(function(messages) {
         callback(messages);
       });
+  }
+
+  async getReadTime(roomId, userId) {
+    const user = await this.firestore.collection('rooms').doc(roomId).collection('users').doc(userId).get();
+    return user.data().read_time
+  }
+
+  updateReadTime(roomId, userId) { 
+    this.firestore.collection('rooms').doc(roomId).collection('users').doc(userId).update({
+      read_time: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
+
+  async getUnreadsCount(roomId, readTime) {
+    const messages = await this.firestore.collection('rooms').doc(roomId).collection('messages').where('created_at', '>', readTime).get();
+    return messages.size
   }
 }
