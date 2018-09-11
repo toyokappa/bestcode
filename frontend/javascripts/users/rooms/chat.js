@@ -6,6 +6,7 @@ export default class Chat {
   constructor(gon, firebase) {
     this.firebase = firebase;
     this.message = new Message();
+    this.resizeTextarea = new ResizeTextarea($('#message-field'));
     this.roomId = gon.room_chat_id;
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;
@@ -134,6 +135,7 @@ export default class Chat {
 
     this.firebase.sendMessage(this.roomId, msgBody, msgType, this.currentUser.id);
     $msgField.val('');
+    this.resizeTextarea.restoreSize();
   }
 
   scrollToLatest() {
@@ -159,7 +161,5 @@ export default class Chat {
         e.preventDefault();
       }
     });
-
-    new ResizeTextarea($('#message-field'));
   }
 }

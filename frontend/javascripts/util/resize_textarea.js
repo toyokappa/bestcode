@@ -1,6 +1,7 @@
 export default class ResizeTextarea {
   constructor($textarea) {
     this.$textarea = $textarea;
+    this.defaultHeight = $textarea.height();
     this.bind();
   }
 
@@ -30,5 +31,9 @@ export default class ResizeTextarea {
 
   bind() {
     this.$textarea.on('input', this.resizeTextarea);
+  }
+
+  restoreSize() {
+    this.$textarea.height(this.defaultHeight);
   }
 }
