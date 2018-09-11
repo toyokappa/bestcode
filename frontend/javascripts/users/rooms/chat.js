@@ -2,12 +2,14 @@ import moment from 'moment'
 import Firebase from '../../lib/firebase'
 import Message from '../../lib/message'
 import ResizeTextarea from '../../util/resize_textarea'
+import UnreadCheck from './unread_check'
 
 export default class Chat {
   constructor(gon) {
     const firebase = new Firebase();
     firebase.auth(gon.auth_token);
     this.firebase = firebase;
+    new UnreadCheck(gon, this.firebase);
     this.message = new Message();
     this.roomId = gon.room_chat_id;
     this.currentUser = gon.current_user;

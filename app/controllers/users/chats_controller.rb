@@ -12,6 +12,7 @@ class Users::ChatsController < ApplicationController
 
     gon.auth_token = current_user.firebase_auth_token
     gon.room_chat_id = @room.chat_id(params[:reviewee_id])
+    gon.room_chat_ids = @room.reviewees.map {|reviewee| @room.chat_id(reviewee.id) }
     gon.current_user = { 
       id: current_user.chat_id,
       name: current_user.name

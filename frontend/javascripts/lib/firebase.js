@@ -42,8 +42,17 @@ export default class Firebase {
       });
   }
 
+  onChangeReadTime(roomId, userId, callback) {
+    this.firestore.collection('rooms').doc(roomId).collection('users').doc(userId)
+      .onSnapshot(function(user) {
+        callback(user);
+      });
+  }
+
   async getReadTime(roomId, userId) {
     const user = await this.firestore.collection('rooms').doc(roomId).collection('users').doc(userId).get();
+    if(!user.exists) return 0;
+
     return user.data().read_time
   }
 
