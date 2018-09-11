@@ -3,11 +3,10 @@
     #chat-nav.d-flex.flex-column.w-xl.b-r.white.modal-dialog
       .scrollable.hover
         .list.inset
-          - room_chat_id = @room.chat_id(params[:reviewee_id])
           - if current_user.own?(@room)
             .p-2.px-3.text-muted.text-sm レビュイー
             - @room.reviewees.each do |reviewee|
-              = link_to users_room_chats_path(@room, reviewee_id: reviewee.id), class: "list-item #{room_chat_id}#{' active' if params[:reviewee_id] == reviewee.id.to_s}" do
+              = link_to users_room_chats_path(@room, reviewee_id: reviewee.id), class: "list-item #{@room.chat_id(reviewee.id)}#{' active' if params[:reviewee_id] == reviewee.id.to_s}" do
                 %span.w-40.avatar.circle
                   = image_tag reviewee.image.url
                 .list-body
@@ -16,7 +15,7 @@
                   %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger
           - else
             .p-2.px-3.text-muted.text-sm レビュワー
-            = link_to users_room_chats_path(@room, reviewee_id: current_user.id), class: "list-item #{room_chat_id}#{' active' if params[:reviewee_id] == current_user.id.to_s}" do
+            = link_to users_room_chats_path(@room, reviewee_id: current_user.id), class: "list-item #{@room.chat_id(current_user.id)}#{' active' if params[:reviewee_id] == current_user.id.to_s}" do
               %span.w-40.avatar.circle
                 = image_tag @room.reviewer.image.url
               .list-body
