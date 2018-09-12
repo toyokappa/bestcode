@@ -2,6 +2,7 @@ class CreateReviewRequests < ActiveRecord::Migration[5.2]
   def change
     create_table :review_requests do |t|
       t.string :name
+      t.text :description
       t.boolean :is_open, default: true, null: false
       t.string :state, default: "wait_review", null: false
       t.integer :pull_id, index: true

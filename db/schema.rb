@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 2018_08_13_135755) do
 
   create_table "review_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
+    t.text "description"
     t.boolean "is_open", default: true, null: false
     t.string "state", default: "wait_review", null: false
     t.integer "pull_id"
