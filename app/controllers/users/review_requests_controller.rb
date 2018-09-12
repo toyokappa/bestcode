@@ -15,13 +15,10 @@ class Users::ReviewRequestsController < ApplicationController
 
   def create
     repo = current_user.repos.find_by(name: params[:repo_name])
-    return render json: { status: "NO_REPOS" } unless repo
-    return render json: { status: "NOT_MY_REPO" } unless repo.is_hook?
+    check_repo(repo)
 
     pull = repo.pulls.find_by(number: params[:pull_num])
-    return render json: { status: "NO_PULLS" } unless pull
-    return render json: { status: "NOT_OPEN_PULL" } unless pull.is_open?
-    return render json: { status: "EXIST_REVIEW_REQ" } if pull.review_requests.present?
+    check_pull(pull)
 
     pull.review_requests.create! do |rr|
       rr.name = pull.name
@@ -39,4 +36,17 @@ class Users::ReviewRequestsController < ApplicationController
     review_req.update!(state: :wait_review)
     render json: { status: "OK" }
   end
+
+  private
+
+    def check_repo(repo)
+      return render json: { status: "NO_REPOS" } unless repo
+      return render json: { status: "NOT_MY_REPO" } unless repo.is_hook?
+    end
+
+    def check_pull(pull)
+      return render json: { status: "NO_PULLS" } unless pull
+      return render json: { status: "NOT_OPEN_PULL" } unless pull.is_open?
+      return render json: { status: "EXIST_REVIEW_REQ" } if pull.review_requests.present?
+    end
 end

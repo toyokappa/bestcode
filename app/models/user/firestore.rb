@@ -3,7 +3,7 @@ module User::Firestore
   require "google/cloud/firestore"
 
   def join_firestore_chat(room)
-    firestore = get_firestore
+    firestore = init_firestore
 
     users = firestore.col("rooms").doc(room.chat_id(self.id)).col("users")
     reviewer = users.doc(room.reviewer.chat_id)
@@ -54,7 +54,7 @@ module User::Firestore
     # TODO: FirebaseのCredential情報(json)をgit管理下に置きたくない
     #       が故の苦肉の策。ルームに入るたびに作成、削除が実行されるので
     #       いい実装方法があればそちらに切り替えたい
-    def get_firestore
+    def init_firestore
       file_path = "#{Rails.root}/config/firebase_key.json"
       firebase = Rails.application.credentials.firebase[Rails.env.to_sym]
       firebase_key = {
@@ -71,10 +71,7 @@ module User::Firestore
       }.to_json
 
       File.write(file_path, firebase_key)
-      firestore = Google::Cloud::Firestore.new(
-        project_id: firebase[:project_id],
-        credentials: file_path,
-      )
+      firestore = Google::Cloud::Firestore.new(project_id: firebase[:project_id], credentials: file_path)
       File.unlink(file_path)
       firestore
     end
