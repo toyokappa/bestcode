@@ -46,7 +46,7 @@ export default class Message {
                         <div class='chat-content rounded msg d-block review-request'>
                           【レビューリクエスト】<br>
                           下記PRのレビューをお願いします。<br>
-                          <a href=${reviewReqUrl} class="d-block"><u>${reviewReqUrl}</u></a>
+                          <a href=${reviewReqUrl} class="d-block" target="_blank"><u>${reviewReqUrl}</u></a>
                         </div>
                         <div class='chat-date date'>${msgCreatedAt}</div>
                       </div>
