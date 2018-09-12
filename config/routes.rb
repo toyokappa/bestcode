@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     end
 
     namespace :rooms, path: "rooms/:room_id" do
-      resources :review_requests, only: [:show, :new, :edit, :update]
+      resources :review_requests, only: [:show, :new, :create, :edit, :update]
       resources :evaluations, only: [:new, :create]
     end
 
