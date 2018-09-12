@@ -6,9 +6,9 @@ class Users::ChatsController < ApplicationController
     @title = "チャット"
     gon.auth_token = current_user.firebase_auth_token
     gon.room_chat_ids = @room.reviewees.map {|reviewee| @room.chat_id(reviewee.id) }
-    gon.current_user = { 
+    gon.current_user = {
       id: current_user.chat_id,
-      name: current_user.name
+      name: current_user.name,
     }
     return if params[:reviewee_id].blank?
 
@@ -21,13 +21,13 @@ class Users::ChatsController < ApplicationController
       reviewer: {
         id: @reviewer.chat_id,
         image: @reviewer.image.url,
-        profile_path: users_profile_path(@reviewer.name)
+        profile_path: users_profile_path(@reviewer.name),
       },
       reviewee: {
         id: @reviewee.chat_id,
         image: @reviewee.image.url,
-        profile_path: users_profile_path(@reviewee.name)
-      }
+        profile_path: users_profile_path(@reviewee.name),
+      },
     }
   end
 
@@ -36,7 +36,7 @@ class Users::ChatsController < ApplicationController
     def check_room_reviewee
       @room = Room.find(params[:room_id])
       unless current_user.participating?(@room) || current_user.own?(@room)
-        redirect_to users_room_path(@room), danger: "ルームに参加してください" 
+        redirect_to users_room_path(@room), danger: "ルームに参加してください"
       end
     end
 end

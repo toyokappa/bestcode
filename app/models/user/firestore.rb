@@ -5,8 +5,8 @@ module User::Firestore
   def join_firestore_chat(room)
     firestore = get_firestore
 
-    users = firestore.col('rooms').doc(room.chat_id(self.id)).col('users')
-    reviewer = users.doc(room.reviewer.chat_id) 
+    users = firestore.col("rooms").doc(room.chat_id(self.id)).col("users")
+    reviewer = users.doc(room.reviewer.chat_id)
     reviewee = users.doc(self.chat_id)
 
     reviewer.set({ read_time: 0 })
@@ -24,8 +24,8 @@ module User::Firestore
 
     response = conn.post do |req|
       req.url "/identitytoolkit/v3/relyingparty/verifyCustomToken?key=#{api_key}"
-      req.headers['Content-Type'] = 'application/json' 
-      req.body = { 'token' => firebase_auth_token }.to_json
+      req.headers["Content-Type"] = "application/json"
+      req.body = { "token" => firebase_auth_token }.to_json
     end
 
     raise StandardError unless response.status == 200
@@ -43,8 +43,8 @@ module User::Firestore
       sub: service_account_email,
       aud: "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit",
       iat: now_seconds,
-      exp: now_seconds+(60*60), # Maximum expiration time is one hour
-      uid: uid
+      exp: now_seconds + (60 * 60), # Maximum expiration time is one hour
+      uid: uid,
     }
     JWT.encode payload, private_key, "RS256"
   end
@@ -73,10 +73,9 @@ module User::Firestore
       File.write(file_path, firebase_key)
       firestore = Google::Cloud::Firestore.new(
         project_id: firebase[:project_id],
-        credentials: file_path
+        credentials: file_path,
       )
       File.unlink(file_path)
       firestore
     end
 end
-

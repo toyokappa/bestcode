@@ -58,6 +58,7 @@ class Users::RoomsController < ApplicationController
   end
 
   private
+
     def set_title
       @title = "ルーム"
     end
