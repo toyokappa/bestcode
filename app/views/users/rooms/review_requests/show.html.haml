@@ -27,7 +27,7 @@
           %i.fa{ class: @review_req.is_open ? "fa-square-o" : "fa-check-square-o" }
           = @review_req.is_open ? "オープン" : "クローズ"
         .badge.text-sm{ class: @review_req.state_color }= @review_req.state_text
-      .markdown-body.no-border= markdown @review_req.description
+      .markdown-body.no-border= markdown @review_req.description if @review_req.description.present?
   .streamline.ml-2.ajax-comment-field
     - @review_comments.each do |comment|
       .sl-item

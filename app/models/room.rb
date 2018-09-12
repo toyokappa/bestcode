@@ -86,6 +86,10 @@ class Room < ApplicationRecord
     type ? image.send(type).url : image.url
   end
 
+  def chat_id(reviewee_id)
+    "room_#{id}_reviewee_#{reviewee_id}"
+  end
+
   private
 
     def capacity_greater_than_or_equal_to_participants

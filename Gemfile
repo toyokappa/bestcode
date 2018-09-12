@@ -14,18 +14,21 @@ gem "rails", "~> 5.2.0"
 gem "uglifier", ">= 1.3.0"
 
 # Javascript
+gem "gon"
 gem "jbuilder", "~> 2.5"
 
 # I18n
 gem "rails-i18n"
 
 # Authentication
+gem "jwt"
 gem "octokit"
 gem "omniauth"
 gem "omniauth-github"
 
 # Models
 gem "enumerize"
+gem "google-cloud-firestore"
 gem "seed-fu"
 
 # Views

@@ -15,6 +15,7 @@
 
 class User < ApplicationRecord
   extend Enumerize
+  include User::Firestore
 
   has_many :owned_rooms, class_name: "Room", foreign_key: "reviewer_id", dependent: :destroy, inverse_of: :reviewer
   has_many :participations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
@@ -40,6 +41,11 @@ class User < ApplicationRecord
 
   def participatable?(room)
     !own?(room) && !participating?(room) && !room.over_capacity?
+  end
+
+  def join(room)
+    self.participating_rooms << room
+    join_firestore_chat(room)
   end
 
   def own?(room)
@@ -103,12 +109,16 @@ class User < ApplicationRecord
   end
 
   def active_state_count_for_reviewee
-    active_state = %i[change_request approved]
+    active_state = %i[commented changes_requested approved]
     review_requests.where(state: active_state, is_open: true).count
   end
 
   def my_repos
     repos.where(is_hook: true)
+  end
+
+  def chat_id
+    "user_#{id}"
   end
 
   class << self

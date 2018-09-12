@@ -1,0 +1,63 @@
+#chat-container.d-flex.flex
+  #content-aside.fade.aside.aside-sm
+    #chat-nav.d-flex.flex-column.w-xl.b-r.white.modal-dialog
+      .scrollable.hover
+        .list.inset
+          - if current_user.own?(@room)
+            .p-2.px-3.text-muted.text-sm レビュイー
+            - @room.reviewees.each do |reviewee|
+              = link_to users_room_chats_path(@room, reviewee_id: reviewee.id), class: "list-item #{@room.chat_id(reviewee.id)}#{' active' if params[:reviewee_id] == reviewee.id.to_s}" do
+                %span.w-40.avatar.circle
+                  = image_tag reviewee.image.url
+                .list-body
+                  .item-title._500.mt-2= reviewee.name
+                .mt-2
+                  %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger
+          - else
+            .p-2.px-3.text-muted.text-sm レビュワー
+            = link_to users_room_chats_path(@room, reviewee_id: current_user.id), class: "list-item #{@room.chat_id(current_user.id)}#{' active' if params[:reviewee_id] == current_user.id.to_s}" do
+              %span.w-40.avatar.circle
+                = image_tag @room.reviewer.image.url
+              .list-body
+                .item-title._500.mt-2= @room.reviewer.name
+              .mt-2
+                %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger
+      - if current_user.own?(@room)
+        .p-3.mt-auto.b-t
+          = link_to users_room_review_requests_path(@room), class: "d-flex" do
+            .flex レビューリクエスト
+            - unless @room.review_assigns.where(state: :wait_review, is_open: true).size.zero?
+              .m-0
+                .text-xs.badge.badge-sm.badge-pill.danger
+                  = @room.review_assigns.where(state: :wait_review, is_open: true).size
+  #content-body.d-flex.flex
+    #chat-wrapper.d-flex.flex-column.flex
+      #chat-header.navbar.flex-nowrap.white.lt.box-shadow
+        = link_to '', data: :modal, data: { toggle: "modal", target: "#content-aside" }, class: "mr-2 d-md-none" do
+          %span.btn.btn-sm.btn-icon.primary
+            %i.fa.fa-th
+        %span.text-md.text-ellipsis.flex
+          = @room.name
+        %ul.nav.flex-row.no-border.d-lg-block{ style: "display: none;" }
+          %li.dropdown.d-flex.align-items-center
+            = link_to '#', class: 'd-flex align-items-center', data: { toggle: 'dropdown' } do
+              %span.avatar.w-32
+                = image_tag current_user.check_and_return_image(:thumb), alt: '...'
+            .dropdown-menu.dropdown-menu-right.w.pt-2.mt-2.animate.fadeIn
+              = link_to users_profile_path(current_user.name), class: "dropdown-item" do
+                %b= current_user.name
+              - if current_user.reviewer?
+                .dropdown-divider
+                = link_to new_users_room_path, class: 'dropdown-item' do
+                  %span ルームを作成
+              .dropdown-divider
+              = link_to 'ログアウト', users_sign_out_path, method: :delete, class: 'dropdown-item'
+      #chat-content{ style: "overflow: auto" }
+        .p-3
+          .chat-list
+      #chat-form.p-3.white.lt.b-t.mt-auto
+        .input-group
+          %textarea{ class: "form-control", rows: 1, disabled: true, placeholder: "送信ボタンもしくはCtrl + Enterで送信", id: "message-field", style: "resize: none; word-wrap: break-word;" }
+          %span.input-group-append.align-items-end
+            = button_tag class: "btn white b-a no-shadow", id: "message-btn", disabled: true do
+              %i.fa.fa-send.text-success

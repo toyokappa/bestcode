@@ -25,6 +25,9 @@ Rails.application.routes.draw do
 
     resources :rooms do
       get "reopen", on: :member
+      resources :chats, only: [:index]
+      resources :review_requests, only: [:index]
+      resource :review_request, only: [:create, :update]
     end
 
     resources :my_rooms, only: [:index]
@@ -38,5 +41,6 @@ Rails.application.routes.draw do
   end
 
   post "/hooks/pulls", to: "hooks#pulls"
+  post "/hooks/state", to: "hooks#state"
   post "/markdown/preview", to: "markdown#preview"
 end

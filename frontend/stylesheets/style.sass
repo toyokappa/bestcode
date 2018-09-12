@@ -35,3 +35,29 @@
     bottom: 0
     right: 0
     left: 0
+
+/*    Chat    */
+.chat-item
+  .chat-width
+    width: 35vw
+    max-width: 350px
+  .review-request
+    background-color: #ea2e49 !important
+    color: rgba(255,255,255,.85) !important
+  &.unread-separation
+    position: relative
+    &:before
+      content: ""
+      display: block
+      border-top: 1px solid #14baa8
+      width: 100%
+      height: 1px
+      position: absolute
+      top: 50%
+      z-index: 1
+    .unread-text
+      background-color: #f3f6f9
+      padding: 0 10px
+      z-index: 2
+  .autolink
+    text-decoration: underline
