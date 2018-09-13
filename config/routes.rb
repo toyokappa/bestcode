@@ -23,7 +23,10 @@ Rails.application.routes.draw do
       resource :review_request, only: [:create, :update]
     end
 
-    resources :my_rooms, only: [:index]
+    resources :my_rooms, only: [] do
+      get "reviewer", on: :collection
+      get "reviewee", on: :collection
+    end
 
     delete "/sign_out", to: "sessions#destroy"
     patch "/top", to: "top#update"

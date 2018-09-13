@@ -1,0 +1,31 @@
+.padding
+  .box
+    .box-header.navbar
+      %h2
+        %span.align-middle 参加中のルーム
+    - if @rooms.present?
+      %table.table
+        %thead
+          %tr
+            %th ルーム名
+            %th 参加人数
+            %th レビュワー
+            %th{ style: "width:50px;" }
+        %tbody
+          - @rooms.each do |room|
+            %tr
+              %td= link_to room.name, users_room_path(room)
+              %td #{room.reviewees.size}/#{room.capacity}
+              %td= room.reviewer.name
+              %td
+                - count_for_reviewee = room.active_state_count_for_reviewee
+                .badge.badge-pill.text-sm{ class: count_for_reviewee.zero? ? "lignt" : "danger" }
+                  = count_for_reviewee
+    - else
+      .box-divider.m-0
+      .box-body.text-center
+        .py-5
+          %h3.mb-3 ルームへ参加してみましょう
+          .mb-1 ルームへ参加することで、その部屋のレビュワーからコードレビューを受けることができます
+          .mb-3 コードレビューを受けることで、自身のスキルアップに繋がります
+          = link_to "ルームを探す", users_rooms_path, class: "btn btn-rounded info"
