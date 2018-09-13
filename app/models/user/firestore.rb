@@ -9,8 +9,8 @@ module User::Firestore
     reviewer = users.doc(room.reviewer.chat_id)
     reviewee = users.doc(self.chat_id)
 
-    reviewer.set({ read_time: 0 })
-    reviewee.set({ read_time: 0 })
+    reviewer.set({ read_time: firestore.field_server_time })
+    reviewee.set({ read_time: firestore.field_server_time })
   end
 
   # 作成したものの一旦は使わなそう
