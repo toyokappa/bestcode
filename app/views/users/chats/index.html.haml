@@ -22,14 +22,18 @@
                 .item-title._500.mt-2= @room.reviewer.name
               .mt-2
                 %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger
-      - if current_user.own?(@room)
-        .p-3.mt-auto.b-t
-          = link_to users_room_review_requests_path(@room), class: "d-flex" do
-            .flex レビューリクエスト
-            - unless @room.review_assigns.where(state: :wait_review, is_open: true).size.zero?
-              .m-0
-                .text-xs.badge.badge-sm.badge-pill.danger
-                  = @room.review_assigns.where(state: :wait_review, is_open: true).size
+      .mt-auto
+        - if current_user.own?(@room)
+          .p-3.b-t
+            = link_to users_room_review_requests_path(@room), class: "d-flex" do
+              .flex レビューリクエスト
+              - unless @room.review_assigns.where(state: :wait_review, is_open: true).size.zero?
+                .m-0
+                  .text-xs.badge.badge-sm.badge-pill.danger
+                    = @room.review_assigns.where(state: :wait_review, is_open: true).size
+        .p-3.b-t
+          = link_to users_room_path(@room) do
+            %span ルームに戻る
   #content-body.d-flex.flex
     #chat-wrapper.d-flex.flex-column.flex
       #chat-header.navbar.flex-nowrap.white.lt.box-shadow
