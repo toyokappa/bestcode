@@ -60,7 +60,7 @@
         .box-divider.m-0
         .box-footer
           - if current_user.own?(@room)
-            = link_to "ルームを編集する", edit_users_room_path(@room), class: "btn info btn-block"
+            = link_to "ルームを編集する", edit_users_room_path(@room), class: "btn info btn-block mb-2"
             - unless @room.is_open
               .mt-3= link_to "ルームを再オープンする", reopen_users_room_path(@room), class: "btn success btn-block"
           - if current_user.participatable?(@room)
