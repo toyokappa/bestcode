@@ -26,7 +26,6 @@ class User < ApplicationRecord
   has_many :pulls, through: :repos
   has_many :review_requests, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
   has_many :review_assigns, class_name: "ReviewRequest", through: :owned_rooms
-  has_many :review_comments, dependent: :destroy, inverse_of: :user
   has_many :evaluations, foreign_key: "reviewee_id", dependent: :destroy, inverse_of: :reviewee
 
   enumerize :role, in: [:reviewee, :reviewer], predicates: true

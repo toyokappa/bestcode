@@ -68,20 +68,8 @@ ActiveRecord::Schema.define(version: 2018_08_13_135755) do
     t.index ["user_id"], name: "index_repos_on_user_id"
   end
 
-  create_table "review_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.text "body"
-    t.string "state", default: "commented", null: false
-    t.integer "user_id"
-    t.integer "review_request_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["review_request_id"], name: "index_review_comments_on_review_request_id"
-    t.index ["user_id"], name: "index_review_comments_on_user_id"
-  end
-
   create_table "review_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.text "description"
     t.boolean "is_open", default: true, null: false
     t.string "state", default: "wait_review", null: false
     t.integer "pull_id"

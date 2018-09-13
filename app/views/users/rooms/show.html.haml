@@ -15,48 +15,32 @@
       .box
         .box-body
           .markdown-body.no-border= markdown @room.description
-      - if current_user.belonging_to?(@room)
-        .box
-          .box-header
-            .nav-active-primary
-              %ul.nav.nav-pills.nav-rounded.nav-sm
-                %li.nav-item{ class: "#{'active' unless params[:open_state].in? %w[closed all]}" }
-                  = link_to "オープン中", users_room_path(@room, open_state: :open), class: "nav-link text-primary"
-                %li.nav-item{ class: "#{'active' if params[:open_state] == "closed"}" }
-                  = link_to "クローズ済み", users_room_path(@room, open_state: :closed), class: "nav-link text-primary"
-                %li.nav-item{ class: "#{'active' if params[:open_state] == "all"}" }
-                  = link_to "すべて", users_room_path(@room, open_state: :all), class: "nav-link text-primary"
-          - if current_user.own?(@room)
-            = render "review_reqs", review_reqs: @review_assigns, room: @room
-          - elsif current_user.participating?(@room)
-            = render "review_reqs", review_reqs: @review_reqs, room: @room
-      - unless current_user.belonging_to?(@room)
-        %h5 レビュイーからの評価
-        - if @room.evaluations.present?
-          - @room.evaluations.each do |evaluation|
-            .box
-              .box-header
-                .d-flex.align-items-stretch
-                  = link_to users_profile_path(evaluation.reviewee.name) do
-                    = image_tag evaluation.reviewee.check_and_return_image, class: "avatar w-32"
-                  %span.ml-2.mt-1= link_to evaluation.reviewee.name, users_profile_path(evaluation.reviewee.name)
-              .box-divider.m-0
-              .box-body
-                .mb-0
-                  %span 対応スピード:
-                  %strong.mr-3= evaluation.speed
-                  %span レビューの量:
-                  %strong.mr-3= evaluation.quantity
-                  %span レビューの質:
-                  %strong.mr-3= evaluation.quality
-                  %span 総合評価:
-                  %strong= evaluation.score(2)
-                - if evaluation.comment.present?
-                  .mt-3= evaluation.comment
-                .mt-3.text-muted
-                  = evaluation.created_at.strftime("%Y-%m-%d %H:%M")
-        - else
-          .mb-3 現在レビュイーからの評価はありません
+      %h5 レビュイーからの評価
+      - if @room.evaluations.present?
+        - @room.evaluations.each do |evaluation|
+          .box
+            .box-header
+              .d-flex.align-items-stretch
+                = link_to users_profile_path(evaluation.reviewee.name) do
+                  = image_tag evaluation.reviewee.check_and_return_image, class: "avatar w-32"
+                %span.ml-2.mt-1= link_to evaluation.reviewee.name, users_profile_path(evaluation.reviewee.name)
+            .box-divider.m-0
+            .box-body
+              .mb-0
+                %span 対応スピード:
+                %strong.mr-3= evaluation.speed
+                %span レビューの量:
+                %strong.mr-3= evaluation.quantity
+                %span レビューの質:
+                %strong.mr-3= evaluation.quality
+                %span 総合評価:
+                %strong= evaluation.score(2)
+              - if evaluation.comment.present?
+                .mt-3= evaluation.comment
+              .mt-3.text-muted
+                = evaluation.created_at.strftime("%Y-%m-%d %H:%M")
+      - else
+        .mb-3 現在レビュイーからの評価はありません
     .col-md-3
       .box
         .box-header.navbar
@@ -82,9 +66,9 @@
           - if current_user.participatable?(@room)
             = button_to "ルームに参加する", users_participation_path(@room), method: :put, class: "btn primary btn-block", disabled: !@room.is_open
             .text-muted.mt-1= "ルームがクローズしているため参加できません" unless @room.is_open
-          - if current_user.participating?(@room)
-            = button_to "レビューリクエストを作成する", new_users_rooms_review_request_path(@room), method: :get, class: "btn primary btn-block", disabled: !@room.is_open
-            .text-muted.mt-1= "ルームがクローズしているためレビューリクエストを作成できません" unless @room.is_open
+          - if current_user.belonging_to?(@room)
+            = button_to "チャットへ移動する", users_room_chats_path(@room), method: :get, class: "btn primary btn-block", disabled: !@room.is_open
+            .text-muted.mt-1= "ルームがクローズしているためチャットへ移動できません" unless @room.is_open
   =link_to users_rooms_path, class: "text-muted" do
     %u ルーム一覧に戻る
   - if current_user.own?(@room) && @room.is_open?
