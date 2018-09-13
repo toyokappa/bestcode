@@ -8,7 +8,7 @@
         %tr
           %th{ style: "width:50px;" } #
           %th プルリク名
-          %th{ style: "width:200px;" }
+          %th{ style: "width:50px;" }
       %tbody
         - if @pulls.present?
           - @pulls.each do |pull|
@@ -16,11 +16,12 @@
               %td.align-middle= pull.number
               %td.align-middle= link_to pull.name, users_repo_pull_path(@repo, pull)
               %td.align-middle 
-                = link_to new_users_pulls_review_request_path(pull), class: "btn btn-sm info" do
-                  %i.fa.fa-plus-circle
-                  %span レビューリクエストを作成
+                = link_to pull.url, class: "btn btn-sm info" do
+                  %i.fa.fa-github
+                  %span GitHub
         - else
           %tr
             %td -
             %td 表示できるプルリクはありません
+            %td
   %u= link_to "Myリポジトリへ戻る", users_repos_path, class: "text-muted"

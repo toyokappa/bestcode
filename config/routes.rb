@@ -17,10 +17,6 @@ Rails.application.routes.draw do
       resources :evaluations, only: [:new, :create]
     end
 
-    namespace :pulls do
-      resources :review_requests, path: "/:pull_id/review_requests", only: [:new, :create]
-    end
-
     resources :review_comments, only: [:create, :update, :destroy]
 
     resources :rooms do
