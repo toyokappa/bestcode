@@ -14,9 +14,9 @@ class HooksController < ApplicationController
       return render json: { message: "no pulls" } unless pull
 
       if params[:pull_request][:merged]
-        pull.review_requests.find_each {|rr| rr.update(state: :resolved, is_open: false) }
+        pull.review_requests.find_each {|rr| rr.update!(state: :resolved, is_open: false) }
       else
-        pull.review_requests.find_each {|rr| rr.update(is_open: false) }
+        pull.review_requests.find_each {|rr| rr.update!(is_open: false) }
       end
     end
     render json: { message: :ok }
