@@ -70,6 +70,8 @@ $ docker-compose build
 $ docker-compose up
 ```
 
+Webpackのサーバー起動が不安定で、起動時に落ちることが多々あります。その場合は`docker-compose`を再起動してください。
+
 ### pryを使ったデバッグを行う場合
 pryを使ったデバッグを行う場合は下記の方法で立ち上げるようにしてください。
 ```bash
