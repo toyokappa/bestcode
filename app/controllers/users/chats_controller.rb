@@ -1,6 +1,7 @@
 class Users::ChatsController < ApplicationController
   layout "chat"
   before_action :check_room_reviewee
+  before_action :check_evaluatable
 
   def index
     @title = "チャット"
@@ -38,5 +39,16 @@ class Users::ChatsController < ApplicationController
       unless current_user.participating?(@room) || current_user.own?(@room)
         redirect_to users_room_path(@room), danger: "ルームに参加してください"
       end
+    end
+
+    def check_evaluatable
+      return unless current_user.participating?(@room)
+      return if current_user.evaluated?(@room)
+
+      participated_at = current_user.participations.find_by(participating_room: @room).created_at
+      participating_term = (Time.zone.now.to_date - participated_at.to_date).to_i
+      return if participating_term < 30
+
+      redirect_to new_users_rooms_evaluation_path(@room), success: "#{@room.name}の評価をしてください"
     end
 end

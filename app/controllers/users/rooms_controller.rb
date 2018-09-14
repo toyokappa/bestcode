@@ -1,6 +1,7 @@
 class Users::RoomsController < ApplicationController
   before_action :set_title
   before_action :check_reviewable_user, only: [:new, :create]
+  before_action :check_evaluatable, only: [:show]
   before_action :set_room, only: [:edit, :update, :destroy, :reopen]
   before_action :set_lang_ids, only: [:create, :update]
 
@@ -11,15 +12,6 @@ class Users::RoomsController < ApplicationController
 
   def show
     @title = "ルーム詳細"
-    @room = Room.find(params[:id])
-    if check_evaluation
-      return redirect_to new_users_rooms_evaluation_path(@room), success: "#{@room.name}の評価をしてください"
-    end
-
-    @review_assigns = get_review_reqs_with(params[:open_state])
-
-    # get_visible_review_reqs_fromの戻り値がArrayとなるためorderではなくsort_byで順序を変更
-    @review_reqs = current_user.get_visible_review_reqs_from(@review_assigns).sort_by(&:created_at).reverse
   end
 
   def new
@@ -83,23 +75,15 @@ class Users::RoomsController < ApplicationController
       redirect_to users_rooms_path, danger: t(".unreviewable_error") unless current_user.reviewer?
     end
 
-    def check_evaluation
+    def check_evaluatable
+      @room = Room.find(params[:id])
       return unless current_user.participating?(@room)
+      return if current_user.evaluated?(@room)
 
       participated_at = current_user.participations.find_by(participating_room: @room).created_at
       participating_term = (Time.zone.now.to_date - participated_at.to_date).to_i
+      return if participating_term < 30
 
-      participating_term >= 30 && !current_user.evaluated?(@room)
-    end
-
-    def get_review_reqs_with(open_state)
-      case open_state
-      when "closed"
-        @room.review_assigns.where(is_open: false).order(created_at: :desc)
-      when "all"
-        @room.review_assigns.order(created_at: :desc)
-      else
-        @room.review_assigns.where(is_open: true).order(created_at: :desc)
-      end
+      redirect_to new_users_rooms_evaluation_path(@room), success: "#{@room.name}の評価をしてください"
     end
 end

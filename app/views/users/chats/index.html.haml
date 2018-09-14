@@ -33,7 +33,7 @@
                     = @room.review_assigns.where(state: :wait_review, is_open: true).size
         .p-3.b-t
           = link_to users_room_path(@room) do
-            %span ルームに戻る
+            %span ルーム詳細
   #content-body.d-flex.flex
     #chat-wrapper.d-flex.flex-column.flex
       #chat-header.navbar.flex-nowrap.white.lt.box-shadow

@@ -5,7 +5,7 @@ class Users::ParticipationsController < ApplicationController
   def update
     check_participation_condition(@room)
     RoomMailer.participate(@room, current_user).deliver_later
-    redirect_to users_room_path(@room)
+    redirect_to users_room_chats_path(@room)
   end
 
   def destroy
