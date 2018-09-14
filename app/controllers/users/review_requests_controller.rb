@@ -36,7 +36,7 @@ class Users::ReviewRequestsController < ApplicationController
     repo = current_user.repos.find_by!(name: params[:repo_name])
     pull = repo.pulls.find_by!(number: params[:pull_num])
     review_req = pull.review_requests.where(room_id: params[:room_id]).first
-    review_req.update!(state: :wait_review)
+    review_req.update!(is_open: true, state: :wait_review)
     render json: { status: "OK" }
   end
 end
