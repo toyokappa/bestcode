@@ -67,7 +67,7 @@ class User < ApplicationRecord
     length = owned_rooms.sum {|room| room.evaluations.length }
     return output if length.zero?
 
-    total = owned_rooms.sum(&:evaluations_score)
+    total = owned_rooms.sum {|room| room.evaluations_score(0) }
     score = total / length
     round ? score.round(round) : score
   end
