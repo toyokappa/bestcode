@@ -62,7 +62,7 @@
           - if current_user.own?(@room)
             = link_to "ルームを編集する", edit_users_room_path(@room), class: "btn info btn-block mb-2"
             - unless @room.is_open
-              .mt-3= link_to "ルームを再オープンする", reopen_users_room_path(@room), class: "btn success btn-block"
+              = link_to "ルームを再オープンする", reopen_users_room_path(@room), class: "btn success btn-block mb-2"
           - if current_user.participatable?(@room)
             = button_to "ルームに参加する", users_participation_path(@room), method: :put, class: "btn primary btn-block", disabled: !@room.is_open
             .text-muted.mt-1= "ルームがクローズしているため参加できません" unless @room.is_open

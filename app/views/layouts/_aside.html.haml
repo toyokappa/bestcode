@@ -19,7 +19,7 @@
                     %i.fa.fa-group
                   %span.nav-text 主催中のルーム
                 %ul.sub-nav
-                  - current_user.owned_rooms.where.not(id: nil).each do |room|
+                  - current_user.owned_rooms.where(is_open: true).where.not(id: nil).each do |room|
                     %li
                       = link_to users_room_chats_path(room) do
                         %span.nav-text= room.name.truncate(13)
@@ -34,7 +34,7 @@
                   %i.fa.fa-graduation-cap
                 %span.nav-text 参加中のルーム
               %ul.sub-nav
-                - current_user.participating_rooms.where.not(id: nil).each do |room|
+                - current_user.participating_rooms.where(is_open: true).where.not(id: nil).each do |room|
                   %li
                     = link_to users_room_chats_path(room) do
                       %span.nav-text= room.name.truncate(13)

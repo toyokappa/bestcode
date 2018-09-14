@@ -3,7 +3,7 @@ class Users::MyRoomsController < ApplicationController
   before_action :set_title
 
   def reviewer
-    @open_state = params[:open_state]
+    @open_state = params[:open_state].presence || "open"
     @rooms =
       case @open_state
       when "closed"
@@ -16,7 +16,16 @@ class Users::MyRoomsController < ApplicationController
   end
 
   def reviewee
-    @rooms = current_user.participating_rooms
+    @open_state = params[:open_state].presence || "open"
+    @rooms =
+      case @open_state
+      when "closed"
+        current_user.participating_rooms.where(is_open: false)
+      when "all"
+        current_user.participating_rooms
+      else
+        current_user.participating_rooms.where(is_open: true)
+      end
   end
 
   private
