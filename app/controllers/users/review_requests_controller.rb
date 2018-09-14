@@ -5,11 +5,11 @@ class Users::ReviewRequestsController < ApplicationController
     @review_reqs =
       case @open_state
       when "open"
-        @room.review_assigns.where(is_open: true)
+        @room.review_assigns.where(is_open: true).order(created_at: :desc)
       when "closed"
-        @room.review_assigns.where(is_open: false)
+        @room.review_assigns.where(is_open: false).order(created_at: :desc)
       when "all"
-        @room.review_assigns
+        @room.review_assigns.order(created_at: :desc)
       end
   end
 
