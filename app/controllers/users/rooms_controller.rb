@@ -84,6 +84,6 @@ class Users::RoomsController < ApplicationController
       participating_term = (Time.zone.now.to_date - participated_at.to_date).to_i
       return if participating_term < 30
 
-      redirect_to new_users_rooms_evaluation_path(@room), success: "#{@room.name}の評価をしてください"
+      redirect_to new_users_room_evaluation_path(@room), success: "#{@room.name}の評価をしてください"
     end
 end

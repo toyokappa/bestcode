@@ -14,7 +14,7 @@
               - else
                 .mb-1 #{@room.name}に参加して30日が経過しました。
                 .mb-5 レビュワーのスキル向上のため、ルームの評価をしましょう。
-            = form_for @evaluation, url: users_rooms_evaluations_path(@room) do |f|
+            = form_for @evaluation, url: users_room_evaluations_path(@room) do |f|
               = hidden_field_tag :referer, params[:referer]
               = f.hidden_field :room_id
               = f.select_parts :speed, options: 1..5, message: "対応の迅速さを1(遅かった)〜5(早かった)で評価してください"

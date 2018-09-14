@@ -12,15 +12,12 @@ Rails.application.routes.draw do
       resources :pulls, only: [:show]
     end
 
-    namespace :rooms, path: "rooms/:room_id" do
-      resources :evaluations, only: [:new, :create]
-    end
-
     resources :rooms do
       get "reopen", on: :member
       resources :chats, only: [:index]
       resources :review_requests, only: [:index]
       resource :review_request, only: [:create, :update]
+      resources :evaluations, only: [:new, :create]
     end
 
     resources :my_rooms, only: [] do
