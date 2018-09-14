@@ -13,6 +13,37 @@
             %li.nav-header.hidden-folded.mt-2
               %span.text-xs.hidden-folded
             %li
+              - if current_user.reviewer?
+                = link_to reviewer_users_my_rooms_path do
+                  %span.nav-icon
+                    %i.fa.fa-group
+                  %span.nav-text 主催中のルーム
+                %ul.sub-nav
+                  - current_user.owned_rooms.where.not(id: nil).each do |room|
+                    %li
+                      = link_to users_room_chats_path(room) do
+                        %span.nav-text= room.name.truncate(13)
+                  %li
+                    = link_to new_users_room_path do
+                      %span.nav-text 追加
+            %li.nav-header.hidden-folded.mt-2
+              %span.text-xs.hidden-folded
+            %li
+              = link_to reviewee_users_my_rooms_path do
+                %span.nav-icon
+                  %i.fa.fa-graduation-cap
+                %span.nav-text 参加中のルーム
+              %ul.sub-nav
+                - current_user.participating_rooms.where.not(id: nil).each do |room|
+                  %li
+                    = link_to users_room_chats_path(room) do
+                      %span.nav-text= room.name.truncate(13)
+                %li
+                  = link_to users_rooms_path do
+                    %span.nav-text 追加
+            %li.nav-header.hidden-folded.mt-2
+              %span.text-xs.hidden-folded
+            %li
               = link_to "" do
                 %span.nav-icon
                   %i.fa.fa-folder-open
@@ -29,36 +60,6 @@
                 %li
                   = link_to new_users_repo_path do
                     %span.nav-text 追加
-            %li.nav-header.hidden-folded.mt-2
-              %span.text-xs.hidden-folded
-            %li
-              = link_to "" do
-                %span.nav-icon
-                  %i.fa.fa-home
-                %span.nav-text ルーム管理
-              %ul.sub-nav
-                - if current_user.reviewer?
-                  %li
-                    = link_to reviewer_users_my_rooms_path do
-                      - if current_user.active_state_count_for_reviewer > 0
-                        %span.nav-badge
-                          %b.badge.badge-sm.badge-pill.danger
-                            = current_user.active_state_count_for_reviewer
-                      %span.nav-text 主催中
-                %li
-                  = link_to reviewee_users_my_rooms_path do
-                    - if current_user.active_state_count_for_reviewee > 0
-                      %span.nav-badge
-                        %b.badge.badge-sm.badge-pill.danger
-                          = current_user.active_state_count_for_reviewee
-                    %span.nav-text 参加中
-                %li
-                  = link_to users_rooms_path do
-                    %span.nav-text 一覧
-                - if current_user.reviewer?
-                  %li
-                    = link_to new_users_room_path do
-                      %span.nav-text 作成
     .no-shrink.lt
       .nav-fold
         .hidden-folded.flex.p-2-3.bg
