@@ -7,6 +7,12 @@ class HooksController < ApplicationController
     user = User.find_by!(uid: repository[:owner][:id])
     repo = user.repos.find(repository[:id])
     SyncPullsJob.perform_later(user, repo)
+
+    # 現状は問題ないが、リクエストが増えた際にバックグラウンドに回す方が良いかも
+    if request.headers["HTTP_X_GITHUB_EVENT"] == "pull_request" && params[:pull_request][:merged]
+      pull = Pull.find_by(id: params[:pull_request])
+      pull&.review_requests.update_all(state: :resolved, is_open: false)
+    end
     render json: { message: :ok }
   end
 
