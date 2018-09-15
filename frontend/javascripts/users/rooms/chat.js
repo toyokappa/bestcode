@@ -4,6 +4,7 @@ import ResizeTextarea from '../../util/resize_textarea'
 
 export default class Chat {
   constructor(gon, firebase) {
+    $('#loading-area').show();
     this.firebase = firebase;
     this.message = new Message();
     this.resizeTextarea = new ResizeTextarea($('#message-field'));
@@ -12,8 +13,6 @@ export default class Chat {
     this.usersInfo = gon.users_info;
     this.readTime = 0;
     this.isInit = true;
-    $('#message-field').prop('disabled', false);
-    $('#message-btn').prop('disabled', false);
     this.initChat();
     this.bind();
   }
@@ -22,6 +21,22 @@ export default class Chat {
     this.readTime = await this.firebase.getReadTime(this.roomId, this.currentUser.id);
     await this.initMessages();
     await this.appendUnreadSeparation();
+    await this.bindChangeMessages();
+    // TODO: 以下が期待した順序で実行されていない気がするためどこかで見直し
+    $('#loading-area').hide();
+    $('#message-field').prop('disabled', false);
+    $('#message-btn').prop('disabled', false);
+  }
+
+  async initMessages() {
+    const messages = await this.firebase.fetchMessages(this.roomId, this.readTime)
+    messages.forEach((message) => {
+      this.appendMessage(message.data());
+    });
+    this.scrollToLatest();
+  }
+
+  bindChangeMessages() {
     this.firebase.onChangeMessages(this.roomId, this.readTime, (messages) => {
       messages.docChanges().forEach((change) => {
         if (change.type === 'added') {
@@ -40,14 +55,6 @@ export default class Chat {
 
       this.scrollToLatest();
     });
-  }
-
-  async initMessages() {
-    const messages = await this.firebase.fetchMessages(this.roomId, this.readTime)
-    messages.forEach((message) => {
-      this.appendMessage(message.data());
-    });
-    this.scrollToLatest();
   }
 
   async appendUnreadSeparation() {
