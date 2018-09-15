@@ -8,3 +8,9 @@ ja:
         description: ルーム説明
         capacity: 参加上限人数
         image: カバー画像
+  enumerize:
+    room:
+      open_state:
+        open: オープン中
+        closed: クローズ済み
+        all: すべて

@@ -5,11 +5,11 @@ class Users::ReviewRequestsController < ApplicationController
     @review_reqs =
       case @open_state
       when "open"
-        @room.review_assigns.where(is_open: true)
+        @room.review_assigns.where(is_open: true).order(created_at: :desc)
       when "closed"
-        @room.review_assigns.where(is_open: false)
+        @room.review_assigns.where(is_open: false).order(created_at: :desc)
       when "all"
-        @room.review_assigns
+        @room.review_assigns.order(created_at: :desc)
       end
   end
 
@@ -36,7 +36,7 @@ class Users::ReviewRequestsController < ApplicationController
     repo = current_user.repos.find_by!(name: params[:repo_name])
     pull = repo.pulls.find_by!(number: params[:pull_num])
     review_req = pull.review_requests.where(room_id: params[:room_id]).first
-    review_req.update!(state: :wait_review)
+    review_req.update!(is_open: true, state: :wait_review)
     render json: { status: "OK" }
   end
 end

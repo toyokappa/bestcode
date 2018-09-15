@@ -20,56 +20,8 @@ class ReviewRequest < ApplicationRecord
   belongs_to :pull, inverse_of: :review_requests
   belongs_to :reviewee, class_name: "User", inverse_of: :review_requests
   belongs_to :room, inverse_of: :review_assigns
-  has_many :review_comments, dependent: :destroy, inverse_of: :review_request
-
-  validates :name, presence: true, length: { maximum: 1000 }
-  validates :is_open, inclusion: { in: [true, false] }
-  validates :state, presence: true
-  validates :pull_id, presence: true
-  validates :reviewee_id, presence: true
-  validates :room_id, presence: true
 
   enumerize :state, in: [:wait_review, :commented, :changes_requested, :approved, :resolved], predicates: true
-
-  def change_state(comment)
-    state = comment.state.to_sym
-    case state
-    when :change_request
-      update!(state: :change_request)
-    when :rereview_request
-      update!(state: :wait_review)
-    when :approved
-      update!(state: :approved)
-    when :resolved
-      update!(state: :resolved, is_open: false)
-    when :closed
-      update!(is_open: false)
-    when :reopen
-      update!(is_open: true)
-    end
-
-    return ReviewRequestMailer.send(state, comment, self).deliver_later if state == :commented
-
-    ReviewRequestMailer.send(state, self).deliver_later
-  end
-
-  def rollback_state(comment)
-    state = comment.state.to_sym
-    case state
-    when :change_request
-      update!(state: :wait_review)
-    when :rereview_request
-      update!(state: :change_request)
-    when :approved
-      update!(state: :wait_review)
-    when :resolved
-      update!(state: :approved, is_open: true)
-    when :closed
-      update!(is_open: true)
-    when :reopen
-      update!(is_open: false)
-    end
-  end
 
   def state_color
     case state.to_sym

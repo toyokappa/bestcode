@@ -1,4 +1,4 @@
-class Users::Rooms::EvaluationsController < ApplicationController
+class Users::EvaluationsController < ApplicationController
   before_action :set_title
   before_action :set_room
   before_action :check_evaluation

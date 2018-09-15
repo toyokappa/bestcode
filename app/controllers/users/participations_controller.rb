@@ -5,7 +5,7 @@ class Users::ParticipationsController < ApplicationController
   def update
     check_participation_condition(@room)
     RoomMailer.participate(@room, current_user).deliver_later
-    redirect_to users_room_path(@room)
+    redirect_to users_room_chats_path(@room)
   end
 
   def destroy
@@ -37,7 +37,7 @@ class Users::ParticipationsController < ApplicationController
     def check_evaluable_room
       unless current_user.evaluated?(@room)
         flash[:success] = "退出前にルームの評価をしてください（退出処理は完了していません）"
-        redirect_to new_users_rooms_evaluation_path(@room, referer: :leave_room)
+        redirect_to new_users_room_evaluation_path(@room, referer: :leave_room)
       end
     end
 end

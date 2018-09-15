@@ -12,25 +12,18 @@ Rails.application.routes.draw do
       resources :pulls, only: [:show]
     end
 
-    namespace :rooms, path: "rooms/:room_id" do
-      resources :review_requests, only: [:show, :new, :create, :edit, :update]
-      resources :evaluations, only: [:new, :create]
-    end
-
-    namespace :pulls do
-      resources :review_requests, path: "/:pull_id/review_requests", only: [:new, :create]
-    end
-
-    resources :review_comments, only: [:create, :update, :destroy]
-
     resources :rooms do
       get "reopen", on: :member
       resources :chats, only: [:index]
       resources :review_requests, only: [:index]
       resource :review_request, only: [:create, :update]
+      resources :evaluations, only: [:new, :create]
     end
 
-    resources :my_rooms, only: [:index]
+    resources :my_rooms, only: [] do
+      get "reviewer", on: :collection
+      get "reviewee", on: :collection
+    end
 
     delete "/sign_out", to: "sessions#destroy"
     patch "/top", to: "top#update"

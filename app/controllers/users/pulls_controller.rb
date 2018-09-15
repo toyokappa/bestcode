@@ -6,12 +6,6 @@ class Users::PullsController < ApplicationController
     @pull = @repo.pulls.find(params[:id])
   end
 
-  def info
-    pull = Pull.find_by(id: params[:id])
-    pull_info = pull ? { name: pull.name, desc: pull.description } : { name: "", desc: "" }
-    render json: pull_info
-  end
-
   private
 
     def set_title

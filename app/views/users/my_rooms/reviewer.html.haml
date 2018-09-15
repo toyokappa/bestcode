@@ -1,0 +1,49 @@
+.padding
+  .box
+    .box-header.navbar
+      %h2
+        %span.align-middle 主催中のルーム
+    .box-divider.m-0
+    .box-body.pb-0
+      .nav-active-white
+        %ul.nav.nav-tabs
+          - open_states = %w(open closed all)
+          - open_states.each do |open_state|
+            %li.nav-item.mr-2
+              = link_to reviewer_users_my_rooms_path(open_state: open_state), class: "nav-link#{' active' if @open_state == open_state}" do
+                %span.mr-1.aling-middle= t("enumerize.room.open_state.#{open_state}")
+    - if @rooms.present?
+      %table.table
+        %thead
+          %tr
+            %th ルーム名
+            %th 参加人数
+            %th{ style: "width:50px;" }
+        %tbody
+          - @rooms.each do |room|
+            %tr
+              %td= link_to room.name, users_room_path(room)
+              %td #{room.reviewees.size}/#{room.capacity}
+              %td
+                - count_for_reviewer = room.active_state_count_for_reviewer
+                .badge.badge-pill.text-sm{ class: count_for_reviewer.zero? ? "lignt" : "danger" }
+                  = count_for_reviewer
+    - else
+      - if params[:open_state] == 'closed'
+        %table.table
+          %thead
+            %tr
+              %th ルーム名
+              %th 参加人数
+          %tbody
+            %tr
+              %td -
+              %td -
+      - else
+        .box-divider.m-0
+        .box-footer.text-center
+          .py-5
+            %h3.mb-3 ルームを作成してみましょう
+            .mb-1 ルームを作成することで、その部屋に参加してくれたレビュイーのコードレビューを行うことができます
+            .mb-3 コードレビューを行うことで、収益に繋がります
+            = link_to "ルームを作成する", new_users_room_path, class: "btn btn-rounded info"

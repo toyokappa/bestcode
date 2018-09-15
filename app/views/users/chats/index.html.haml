@@ -22,15 +22,19 @@
                 .item-title._500.mt-2= @room.reviewer.name
               .mt-2
                 %span.item-meta.text-xs.badge.badge-sm.badge-pill.danger
-      - if current_user.own?(@room)
-        .p-3.mt-auto.b-t
-          = link_to users_room_review_requests_path(@room), class: "d-flex" do
-            .flex レビューリクエスト
-            - unless @room.review_assigns.where(state: :wait_review, is_open: true).size.zero?
-              .m-0
-                .text-xs.badge.badge-sm.badge-pill.danger
-                  = @room.review_assigns.where(state: :wait_review, is_open: true).size
-  #content-body.d-flex.flex
+      .mt-auto
+        - if current_user.own?(@room)
+          .p-3.b-t
+            = link_to users_room_review_requests_path(@room), class: "d-flex" do
+              .flex レビューリクエスト
+              - unless @room.review_assigns.where(state: :wait_review, is_open: true).size.zero?
+                .m-0
+                  .text-xs.badge.badge-sm.badge-pill.danger
+                    = @room.review_assigns.where(state: :wait_review, is_open: true).size
+        .p-3.b-t
+          = link_to users_room_path(@room) do
+            %span ルーム詳細
+  #content-body.d-flex.flex.pos-rlt
     #chat-wrapper.d-flex.flex-column.flex
       #chat-header.navbar.flex-nowrap.white.lt.box-shadow
         = link_to '', data: :modal, data: { toggle: "modal", target: "#content-aside" }, class: "mr-2 d-md-none" do
@@ -61,3 +65,10 @@
           %span.input-group-append.align-items-end
             = button_tag class: "btn white b-a no-shadow", id: "message-btn", disabled: true do
               %i.fa.fa-send.text-success
+    #loading-area
+      .spinner
+        .rect1
+        .rect2
+        .rect3
+        .rect4
+        .rect5
