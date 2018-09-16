@@ -34,7 +34,7 @@
         .p-3.b-t
           = link_to users_room_path(@room) do
             %span ルーム詳細
-  #content-body.d-flex.flex.pos-rlt
+  #content-body.d-flex.flex{ style: "position: relative;" }
     #chat-wrapper.d-flex.flex-column.flex
       #chat-header.navbar.flex-nowrap.white.lt.box-shadow
         = link_to '', data: :modal, data: { toggle: "modal", target: "#content-aside" }, class: "mr-2 d-md-none" do
