@@ -61,7 +61,7 @@
           .chat-list
       #chat-form.p-3.white.lt.b-t.mt-auto
         .input-group
-          %textarea{ class: "form-control", rows: 1, disabled: true, placeholder: "送信ボタンもしくはCtrl + Enterで送信", id: "message-field", style: "resize: none; word-wrap: break-word;" }
+          %textarea{ class: "form-control", rows: 1, disabled: true, placeholder: "プルリクのURLを送信すると自動でレビュー依頼ができます", id: "message-field", style: "resize: none; word-wrap: break-word;" }
           %span.input-group-append.align-items-end
             = button_tag class: "btn white b-a no-shadow", id: "message-btn", disabled: true do
               %i.fa.fa-send.text-success
