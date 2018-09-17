@@ -12,6 +12,6 @@ class OmniauthCallbacksController < ApplicationController
     end
 
     session[:user_id] = user.id
-    redirect_to users_root_path
+    redirect_back_or users_root_path
   end
 end
