@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       get "reviewee", on: :collection
     end
 
+    resource :notice, only: [:create]
+
     delete "/sign_out", to: "sessions#destroy"
     patch "/top", to: "top#update"
     patch "/sync_repos", to: "repos#update"

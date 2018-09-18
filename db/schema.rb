@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_13_135755) do
+ActiveRecord::Schema.define(version: 2018_09_18_230132) do
 
   create_table "evaluations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "speed", default: 3, null: false
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 2018_08_13_135755) do
     t.boolean "is_first_time", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "noticed_at"
   end
 
   add_foreign_key "pulls", "repos"
