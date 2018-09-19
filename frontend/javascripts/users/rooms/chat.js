@@ -141,8 +141,23 @@ export default class Chat {
     }
 
     this.firebase.sendMessage(this.roomId, msgBody, msgType, this.currentUser.id);
+    this.sendNotice();
     $msgField.val('');
     this.resizeTextarea.restoreSize();
+  }
+
+  sendNotice() {
+    var reciever_id;
+    if(this.currentUser.id === this.usersInfo.reviewer.id) {
+      reciever_id = this.usersInfo.reviewee.id.replace('user_', '');
+    } else {
+      reciever_id = this.usersInfo.reviewer.id.replace('user_', '');
+    }
+    const path = '/users/notice';
+    const chat_url = location.href;
+    const authenticityToken = $('meta[name="csrf_token"]').attr('content');
+    const params = { authenticity_token: authenticityToken, reciever_id: reciever_id, chat_url: chat_url };
+    $.post(path, params);
   }
 
   scrollToLatest() {
