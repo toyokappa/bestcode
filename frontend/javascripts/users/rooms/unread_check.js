@@ -8,6 +8,7 @@ export default class UnreadCheck {
     this.currentUser = gon.current_user;
     this.readTimes = {};
     this.initReadTime();
+    this.bind();
   }
 
   async initReadTime() {
@@ -39,5 +40,9 @@ export default class UnreadCheck {
     if(unreadCount === 0) return $unreadBadge.hide();
     $unreadBadge.show();
     $unreadBadge.text(unreadCount);
+  }
+
+  bind() {
+    this.firebase.onChangePresence(this.currentUser.id);
   }
 }
