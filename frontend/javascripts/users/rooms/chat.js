@@ -12,6 +12,7 @@ export default class Chat {
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;
     this.readTime = 0;
+    moment.locale('ja');
     this.previousChatDate = moment(0);
     this.isInit = true;
     this.initChat();
@@ -86,7 +87,8 @@ export default class Chat {
   appendDateSeparationIfNeed(createdAtSec) {
     const chatDate = moment.unix(createdAtSec);
     if(this.previousChatDate.isBefore(chatDate, 'day')) {
-      const dateSeparation = `<div class="chat-item date-separation"><div class="badge badge-pill text-sm mx-auto light px-3 py-2">${chatDate.format('YYYY/MM/DD')}</div></div>`;
+      const formattedDate = chatDate.format('YYYY/MM/DD(ddd)')
+      const dateSeparation = `<div class="chat-item date-separation"><div class="badge badge-pill text-sm mx-auto light px-3 py-2">${formattedDate}</div></div>`;
       $('.chat-list').append(dateSeparation);
     }
     this.previousChatDate = chatDate;
