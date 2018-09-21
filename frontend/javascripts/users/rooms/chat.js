@@ -12,6 +12,8 @@ export default class Chat {
     this.currentUser = gon.current_user;
     this.usersInfo = gon.users_info;
     this.readTime = 0;
+    moment.locale('ja');
+    this.previousChatDate = moment(0);
     this.isInit = true;
     this.initChat();
     this.bind();
@@ -61,7 +63,7 @@ export default class Chat {
     const unreadsCount = await this.firebase.getUnreadsCount(this.roomId, this.readTime);
     if(unreadsCount === 0) return;
 
-    const unreadSeparation = '<div class="chat-item unread-separation"><div class="mx-auto text-info unread-text">ここから未読</div></div>'
+    const unreadSeparation = '<div class="chat-item unread-separation"><div class="mx-auto text-info unread-text">ここから未読</div></div>';
     $('.chat-list').append(unreadSeparation);
   }
 
@@ -76,9 +78,20 @@ export default class Chat {
       userImg = this.usersInfo.reviewee.image;
     }
 
+    this.appendDateSeparationIfNeed(msgData.created_at.seconds);
     const msgSide = (msgData.user_id === this.currentUser.id) ? 'alt' : 'null';
     let msgElm = this.message.generateMessage(msgData, profilePath, userImg, msgSide);
     $('.chat-list').append(msgElm);
+  }
+
+  appendDateSeparationIfNeed(createdAtSec) {
+    const chatDate = moment.unix(createdAtSec);
+    if(this.previousChatDate.isBefore(chatDate, 'day')) {
+      const formattedDate = chatDate.format('YYYY/MM/DD(ddd)')
+      const dateSeparation = `<div class="chat-item date-separation"><div class="badge badge-pill text-sm mx-auto light px-3 py-2">${formattedDate}</div></div>`;
+      $('.chat-list').append(dateSeparation);
+    }
+    this.previousChatDate = chatDate;
   }
 
   async sendMessage() {
