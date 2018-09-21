@@ -120,7 +120,7 @@ class User < ApplicationRecord
     "user_#{id}"
   end
 
-  def is_noticed_in_30_minutes?
+  def noticed_in_30_minutes?
     return false if noticed_at.blank?
 
     noticed_at > Time.zone.now - 30.minutes
