@@ -6,7 +6,9 @@ class OmniauthCallbacksController < ApplicationController
     user = User.find_by(provider: auth.provider, uid: auth.uid)
     flash[:success] = t(:success_sign_in, scope: :flash)
 
-    unless user
+    if user
+      user.update!(access_token: auth.credentials.token)
+    else
       user = User.create_with_omniauth(auth)
       flash[:success] = t(:success_sign_up, scope: :flash)
     end
