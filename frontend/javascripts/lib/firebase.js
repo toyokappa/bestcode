@@ -86,4 +86,8 @@ export default class Firebase {
       });
     });
   }
+
+  getPresence(userId) {
+    return firebase.database().ref(`/presence/${userId}`).once('value');
+  }
 }
