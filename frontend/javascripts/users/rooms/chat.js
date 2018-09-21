@@ -147,20 +147,20 @@ export default class Chat {
   }
 
   async sendNotice() {
-    var recieverUid;
+    var receiverUid;
     if(this.currentUser.id === this.usersInfo.reviewer.id) {
-      recieverUid = this.usersInfo.reviewee.id;
+      receiverUid = this.usersInfo.reviewee.id;
     } else {
-      recieverUid = this.usersInfo.reviewer.id;
+      receiverUid = this.usersInfo.reviewer.id;
     }
-    const recieverPresence = await this.firebase.getPresence(recieverUid);
-    if(recieverPresence.val() && recieverPresence.val().state === 'online') return
+    const receiverPresence = await this.firebase.getPresence(receiverUid);
+    if(receiverPresence.val() && receiverPresence.val().state === 'online') return
 
-    const recieverId = recieverUid.replace('user_', '');
+    const receiverId = receiverUid.replace('user_', '');
     const path = '/users/notice';
     const chatUrl = location.href;
     const authenticityToken = $('meta[name="csrf_token"]').attr('content');
-    const params = { authenticity_token: authenticityToken, reciever_id: recieverId, chat_url: chatUrl };
+    const params = { authenticity_token: authenticityToken, receiver_id: receiverId, chat_url: chatUrl };
     $.post(path, params);
   }
 
