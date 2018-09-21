@@ -120,6 +120,12 @@ class User < ApplicationRecord
     "user_#{id}"
   end
 
+  def noticed_in_30_minutes?
+    return false if noticed_at.blank?
+
+    noticed_at > Time.zone.now - 30.minutes
+  end
+
   class << self
     def create_with_omniauth(auth)
       contribution = total_contributions(auth.info.nickname)

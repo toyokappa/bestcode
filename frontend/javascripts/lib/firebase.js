@@ -66,4 +66,28 @@ export default class Firebase {
     const messages = await this.firestore.collection('rooms').doc(roomId).collection('messages').where('created_at', '>', readTime).get();
     return messages.size
   }
+
+  // FirestoreにRealtime Databaseのプレゼンスを同期
+  // 参考: https://firebase.google.com/docs/firestore/solutions/presence?hl=ja#connecting_to
+  onChangePresence(currentUserId) {
+    const userPresenceDatabaseRef = firebase.database().ref(`/presence/${currentUserId}`);
+    const isOfflineForDatabase = {
+      state: 'offline',
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+    };
+    const isOnlineForDatabase = {
+      state: 'online',
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+    };
+    firebase.database().ref('.info/connected').on('value', function(snapshot) {
+      if(snapshot.val() == false) return;
+      userPresenceDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
+        userPresenceDatabaseRef.set(isOnlineForDatabase);
+      });
+    });
+  }
+
+  getPresence(userId) {
+    return firebase.database().ref(`/presence/${userId}`).once('value');
+  }
 }

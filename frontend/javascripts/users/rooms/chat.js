@@ -141,8 +141,27 @@ export default class Chat {
     }
 
     this.firebase.sendMessage(this.roomId, msgBody, msgType, this.currentUser.id);
+    this.sendNotice();
     $msgField.val('');
     this.resizeTextarea.restoreSize();
+  }
+
+  async sendNotice() {
+    var receiverUid;
+    if(this.currentUser.id === this.usersInfo.reviewer.id) {
+      receiverUid = this.usersInfo.reviewee.id;
+    } else {
+      receiverUid = this.usersInfo.reviewer.id;
+    }
+    const receiverPresence = await this.firebase.getPresence(receiverUid);
+    if(receiverPresence.val() && receiverPresence.val().state === 'online') return
+
+    const receiverId = receiverUid.replace('user_', '');
+    const path = '/users/notice';
+    const chatUrl = location.href;
+    const authenticityToken = $('meta[name="csrf_token"]').attr('content');
+    const params = { authenticity_token: authenticityToken, receiver_id: receiverId, chat_url: chatUrl };
+    $.post(path, params);
   }
 
   scrollToLatest() {
