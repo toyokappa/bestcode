@@ -1,10 +1,31 @@
-.padding.info.py-5.text-center
-  %h1.mb-4
-    BestCode Makes
-    %br Best Engineer
-  %h6.mb-4
-    .mb-2 レビュワーとレビュイーをつなげるマッチングプラットフォーム。
-    コードレビューを通してエンジニアの世界をより良くしましょう。
-  = link_to "/auth/github", class: "btn btn-lg btn-rounded white text-info" do
-    %i.fa.fa-github
-    GitHubでサインアップ
+.top-area
+  .top-bg{ style: "background-image: url('/images/welcome_bg.jpg')" }
+  .top-bg-dk
+  .pos-rlt.text-center.text-white.d-table.w-100.padding{ style: "height: calc(80vh - 56px)" } 
+    .d-table-cell.align-middle
+      %h1.mb-4
+        BestCode Makes
+        %br Best Engineer
+      %h6.mb-4
+        .mb-2 レビュワーとレビュイーをつなげるマッチングプラットフォーム。
+        コードレビューを通してエンジニアの世界をより良くしましょう。
+      = link_to "/auth/github", class: "btn btn-lg btn-rounded info" do
+        %i.fa.fa-github
+        GitHubでサインアップ
+.padding
+  .row.p-5
+    .col-sm-4.text-center
+      = image_tag "/images/room_icon.svg", width: 240, height: 240
+      %h3.mt-3 Room Base
+      .text-md
+        レビュイーはレビュワーの用意したルームに入ることでレビューを受けることができます。
+    .col-sm-4.text-center
+      = image_tag "/images/chat_icon.svg", width: 240, height: 240
+      %h3.mt-3 Chat Base
+      .text-md
+        レビュワーとレビュイーはチャットでリアルタイムなコミュニケーションを取ることができます。
+    .col-sm-4.text-center
+      = image_tag "/images/github_icon.svg", width: 240, height: 240
+      %h3.mt-3 GitHub Base
+      .text-md
+        GitHub上で行ったレビューはBestCodeへも反映され、実績として積まれていきます。
