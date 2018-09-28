@@ -36,3 +36,4 @@
     - flash.each do |message_type, message|
       .flash-container
         = content_tag :div, message, class: "alert alert-#{message_type}"
+    = render "layouts/first_time_modal"
