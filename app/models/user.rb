@@ -36,7 +36,7 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
 
-  after_create :init_repos
+  after_create_commit :init_repos
 
   def participatable?(room)
     !own?(room) && !participating?(room) && !room.over_capacity?
