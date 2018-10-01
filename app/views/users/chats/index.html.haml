@@ -1,6 +1,8 @@
 #chat-container.d-flex.flex
   #content-aside.fade.aside.aside-sm
     #chat-nav.d-flex.flex-column.w-xl.b-r.white.modal-dialog
+      .navbar.box-shadow
+        チャットルーム
       .scrollable.hover
         .list.inset
           - if current_user.own?(@room)
