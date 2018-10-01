@@ -8,7 +8,8 @@ import InitModal from './users/top/init_modal';
 import PreviewImage from './util/preview_image';
 import ToggleMarkdownPreview from './util/toggle_markdown_preview';
 import InitChat from './users/rooms/init_chat';
-import Flash from './util/flash'
+import Flash from './util/flash';
+import './apply/app';
 
 document.addEventListener('DOMContentLoaded', () => {
   if($('.select2')[0]) $('.select2').select2();
@@ -17,8 +18,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if($('.toggle-markdown-preview')[0]) new ToggleMarkdownPreview($('.toggle-markdown-preview'));
   if($('#chat-container')[0] && typeof gon !== 'undefined') new InitChat(gon);
   if($('.flash-container')[0]) new Flash($('.flash-container'));
-});
-
-$(window).on('resize', function() {
-  if ($('#aside')[0] && window.innerWidth > 992) $('#aside').modal('hide');
 });
