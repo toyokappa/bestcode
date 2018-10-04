@@ -1,0 +1,18 @@
+#signup-modal.modal.fade
+  .modal-dialog.animate
+    .modal-content
+      .modal-header.info.text-center
+        %h5.modal-title
+          利用規約への同意
+      .modal-body.text-center
+        %h6.mb-3 BestCodeへの登録希望ありがとうございます！
+        %span ご登録を頂く前に
+        = link_to "利用規約", terms_path, class: "text-primary", target: "_blank"
+        %span と
+        = link_to "プライバシーポリシー", privacy_policy_path, class: "text-primary", target: "_blank"
+        %span へ同意を頂く必要があります。内容へ同意いただけしたら、以下のボタンから登録へお進みください。
+      .modal-footer.justify-content-center
+        = link_to "/auth/github", class: "btn info" do
+          %i.fa.fa-github
+          同意してサインアップ
+

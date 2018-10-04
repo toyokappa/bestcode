@@ -14,6 +14,7 @@ class OmniauthCallbacksController < ApplicationController
     end
 
     session[:user_id] = user.id
+    cookies.permanent[:signup_agreement] = true
     redirect_back_or users_root_path
   end
 end

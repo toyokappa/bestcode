@@ -9,9 +9,14 @@
       %h6.mb-4
         .mb-2 レビュワーとレビュイーをつなげるマッチングプラットフォーム。
         コードレビューを通してエンジニアの世界をより良くしましょう。
-      = link_to "/auth/github", class: "btn btn-lg btn-rounded info" do
-        %i.fa.fa-github
-        GitHubでサインアップ
+      - if cookies[:signup_agreement]
+        = link_to "/auth/github", class: "btn btn-lg btn-rounded info" do
+          %i.fa.fa-github
+          GitHubでサインイン
+      - else
+        = button_tag class: "btn btn-lg btn-rounded info", data: { toggle: :modal, target: "#signup-modal" } do
+          %i.fa.fa-github
+          GitHubでサインアップ
 .p-5
   %h2.text-center
     What's BestCode?
@@ -31,3 +36,4 @@
       %h3.mt-3 GitHub Base
       .text-md
         GitHub上で行ったレビューはBestCodeへも反映され、実績として積まれていきます。
+= render "modal"
