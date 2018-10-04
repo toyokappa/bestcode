@@ -18,6 +18,13 @@
             %span.hidden-folded.d-inline BestCode
       #content-body
         = yield
+      #content-footer.content-footer.white
+        .p-3.text-center
+          .mb-2.d-flex.justify-content-center
+            = link_to "利用規約", terms_path, class: "text-muted mr-3"
+            = link_to "プライバシーポリシー", privacy_policy_path, class: "text-muted mr-3"
+            = link_to "Twitter", "https://twitter.com/toyokappa", class: "text-muted", target: "_blank"
+          %span.text-muted 2018 &copy; Toyokappa, All Rights Reserved.
     - flash.each do |message_type, message|
       .flash-container
         = content_tag :div, message, class: "alert alert-#{message_type}"
