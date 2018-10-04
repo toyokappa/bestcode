@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     patch "/profiles/:name/update_heder", to: "profiles#update_header", as: "update_profile_header"
   end
 
+  get "/terms", to: "static#terms", as: "terms"
+  get "/privacy_policy", to: "static#privacy_policy", as: "privacy_policy"
   post "/hooks/pulls", to: "hooks#pulls"
   post "/hooks/state", to: "hooks#state"
   post "/markdown/preview", to: "markdown#preview"
