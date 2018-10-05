@@ -99,6 +99,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # GA Tracking Setting
+  GA.tracker = "UA-100430187-3"
+
   # Extra configurations
   config.x.redis_url = "#{ENV.fetch("REDIS_HOSTNAME") { "localhost" }}:#{ENV.fetch("REDIS_PORT") { "6379" }}"
   config.x.mail.info = "info@bestcode.reviews"
