@@ -48,7 +48,8 @@ gem "mini_magick"
 # Mailer
 gem "mailgun_rails"
 
-# Error Tracking
+# Tracking
+gem "google-analytics-rails"
 gem "rollbar"
 
 group :development, :test do

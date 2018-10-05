@@ -120,6 +120,7 @@ GEM
       actionpack (>= 3.0)
       multi_json
       request_store (>= 1.0)
+    google-analytics-rails (1.1.1)
     google-cloud-core (1.2.3)
       google-cloud-env (~> 1.0)
     google-cloud-env (1.0.2)
@@ -423,6 +424,7 @@ DEPENDENCIES
   faraday
   fog-aws
   gon
+  google-analytics-rails
   google-cloud-firestore
   haml-rails
   jbuilder (~> 2.5)
