@@ -36,9 +36,6 @@ class User < ApplicationRecord
   mount_uploader :image, UserImageUploader
   mount_uploader :header_image, HeaderImageUploader
 
-  validates :name, presence: true, uniqueness: true
-  validates :email, presence: true, uniqueness: true
-
   after_create_commit :init_repos
 
   def belonging_to?(room)
