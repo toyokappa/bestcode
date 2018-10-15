@@ -8,13 +8,17 @@ class Users::ProfilesController < ApplicationController
   end
 
   def update_header
-    @user = User.find_by!(name: params[:name])
-    if params[:user].present? && @user.update(update_header_params)
-      redirect_to users_profile_path(@user.name), success: "ヘッダー画像を更新しました"
+    if current_user.update(update_header_params)
+      redirect_to users_profile_path(current_user.name), success: "ヘッダー画像を更新しました"
     else
       flash.now[:danger] = "ヘッダー画像の更新に失敗しました"
       render "show"
     end
+  end
+
+  def sync_contributions
+    current_user.sync_contributions!
+    redirect_to users_profile_path(current_user.name), success: "最新のコントリビュート数に更新しました"
   end
 
   private
