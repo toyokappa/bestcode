@@ -32,11 +32,13 @@ Rails.application.routes.draw do
     patch "/sync_repos", to: "repos#update"
     get "/pulls/info", to: "pulls#info"
     get "/profiles/:name", to: "profiles#show", as: "profile"
-    patch "/profiles/:name/update_heder", to: "profiles#update_header", as: "update_profile_header"
+    patch "/profiles/update_heder", to: "profiles#update_header", as: "update_profile_header"
+    patch "/profiles/sync_contributions", to: "profiles#sync_contributions", as: "sync_contributions"
   end
 
   get "/terms", to: "static#terms", as: "terms"
   get "/privacy_policy", to: "static#privacy_policy", as: "privacy_policy"
+  get "/faq", to: "faq#index", as: "faq"
   post "/hooks/pulls", to: "hooks#pulls"
   post "/hooks/state", to: "hooks#state"
   post "/markdown/preview", to: "markdown#preview"

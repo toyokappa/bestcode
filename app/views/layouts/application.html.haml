@@ -30,6 +30,7 @@
                     = link_to new_users_room_path, class: 'dropdown-item' do
                       %span ルームを作成
                   .dropdown-divider
+                  = link_to "FAQ", faq_path, class: "dropdown-item", target: "_blank"
                   = link_to '利用規約', terms_path, class: "dropdown-item", target: "_blank"
                   = link_to 'プライバシーポリシー', privacy_policy_path, class: "dropdown-item", target: "_blank"
                   = link_to 'ログアウト', users_sign_out_path, method: :delete, class: 'dropdown-item'

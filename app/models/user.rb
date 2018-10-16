@@ -36,6 +36,7 @@ class User < ApplicationRecord
   mount_uploader :image, UserImageUploader
   mount_uploader :header_image, HeaderImageUploader
 
+  after_create :sync_contributions!
   after_create_commit :init_repos
 
   def belonging_to?(room)
@@ -86,43 +87,24 @@ class User < ApplicationRecord
     repos.where(is_hook: true)
   end
 
+  def sync_contributions!
+    self.contribution = total_contributions
+    # NOTE: ReviewerがRevieweeに降格することはない前提で実装
+    self.role = role_with_contributions if reviewee?
+    self.is_first_time = true if changed.include?("role")
+    save!
+  end
+
   class << self
     def create_with_omniauth(auth)
-      contribution = total_contributions(auth.info.nickname)
       create!(
         provider: auth.provider,
         uid: auth.uid,
         name: auth.info.nickname,
         email: auth.info.email,
         remote_image_url: auth.info.image,
-        contribution: contribution,
-        role: which_role_with?(contribution),
         access_token: auth.credentials.token,
       )
-    end
-
-    def get_contributions(nickname)
-      # NOTE: できればこの処理を自鯖に持ちたいので修正する
-      url = "https://github-contributions-api.now.sh"
-      conn = Faraday.new url: url do |faraday|
-        faraday.request  :url_encoded
-        faraday.response :logger
-        faraday.adapter  Faraday.default_adapter
-      end
-
-      response = conn.get "/v1/#{nickname}"
-      body = JSON.parse response.body
-      body["contributions"]
-    end
-
-    # コントリビューションの総計を算出
-    def total_contributions(nickname)
-      contributions = get_contributions(nickname)
-      contributions.sum {|con| con["count"] }
-    end
-
-    def which_role_with?(contribution)
-      (contribution >= 1000) ? :reviewer : :reviewee
     end
   end
 
@@ -130,5 +112,27 @@ class User < ApplicationRecord
 
     def init_repos
       SyncReposJob.perform_later(self)
+    end
+
+    def fetch_contributions
+      # TODO: できればこの処理を自鯖に持ちたいので修正する
+      url = "https://github-contributions-api.now.sh"
+      conn = Faraday.new url: url do |faraday|
+        faraday.request  :url_encoded
+        faraday.response :logger
+        faraday.adapter  Faraday.default_adapter
+      end
+
+      response = conn.get "/v1/#{name}"
+      body = JSON.parse response.body
+      body["contributions"]
+    end
+
+    def total_contributions
+      fetch_contributions.sum {|con| con["count"] }
+    end
+
+    def role_with_contributions
+      (contribution >= 1000) ? :reviewer : :reviewee
     end
 end

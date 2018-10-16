@@ -7,6 +7,9 @@
     = link_to "https://github.com/#{@user.name}", target: "_blank", class: "btn btn-sm btn-outline b-white text-white" do
       %i.fa.fa-github
       %span GitHub
+    - if current_user == @user
+      .mt-2
+        = link_to "最新のContribution数を取得", users_sync_contributions_path, method: :patch, class: "btn btn-sm info"
   - if current_user == @user
     = link_to "javascript:void(0);", data: { toggle: "modal", target: ".update-header" }, class: "md-btn md-fab md-mini pos-rlt md-fab-offset info text-white float-right" do
       %i.fa.fa-pencil
