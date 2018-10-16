@@ -11,7 +11,7 @@ class Users::RoomsController < ApplicationController
   end
 
   def show
-    @title = "ルーム詳細"
+    @title = @room.name
   end
 
   def new
