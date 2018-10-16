@@ -33,6 +33,7 @@ gem "seed-fu"
 
 # Views
 gem "coderay"
+gem "meta-tags"
 gem "redcarpet"
 gem "simple_form"
 
