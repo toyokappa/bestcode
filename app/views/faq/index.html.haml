@@ -1,0 +1,62 @@
+.padding
+  .row
+    .offset-md-2.col-md-8
+      %h2 FAQ
+      #accordion
+        .panel.box.no-border.mb-2
+          .box-header.p-y-sm
+            %a{ data: { toggle: "collapse", parent: "#accordion", target: "#a_1" } }
+              Q: レビュワーになるための条件が知りたいです。
+          #a_1.collapse.in
+            .box-divider.m-0
+            .box-body
+              .float-left.mr-2
+                %span.text-md.w-32.avatar.rounded.success A
+              %span
+                レビュワーになるためには、一定の実績が必要です。現在はGitHubのContribution数が1,000以上の方がレビュワーとして登録可能となっています。
+                (今後、審査ロジックが変わる可能性もありますのでご了承ください。)
+        .panel.box.no-border.mb-2
+          .box-header.p-y-sm
+            %a{ data: { toggle: "collapse", parent: "#accordion", target: "#a_2" } }
+              Q: GitHubのContribution数が1,000件以上なのにレビュワーになれませんでした。
+          #a_2.collapse.in
+            .box-divider.m-0
+            .box-body
+              .float-left.mr-2
+                %span.text-md.w-32.avatar.rounded.success A
+              %span
+                GitHubの上で他のユーザーへ見えているContribution数をもとに計測をしています。PrivateリポジトリのContributionを非表示に設定している場合、計測対象外となってしまいます。
+                PrivateリポジトリのContributionを表示にする場合の手順は下記のとおりです。
+                %br
+                %br
+                %b.text Private Contributionsの表示方法
+                %br
+                1. GitHubの自身のプロフィールページを開く
+                %br
+                2. Contribution(いわゆる草)の箇所にある「Contribution setting」をクリック
+                %br
+                3. プルダウンメニューの「Private Contributions」をクリックで完了
+                %br
+                %br
+                また、設定後にBestCode上でも最新のContribution数を取得する必要がありますので、下記の手順でContribution数を最新にしてください。
+                %br
+                %br
+                %b.text 最新のContribution数を取得する方法
+                %br
+                1. BestCodeの自身のプロフィールページを開く
+                %br
+                2. 「最新のContribution数を取得」ボタンをクリックで完了
+        .panel.box.no-border.mb-2
+          .box-header.p-y-sm
+            %a{ data: { toggle: "collapse", parent: "#accordion", target: "#a_3" } }
+              Q: Private Contributionsをオンにした場合、リポジトリ名等は公開されてしまう？
+          #a_3.collapse.in
+            .box-divider.m-0
+            .box-body
+              .float-left.mr-2
+                %span.text-md.w-32.avatar.rounded.success A
+              %span
+                Contribution数や草は見えるようになりますが、リポジトリ名や貢献の詳細については見えないようです。
+                %br
+                参考URL:
+                = link_to "https://qiita.com/zakuro9715/items/c5a3ff0140068cbb9481", "https://qiita.com/zakuro9715/items/c5a3ff0140068cbb9481", target: "_blank", class: "text-primary"

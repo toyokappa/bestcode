@@ -38,6 +38,7 @@ Rails.application.routes.draw do
 
   get "/terms", to: "static#terms", as: "terms"
   get "/privacy_policy", to: "static#privacy_policy", as: "privacy_policy"
+  get "/faq", to: "faq#index", as: "faq"
   post "/hooks/pulls", to: "hooks#pulls"
   post "/hooks/state", to: "hooks#state"
   post "/markdown/preview", to: "markdown#preview"
