@@ -16,7 +16,7 @@ module MetaTagsHelper
         locale: "ja_JP",
       },
       twitter: {
-        card: "summary large image",
+        card: "summary_large_image",
         title: title.present? ? "#{title} | #{t("app.title")}" : t("app.title"),
         description: t("app.description"),
         site: "@toyokappa",
