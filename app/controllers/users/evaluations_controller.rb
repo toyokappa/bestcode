@@ -20,6 +20,12 @@ class Users::EvaluationsController < ApplicationController
     end
   end
 
+  def skip
+    @room.reviewees.destroy(current_user)
+    RoomMailer.leave(@room, current_user).deliver_later
+    redirect_to users_room_path(@room), success: t(".leaving_success", name: @room.name)
+  end
+
   private
 
     def set_title

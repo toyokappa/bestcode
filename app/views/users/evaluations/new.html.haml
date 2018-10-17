@@ -23,3 +23,6 @@
               = f.textarea_parts :comment, message: "良かった点、気になった点を記入してください"
               .action.text-center.mb-4
                 = f.submit "評価する", class: "btn btn-rounded btn-fw primary"
+  - if params[:referer] == "leave_room"
+    .text-right
+      = link_to "評価をせずに退出", skip_users_room_evaluations_path(@room), method: :delete, class: "text-muted", data: { confirm: "評価をせずに退出してよろしいですか？" }
