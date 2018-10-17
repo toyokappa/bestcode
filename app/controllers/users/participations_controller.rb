@@ -9,7 +9,7 @@ class Users::ParticipationsController < ApplicationController
   end
 
   def destroy
-    @room.reviewees.destroy(current_user)
+    current_user.leave(@room)
     RoomMailer.leave(@room, current_user).deliver_later
     redirect_to users_room_path(@room), success: t(".leaving_success", name: @room.name)
   end

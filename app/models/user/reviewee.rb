@@ -10,6 +10,10 @@ module User::Reviewee
     join_firestore_chat(room)
   end
 
+  def leave(room)
+    participating_rooms.destroy(room)
+  end
+
   def participating?(room)
     participating_rooms.include?(room)
   end
