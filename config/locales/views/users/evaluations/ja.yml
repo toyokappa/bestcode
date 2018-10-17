@@ -1,0 +1,5 @@
+ja:
+  users:
+    evaluations:
+      skip:
+        leaving_success: "%{name}から退出しました"

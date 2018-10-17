@@ -7,17 +7,17 @@ Rails.application.routes.draw do
     root "top#index"
 
     resources :participations, only: [:update, :destroy]
-
     resources :repos, only: [:index, :show, :new, :create] do
       resources :pulls, only: [:show]
     end
-
     resources :rooms do
       get "reopen", on: :member
       resources :chats, only: [:index]
       resources :review_requests, only: [:index]
       resource :review_request, only: [:create, :update]
-      resources :evaluations, only: [:new, :create]
+      resources :evaluations, only: [:new, :create] do
+        delete "skip", on: :collection
+      end
     end
 
     resources :my_rooms, only: [] do

@@ -12,12 +12,18 @@ class Users::EvaluationsController < ApplicationController
     if @evaluation.save
       return redirect_to users_room_path(@room), success: "評価が完了しました" unless params[:referer] == "leave_room"
 
-      @room.reviewees.destroy(current_user)
+      current_user.leave(@room)
       RoomMailer.leave_with_evaluation(@room, current_user, @evaluation).deliver_later
       redirect_to users_rooms_path, success: "評価が完了し、ルームを退出しました"
     else
       render "new"
     end
+  end
+
+  def skip
+    current_user.leave(@room)
+    RoomMailer.leave(@room, current_user).deliver_later
+    redirect_to users_room_path(@room), success: t(".leaving_success", name: @room.name)
   end
 
   private
