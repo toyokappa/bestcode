@@ -1,7 +1,8 @@
 class Users::EvaluationsController < ApplicationController
   before_action :set_title
   before_action :set_room
-  before_action :check_evaluation
+  before_action :set_evaluation, only: [:edit, :update]
+  before_action :check_evaluation, only: [:new, :create, :skip]
 
   def new
     @evaluation = current_user.evaluations.build(room: @room)
@@ -9,15 +10,22 @@ class Users::EvaluationsController < ApplicationController
 
   def create
     @evaluation = current_user.evaluations.build(evaluation_params)
-    if @evaluation.save
-      return redirect_to users_room_path(@room), success: "評価が完了しました" unless params[:referer] == "leave_room"
+    return render :new unless @evaluation.save
+    return redirect_to users_room_path(@room), success: "評価が完了しました" unless params[:referer] == "leave_room"
 
-      current_user.leave(@room)
-      RoomMailer.leave_with_evaluation(@room, current_user, @evaluation).deliver_later
-      redirect_to users_room_path(@room), success: "評価が完了し、ルームを退出しました"
-    else
-      render "new"
-    end
+    current_user.leave(@room)
+    RoomMailer.leave_with_evaluation(@room, current_user, @evaluation).deliver_later
+    redirect_to users_room_path(@room), success: "評価が完了し、ルームを退出しました"
+  end
+
+  def edit
+  end
+
+  def update
+    return render :edit unless @evaluation.update(evaluation_params)
+
+    RoomMailer.update_evaluation(@room, current_user, @evaluation).deliver_later
+    redirect_to users_room_path(@room), success: "評価を変更しました"
   end
 
   def skip
@@ -38,6 +46,10 @@ class Users::EvaluationsController < ApplicationController
 
     def set_room
       @room = Room.find(params[:room_id])
+    end
+
+    def set_evaluation
+      @evaluation = current_user.evaluations.find(params[:id])
     end
 
     def check_evaluation
