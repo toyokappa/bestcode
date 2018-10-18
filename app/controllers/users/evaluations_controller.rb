@@ -14,7 +14,7 @@ class Users::EvaluationsController < ApplicationController
 
       current_user.leave(@room)
       RoomMailer.leave_with_evaluation(@room, current_user, @evaluation).deliver_later
-      redirect_to users_rooms_path, success: "評価が完了し、ルームを退出しました"
+      redirect_to users_room_path(@room), success: "評価が完了し、ルームを退出しました"
     else
       render "new"
     end
