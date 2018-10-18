@@ -20,10 +20,14 @@
         - @room.evaluations.each do |evaluation|
           .box
             .box-header
-              .d-flex.align-items-stretch
+              .d-flex.align-items-center
                 = link_to users_profile_path(evaluation.reviewee.name) do
                   = image_tag evaluation.reviewee.check_and_return_image, class: "avatar w-32"
                 %span.ml-2.mt-1= link_to evaluation.reviewee.name, users_profile_path(evaluation.reviewee.name)
+                - if current_user == evaluation.reviewee
+                  .ml-auto
+                    = link_to edit_users_room_evaluation_path(@room, evaluation), class: "btn btn-icon btn-rounded info" do
+                      %i.fa.fa-pencil
             .box-divider.m-0
             .box-body
               .mb-0
@@ -36,9 +40,10 @@
                 %span 総合評価:
                 %strong= evaluation.score(2)
               - if evaluation.comment.present?
-                .mt-3= evaluation.comment
+                .mt-3= simple_format evaluation.comment
               .mt-3.text-muted
-                = evaluation.created_at.strftime("%Y-%m-%d %H:%M")
+                %span 最終更新:
+                = evaluation.updated_at.strftime("%Y-%m-%d %H:%M")
       - else
         .mb-3 現在レビュイーからの評価はありません
     .col-md-3

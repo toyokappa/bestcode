@@ -17,10 +17,7 @@
             = form_for @evaluation, url: users_room_evaluations_path(@room) do |f|
               = hidden_field_tag :referer, params[:referer]
               = f.hidden_field :room_id
-              = f.select_parts :speed, options: 1..5, message: "対応の迅速さを1(遅かった)〜5(早かった)で評価してください"
-              = f.select_parts :quantity, options: 1..5, message: "レビューの量を1(物足りなかった)〜5(ちょうどよかった)で評価してください"
-              = f.select_parts :quality, options: 1..5, message: "レビューの質を1(表面的だった)〜5(しっかり見てくれた)で評価してください"
-              = f.textarea_parts :comment, message: "良かった点、気になった点を記入してください"
+              = render "form", f: f
               .action.text-center.mb-4
                 = f.submit "評価する", class: "btn btn-rounded btn-fw primary"
   - if params[:referer] == "leave_room"
