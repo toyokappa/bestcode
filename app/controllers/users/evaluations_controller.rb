@@ -24,7 +24,7 @@ class Users::EvaluationsController < ApplicationController
   def update
     return render :edit unless @evaluation.update(evaluation_params)
 
-    # RoomMailer.update_evaluation(@room, current_user, @evaluation).deliver_later
+    RoomMailer.update_evaluation(@room, current_user, @evaluation).deliver_later
     redirect_to users_room_path(@room), success: "評価を変更しました"
   end
 
