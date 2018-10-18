@@ -1,7 +1,7 @@
 class Users::EvaluationsController < ApplicationController
   before_action :set_title
   before_action :set_room
-  before_action :set_evaluation, only: [:edit, :update]
+  before_action :set_evaluation, only: [:edit, :update, :destroy]
   before_action :check_evaluation, only: [:new, :create, :skip]
 
   def new
@@ -26,6 +26,11 @@ class Users::EvaluationsController < ApplicationController
 
     RoomMailer.update_evaluation(@room, current_user, @evaluation).deliver_later
     redirect_to users_room_path(@room), success: "評価を変更しました"
+  end
+
+  def destroy
+    @evaluation.destroy!
+    redirect_to users_room_path(@room), success: "評価を取り消しました"
   end
 
   def skip

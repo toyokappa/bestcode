@@ -25,9 +25,10 @@
                   = image_tag evaluation.reviewee.check_and_return_image, class: "avatar w-32"
                 %span.ml-2.mt-1= link_to evaluation.reviewee.name, users_profile_path(evaluation.reviewee.name)
                 - if current_user == evaluation.reviewee
-                  .ml-auto
-                    = link_to edit_users_room_evaluation_path(@room, evaluation), class: "btn btn-icon btn-rounded info" do
-                      %i.fa.fa-pencil
+                  = link_to edit_users_room_evaluation_path(@room, evaluation), class: "btn btn-icon btn-rounded info ml-auto mr-2" do
+                    %i.fa.fa-pencil
+                  = link_to users_room_evaluation_path(@room, evaluation), method: :delete, class: "btn btn-icon btn-rounded danger", data: { confirm: "本当に評価を取り消しますか？" } do
+                    %i.fa.fa-close
             .box-divider.m-0
             .box-body
               .mb-0

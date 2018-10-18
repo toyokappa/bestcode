@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       resources :chats, only: [:index]
       resources :review_requests, only: [:index]
       resource :review_request, only: [:create, :update]
-      resources :evaluations, only: [:new, :create, :edit, :update] do
+      resources :evaluations, only: [:new, :create, :edit, :update, :destroy] do
         delete "skip", on: :collection
       end
     end
