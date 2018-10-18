@@ -1,0 +1,16 @@
+.padding
+  .box
+    .box-header
+      %h2 
+        = link_to users_room_path(@room), class: 'mr-2 align-middle text-primary' do
+          %i.fa.fa-chevron-left
+        %span #{@room.name}の評価
+    .box-divider.m-0
+    .box-body
+      .padding
+        .row
+          .col-sm-8.offset-sm-2
+            = form_for @evaluation, url: users_room_evaluation_path(@room, @evaluation) do |f|
+              = render "form", f: f
+              .action.text-center.mb-4
+                = f.submit "変更する", class: "btn btn-rounded btn-fw primary"
