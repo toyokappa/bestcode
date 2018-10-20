@@ -5,7 +5,7 @@ namespace :data_patch do
       github_user = Octokit::Client.new(access_token: user.access_token)
       github_user.login
 
-      email = github_user.emails.select{|email| email[:primary] }.first[:email]
+      email = github_user.emails.select {|e| e[:primary] }.first[:email]
       user.update!(email: email)
     end
   end
