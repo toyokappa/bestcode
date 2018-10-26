@@ -18,7 +18,8 @@ Converter.enterCode = str => {
 }
 
 Converter.markdown = str => {
-  return (str + '').replace(/```<br>(.+)<br>```/g, '<pre>$1</pre>');
+  const preMarkdown = (str + '').replace(/```<br>(.+)<br>```/g, '<pre>$1</pre>');
+  return preMarkdown.replace(/`(.+)`/g, '<code>$1</code>');
 }
 
 export default Converter;
