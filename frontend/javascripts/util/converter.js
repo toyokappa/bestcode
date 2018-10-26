@@ -17,4 +17,8 @@ Converter.enterCode = str => {
   return (str + '').replace(/\r?\n/g, '<br>');
 }
 
+Converter.markdown = str => {
+  return (str + '').replace(/```<br>(.+)<br>```/g, '<pre>$1</pre>');
+}
+
 export default Converter;

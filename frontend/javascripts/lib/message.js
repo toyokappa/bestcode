@@ -19,7 +19,8 @@ export default class Message {
   generateTextMessage(msgData, profilePath, userImg, msgSide) {
     const escapeMsg = Converter.escapeHtml(msgData.body);
     const indentionMsg = Converter.enterCode(escapeMsg);
-    const linkableMsg = Autolink.link(indentionMsg);
+    const markdownMsg = Converter.markdown(indentionMsg);
+    const linkableMsg = Autolink.link(markdownMsg);
     const msgCreatedAt = moment.unix(msgData.created_at.seconds).format('H:mm');
     const msgElm = `<div class='chat-item' data-class='${msgSide}'>
                       <a class='avatar w-40 blue' href='${profilePath}'>
